@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from main.models import Campany
 
 # Create your views here.
 
@@ -19,8 +20,11 @@ def staffs(request):
     return render(request,'accounts/staffs.html')
 
 
-def company(request):     
-    return render(request,'pages/company.html')
+def company(request):   
+    listCompany = Campany.objects.all()
+    context = {'company': listCompany}
+    print(listCompany)  
+    return render(request,'pages/company.html',context)
 
 
 def network(request):
