@@ -4,7 +4,12 @@ from main.models import Campany
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    totalCompany = Campany.objects.count()
+    context = {
+        'company':totalCompany
+        }
+    
+    return render(request, 'index.html',context)
 
 def login(request):
     return render(request, 'accounts/login2.html')
@@ -22,9 +27,8 @@ def staffs(request):
 
 def company(request):   
     listCompany = Campany.objects.all()
-    counts = Campany.objects.count()
     context = {'company': listCompany}
-    print(counts)  
+    
     return render(request,'pages/company.html',context)
 
 
