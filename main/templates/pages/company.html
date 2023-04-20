@@ -46,26 +46,26 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Case</th>
-                            <th>Owner</th>
-                            <th>Time</th>
                             <th>ASN</th>
+                            <th>Owner</th>
+                            <th>Case</th>
+                            <th>Time</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
-                          <tr>
+                          <!-- <tr>
                             <td>1</td>
                             <td>HORMUUD NETWORK Services</td>
                             <td>HORMUUD</td>
                             <td>2:40pm</td>
                             <td>AS3424452</td>
-                            <td>
+                            <td> -->
                               <!-- <button class="btn btn-primary btn-sm ">
                                 <i data-feather="edit" ></i>
                                 
                               </button> -->
-                              <a class="btn btn-primary btn-sm houseEdit" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ house.id }}">
+                              <!-- <a class="btn btn-primary btn-sm houseEdit" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ house.id }}">
                                 <i data-feather="edit"></i>
                               </a>
 
@@ -75,25 +75,25 @@
                               
                                 
                             </td>
-                          </tr>
+                          </tr> -->
 
-                          {% for house in data %}
+                          {% for company in company %}
                           <tr>
-                            <td>{{ house.id }}</td>
-                            <td>{{ house.district }}</td>
-                            <td>{{ house.type }}</td>
-                            <td>{{ house.houseno }}</td>
-                            <td>{{ house.houseno }}</td>
+                            <td>{{ company.id }}</td>
+                            <td>{{ company.asn }}</td>
+                            <td>{{ company.owner }}</td>
+                            <td>{{ company.title }}</td>
+                            <td>{{ company.timestamp }}</td>
                             <td>
                               <!-- <button class="btn btn-primary btn-sm ">
                                 <i data-feather="edit" ></i>
                                 
                               </button> -->
-                              <a class="btn btn-primary btn-sm houseEdit" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ house.id }}">
+                              <a class="btn btn-primary btn-sm houseEdit" name="{{ company.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ company.id }}">
                                 <i data-feather="edit"></i>
                               </a>
 
-                              <a class="btn btn-danger btn-sm houseDelete" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse">
+                              <a class="btn btn-danger btn-sm houseDelete" name="{{ company.id }}" data-toggle="modal" data-target="#updateHouse">
                                 <i data-feather="trash"></i>
                               </a>
                               
