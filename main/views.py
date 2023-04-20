@@ -22,8 +22,9 @@ def staffs(request):
 
 def company(request):   
     listCompany = Campany.objects.all()
+    counts = Campany.objects.count()
     context = {'company': listCompany}
-    print(listCompany)  
+    print(counts)  
     return render(request,'pages/company.html',context)
 
 
