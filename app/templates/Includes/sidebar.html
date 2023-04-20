@@ -1,0 +1,102 @@
+{% load static %}
+<div class="main-sidebar sidebar-style-2">
+  <aside id="sidebar-wrapper">
+    <div class="sidebar-brand">
+      <a href="{% url 'index' %}">
+        <img
+          alt="image"
+          src="{% static 'assets/img/soc.png' %}"
+          class="header-logo"
+        />
+        <span class="logo-name">N D A</span>
+      </a>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="menu-header">Main</li>
+      <li class="dropdown active">
+        <a href="{% url 'index' %}" class="nav-link"
+        ><i data-feather="monitor"></i><span>Dashboard</span></a
+        >
+      </li>
+      
+      <!-- <li class="menu-header">Users & Authentications</li> -->
+      <!-- <li class="dropdown">
+        <a href="#" class="menu-toggle nav-link has-dropdown"
+        ><i data-feather="user-check"></i><span> User Accounts</span></a
+        >
+        <ul class="dropdown-menu">
+          <li><a class="nav-link" href="{% url 'staffs' %}">Staff</a></li>
+          <li><a class="nav-link" href="#">Admins</a></li>
+          <li><a class="nav-link" href="#">Clients</a></li>
+        </ul>
+      </li> -->
+      
+      <li class="menu-header">Sevices</li>
+      <li>
+        <a class="nav-link" href="{% url 'staffs' %}"
+        ><i data-feather="user-check"></i><span>User Accounts</span></a
+        >
+      </li>
+      <!-- <li>
+        <a class="nav-link" href="#"
+          ><i data-feather="grid"></i><span>Groups</span></a
+        >
+      </li>
+      <li>
+        <a class="nav-link" href="#"
+          ><i data-feather="settings"></i><span>Roles</span></a
+        >
+      </li> -->
+
+      <!-- <li class="menu-header">ENVIROMENTS</li> -->
+      <li>
+        <a class="nav-link" href="{% url 'company' %}"
+          ><i data-feather="briefcase"></i><span>Company</span></a
+        >
+      </li>
+        
+        
+      </li>
+
+      <li>
+        <a class="nav-link" href="{% url 'network' %}"
+          ><i data-feather="bar-chart"></i><span>Network</span></a
+        >
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'host' %}"
+          ><i data-feather="cloud-lightning"></i><span>Host</span></a
+        >
+      </li>
+     
+
+      <!-- <li class="menu-header">SERVICES</li> -->
+
+      <li>
+        <a class="nav-link" href="{% url 'ports' %}"
+          ><i data-feather="hard-drive"></i><span>Ports</span></a
+        >
+      </li>
+
+      <li class="menu-header">Report & Scanning</li>
+     
+      <li>
+        <a class="nav-link" href="{% url 'scan_case' %}"
+          ><i data-feather="airplay"></i><span>Scan Case</span></a
+        >
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'compare' %}"
+          ><i data-feather="command"></i><span>Compare</span></a
+        >
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'Reports2' %}"
+          ><i data-feather="printer"></i><span>Reports</span></a
+        >
+      </li>
+
+      
+    </ul>
+  </aside>
+</div>
