@@ -1,21 +1,21 @@
 $(document).ready(function() {
-    readRenter();
-    createRenter();
-    // EditRenter();
+    readNetwork();
+    createNetwork();
+    // EditNetwork();
 })
 
-function createRenter(){
+function createNetwork(){
     $('#registerForm').submit(function (e){
         e.preventDefault();
-
-        $Name = $('#name').val();
-        $Tell = $('#tell').val();
-        $MartialStatus = $('#martial_status').val();
-        $status = 0
+        
+        company
+        network
+        state
+        description
 
         if($Name != null && $Tell != null && $MartialStatus != null && $status == 0) {
             
-            // console.log($District + " " + $Type + " " + $RenterNo+ " " + $status)
+            // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
             $.ajax({
                 url: '',
                 type: "POST",
@@ -37,8 +37,8 @@ function createRenter(){
                     })
                     .then(function(){
 
-                        $('#newRenter').hide();
-                        readRenter()
+                        $('#newNetwork').hide();
+                        readNetwork()
                         location.reload();
                     })
 
@@ -72,10 +72,10 @@ function createRenter(){
     })
 }
 
-function readRenter(){
+function readNetwork(){
 
     $.ajax({
-        url: "Renter/",
+        url: "network/",
         type: "POST",
         async: false,
         data:{
@@ -89,12 +89,12 @@ function readRenter(){
 
 }
 
-// function EditRenter(){
+// function EditNetwork(){
 
-//     $('#RenterEdit').click(function(){
+//     $('#NetworkEdit').click(function(){
 //         $id=$(this).attr('name');
 //         alert($id)
-//         // $('#updateRenter').modal('show');
+//         // $('#updateNetwork').modal('show');
 //         // $('#udistrict').val($id)
 
 
