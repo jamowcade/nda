@@ -1,22 +1,22 @@
 from django.urls import path
 from main import views
-from .code import user,company
+from .code import Company,User,Network,Hosts,Ports,Scan,Reports,Compare
 
 
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('login/', user.login, name='login'),
-    path('register/', user.register, name='register'),
-    path('forgot/', user.forgot, name='forgot'),
-    path('staffs/', user.staffs, name='staffs'),
+    path('login/', User.login, name='login'),
+    path('register/', User.register, name='register'),
+    path('forgot/', User.forgot, name='forgot'),
+    path('staffs/', User.staffs, name='staffs'),
 
 
     #region Environment
 
-    path('company/', company.company, name='company'), 
-    path('network/', views.network, name='network'),
-    path('host/', views.host, name='host'),
+    path('company/', Company.company, name='company'), 
+    path('network/', Network.network, name='network'),
+    path('host/', Hosts.host, name='host'),
 
     #endregion
 
@@ -24,9 +24,9 @@ urlpatterns = [
 
 
 
-    path('ports/', views.ports, name='ports'),
+    path('ports/', Ports.ports, name='ports'),
     
-    path('scan_case/', views.scan_case, name='scan_case'),
-    path('compare/', views.compare, name='compare'),
-    path('Reports2/', views.Reports2, name='Reports2'),
+    path('scan_case/', Scan.scan_case, name='scan_case'),
+    path('compare/', Compare.compare, name='compare'),
+    path('reports/', Reports.Reports, name='reports'),
 ]
