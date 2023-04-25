@@ -46,71 +46,47 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>State</th>
                             <th>Network</th>
-                            <th>Time</th>
                             <th>Owner</th>
                             <th>Description</th>
+                            <th>Time</th>
+                            <th>State</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
-                          <tr>
-                            <td>1</td>
-                            <td>Up</td>
-                            <td>102.25.21.11</td>
-                            <td>11:55 pm</td>
-                            <td>Hormuud</td>
-                            <td>For EVC</td>
-                            <td>
-                              <!-- <button class="btn btn-primary btn-sm ">
-                                <i data-feather="edit" ></i>
-                                
-                              </button> -->
-                              <a class="btn btn-primary btn-sm RenterEdit" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter" data-id="{{ Renter.id }}">
-                                <i data-feather="edit"></i>
-                              </a>
-
-                              <a class="btn btn-danger btn-sm RenterDelete" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter">
-                                <i data-feather="trash"></i>
-                              </a>
-                              
-                                
-                            </td>
-                          </tr>
-
-                          {% for Renter in data %}
-                          <tr>
-                            <td>{{ Renter.id }}</td>
-                            <td>{{ Renter.name }}</td>
-                            <td>{{ Renter.tell }}</td>
-                            <td>{{ Renter.martial_status }}</td>
-                            <td>
-                              <!-- <button class="btn btn-primary btn-sm ">
-                                <i data-feather="edit" ></i>
-                                
-                              </button> -->
-                              <a class="btn btn-primary btn-sm RenterEdit" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter" data-id="{{ Renter.id }}">
-                                <i data-feather="edit"></i>
-                              </a>
-
-                              <a class="btn btn-danger btn-sm RenterDelete" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter">
-                                <i data-feather="trash"></i>
-                              </a>
-                              
-                                
-                            </td>
-                          </tr>
+                          {% for network in singleNetwork %}
+                              <tr>
+                                <td>{{ network.id }}</td>
+                                <td>
+                                  <a href="#">{{ network.network }}</a>
+                                </td>
+                                <td>{{ network.compony_info}}</td>
+                                <td>{{ network.description}}</td>
+                                <td>{{ network.time}}</td>
+                                {% if network.state == 'O' %}
+                                    <td><span class="badge badge-success">Open</span></td>
+                                    {% endif %}
+                                {% if network.state == 'C' %}
+                                    
+                                    <td><span class="badge badge-danger">Close</span></td>
+                                {% endif %}
+                                <td>
+                                  <a class="btn btn-primary btn-sm RenterEdit" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter" data-id="{{ Renter.id }}">
+                                    <i data-feather="edit"></i>
+                                  </a>
+                                </td>
+                              </tr>
                           {% endfor %}
                         </tbody>
                         <tfooter>
                           <tr>
                             <th>#</th>
-                            <th>State</th>
                             <th>Network</th>
-                            <th>Time</th>
                             <th>Owner</th>
                             <th>Description</th>
+                            <th>Time</th>
+                            <th>State</th>
                             <th>Action</th>
                           </tr>
                         </tfooter>
@@ -142,18 +118,27 @@
 
                   <form method="POST" id="registerForm">
                     <div class="form-group">
-                      <label>Renter Name</label>
-                      <input type="text" class="form-control" id="name" required>
+                      <label for="company">Company</label>
+                      <select id="company" class="form-control" required>
+                        <option value="">Select ......</option>
+                        {% for company in companyData %}
+                            <option value="{{company.id}}">{{company.owner}} - ({{company.asn}})</option>
+                        {% endfor %}
+                      </select><br>
 
-                      <label>Renter Tell</label>
-                      <input type="text" class="form-control" id="tell" required>
+                      <label for="network">Network</label>
+                      <input type="text" class="form-control" id="network" required><br>
     
-                      <label>Martial Status</label>
-                      <select id="martial_status" class="form-control" required>
-                        <option value="">Select one of them </option>
-                        <option value="Single">Single </option>
-                        <option value="Married">Married</option>
-                      </select>
+                      <label for="state">State</label>
+                      <select id="state" class="form-control" required>
+                        <option value="">State </option>
+                        <option value="Single">Up</option>
+                        <option value="Married">Down</option>
+                      </select><br>
+
+                      <label for="description">Description</label>
+                      <textarea class="form-control" id="description" required cols="30" rows="10"></textarea>
+                      <!-- <input type="text" class="form-control" id="description" required maxlength="200000" name="description"> -->
 
                     
                     </div>
