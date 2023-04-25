@@ -3,13 +3,7 @@ from main.models import Campany
 
 # Create your views here.
 
-def index(request):
-    totalCompany = Campany.objects.count()
-    context = {
-        'company':totalCompany
-        }
-    
-    return render(request, 'index.html',context)
+
 
 def login(request):
     return render(request, 'accounts/login2.html')
@@ -19,3 +13,6 @@ def register(request):
 
 def forgot(request):
     return render(request,'accounts/forget.html')
+
+def staffs(request):
+    return render(request,'accounts/staffs.html')
