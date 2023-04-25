@@ -93,9 +93,9 @@
                                 <i data-feather="edit"></i>
                               </a>
 
-                              <a class="btn btn-danger btn-sm houseDelete" name="{{ company.id }}" data-toggle="modal" data-target="#updateHouse">
+                              <!-- <a class="btn btn-danger btn-sm houseDelete" name="{{ company.id }}" data-toggle="modal" data-target="#updateHouse">
                                 <i data-feather="trash"></i>
-                              </a>
+                              </a> -->
                               
                                 
                             </td>
@@ -126,11 +126,11 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="companyRegister" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="userRegister">Registeration Company</h5>
+                  <h5 class="modal-title" id="companyRegister">Registeration Company</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -174,11 +174,11 @@
 
 
          <!-- Modal -->
-         <div class="modal fade" id="updateHouse" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+         <div class="modal fade" id="updateHouse" tabindex="-1" role="dialog" aria-labelledby="companyUpdate" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="userRegister">Update House {{ house.id }}</h5>
+                <h5 class="modal-title" id="companyUpdate">Update Company {{ company.id }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -188,24 +188,19 @@
 
                 <form method="POST" id="UpdateForm">
                   <div class="form-group">
-                    <label>District</label>
-                    <select id="district" name="distictList" class="form-control" required>
-                      <option value="">Select one of them </option>
-                      <option value="BND">Boondheere </option>
-                      <option value="CBC">Cabdicasiis</option>
-                    
-                    </select>
-    
-                    <!-- <label>House Type</label>
-                    <select id="type" class="form-control" required>
-                      <option value="">Select one of them </option>
-                      <option value="Apartement">Apartment </option>
-                      <option value="Villo">Villo</option>
-                      <option value="Jiingad">Jiingad</option>
-                    </select> -->
+                    <label>Case</label>
+                    <input type="text" class="form-control" id="ucase" placeholder="fill the case name" required>
 
-                    <!-- <label>House No</label>
-                    <input type="number" class="form-control" id="houseno" placeholder="e.g 001" required> -->
+                    <label>Owner</label>
+                    <input type="text" class="form-control" id="uowner" placeholder="fill the owner name" required>
+
+                    <label>ASN</label>
+                    <input type="text" class="form-control" id="uasn" placeholder="fill the case name" required>
+
+                 
+                   
+    
+                   
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
