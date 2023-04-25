@@ -1,13 +1,14 @@
 from django.urls import path
 from main import views
+from .code import user
 
 
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
-    path('forgot/', views.forgot, name='forgot'),
+    path('login/', user.login, name='login'),
+    path('register/', user.register, name='register'),
+    path('forgot/', user.forgot, name='forgot'),
     path('staffs/', views.staffs, name='staffs'),
 
 
