@@ -11,25 +11,8 @@ def index(request):
     
     return render(request, 'index.html',context)
 
-def login(request):
-    return render(request, 'accounts/login2.html')
-
-def register(request):
-    return render(request,'accounts/register.html')
-
-def forgot(request):
-    return render(request,'accounts/forgot.html')
 
 
-def staffs(request):
-    return render(request,'accounts/staffs.html')
-
-
-def company(request):   
-    listCompany = Campany.objects.all()
-    context = {'company': listCompany}
-    
-    return render(request,'pages/company.html',context)
 
 
 def network(request):
