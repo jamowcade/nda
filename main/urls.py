@@ -1,20 +1,20 @@
 from django.urls import path
 from main import views
-from .code import Company,User,Network,Hosts,Ports,Scan,Reports,Compare
+from .code import company,user,Network,Hosts,Ports,Scan,Reports,Compare
 
 
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('login/', User.login, name='login'),
-    path('register/', User.register, name='register'),
-    path('forgot/', User.forgot, name='forgot'),
-    path('staffs/', User.staffs, name='staffs'),
+    path('login/', user.login, name='login'),
+    path('register/', user.register, name='register'),
+    path('forgot/', user.forgot, name='forgot'),
+    path('staffs/', user.staffs, name='staffs'),
 
 
     #region Environment
 
-    path('company/', Company.company, name='company'), 
+    path('company/', company.company, name='company'), 
     path('networks/', Network.network, name='networks'),
     path('network/<int:id>/', Network.network, name='network'),
     path('host/', Hosts.host, name='host'),
