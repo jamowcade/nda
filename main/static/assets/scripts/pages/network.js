@@ -1,31 +1,30 @@
 $(document).ready(function() {
     readNetwork();
     createNetwork();
-    // EditNetwork();
+    EditNetwork();
 })
 
 function createNetwork(){
     $('#registerForm').submit(function (e){
         e.preventDefault();
         
-        company
-        network
-        state
-        description
+        const formData = $(this).serialize();
+        console.log(formData)
 
-        if($Name != null && $Tell != null && $MartialStatus != null && $status == 0) {
+       
             
             // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
             $.ajax({
-                url: '',
+                url: '/addnetwork/',
                 type: "POST",
                 data: {
-                    'name': $Name,
-                    'tell': $Tell,
-                    'martial_status': $MartialStatus,
-                    'status': $status,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()                    
+                    company: $('#company').val(),
+                    network: $('#network').val(),
+                    state: $('#state').val(),
+                    description: $('#description').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
                 },
+              
                 success: function(data) {
                     swal({
                         title: "Success !",
@@ -36,6 +35,7 @@ function createNetwork(){
                         showConfirmButton: false
                     })
                     .then(function(){
+                        
 
                         $('#newNetwork').hide();
                         readNetwork()
@@ -44,6 +44,7 @@ function createNetwork(){
 
                 },
                 error:function(data){
+                    console.log(data)
                     swal({
                         title: "Error !",
                         text: "There was an error: "+data,
@@ -54,19 +55,6 @@ function createNetwork(){
                     })
                 }
             })
-
-            
-        }
-        else{
-            swal({
-                title: "Error !",
-                text: "There was an error for Saving",
-                icon: "error",
-                timer: 4000, // time in milliseconds
-                timerProgressBar: true,
-                showConfirmButton: false
-            })
-        }
 
 
     })
@@ -89,15 +77,72 @@ function readNetwork(){
 
 }
 
-// function EditNetwork(){
-
-//     $('#NetworkEdit').click(function(){
-//         $id=$(this).attr('name');
-//         alert($id)
-//         // $('#updateNetwork').modal('show');
-//         // $('#udistrict').val($id)
 
 
-//     })
+function EditNetwork(){
+        $('.networkEdit').click(function(){
+            var id = $(this).data('id');
+            var network = $(this).data('network');
+            var description = $(this).data('description');
+            var state = $(this).data('state');
+            // alert('The ID of this row is: ' + id+network+description+state);
+            $('#updateNetwork').modal('show')
+            $('#unetwork').val(network)
+            $('#udescription').val(description)
+            $('#ustate').val(state)
 
-// }
+
+            $('#UpdateForm').submit(function (e){
+                e.preventDefault();
+                
+                const formData = $(this).serialize();
+                console.log(formData)
+        
+               
+                    
+                    // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+                    $.ajax({
+                        url: '/updateNetwork/',
+                        type: "POST",
+                        data: {
+                            id: id,
+                            network: $('#unetwork').val(),
+                            state: $('#ustate').val(),
+                            description: $('#udescription').val(),
+                            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+                        },
+                      
+                        success: function(data) {
+                          
+                            swal("Success", data, "success")
+                            .then(function(){
+                                $('#updateNetwork').hide();
+                                readNetwork()
+                                location.reload();
+                            })
+        
+                        },
+                        error: function(data){
+                           
+                            swal("Error", data, "error");
+                            // swal({
+                            //     title: "Error !",
+                            //     text: "There was an error: "+data,
+                            //     icon: "error",
+                            //     timer: 4000, // time in milliseconds
+                            //     timerProgressBar: true,
+                            //     showConfirmButton: false
+                            // })
+                        }
+                    })
+        
+        
+            })
+
+
+
+            
+        })
+  
+
+}

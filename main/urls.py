@@ -15,9 +15,12 @@ urlpatterns = [
     #region Environment
 
     path('company/', company.company, name='company'), 
-    path('networks/', Network.network, name='networks'),
-    path('network/<int:id>/', Network.network, name='network'),
+    path('networks/', Network.networkDetails, name='networks'),
+    path('all_networks/', Network.all_networks, name='all_networks'),
+    path('network/<int:id>/', Network.networkDetails, name='network'),
     path('host/', Hosts.host, name='host'),
+    path('addnetwork/', Network.addNetwork, name='add_network'),
+    path('updateNetwork/', Network.updateNetwork, name='update_network'),
 
     #endregion
 
