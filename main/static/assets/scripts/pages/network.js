@@ -94,12 +94,7 @@ function EditNetwork(){
 
             $('#UpdateForm').submit(function (e){
                 e.preventDefault();
-                
-                const formData = $(this).serialize();
-                console.log(formData)
-        
-               
-                    
+       
                     // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
                     $.ajax({
                         url: '/updateNetwork/',

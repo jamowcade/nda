@@ -1,105 +1,70 @@
-$(document).ready(function() {
-    readEnviroment();
-    createEnviroment();
+let form = document.querySelector('#upload');
+let file = document.querySelector('#file');
 
-   
+form.addEventListener('submit', handleSubmit);
 
-})
+function handleSubmit (event) {
 
-function createEnviroment(){
-    $('#registerForm').submit(function (e){
-        e.preventDefault();
+	// Stop the form from reloading the page
+	event.preventDefault();
 
-        $HouseNo = $('#houseno').val();
-        $Renter = $('#renter').val();
-        $Data = $('#regoster_date').val();
-        $status = 0
-
-        if($HouseNo != null && $Renter != null && $Data != null && $status == 0) {
-            
-            // console.log($District + " " + $Type + " " + $HouseNo+ " " + $status)
-            $.ajax({
-                url: '',
-                type: "POST",
-                data: {
-                    'houseno': $HouseNo,
-                    'renter': $Renter,
-                    'regoster_date': $Data,
-                    'status': $status,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()                    
-                },
-                success: function(data) {
-                    swal({
-                        title: "Success !",
-                        text: "You have successfully Created",
-                        icon: "success",
-                        timer: 1000, // time in milliseconds
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    })
-                    .then(function(){
-
-                        $('#newEnviroment').hide();
-                        readEnviroment()
-                        location.reload();
-                    })
-
-                },
-                error:function(data){
-                    swal({
-                        title: "Error !",
-                        text: "There was an error: "+data,
-                        icon: "error",
-                        timer: 4000, // time in milliseconds
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    })
-                }
-            })
-
-            
-        }
-        else{
-            swal({
-                title: "Error !",
-                text: "There was an error for Saving",
-                icon: "error",
-                timer: 4000, // time in milliseconds
-                timerProgressBar: true,
-                showConfirmButton: false
-            })
-        }
+	// If there's no file, do nothing
+	if (!file.value.length) return;
 
 
-    })
+    let reader = new FileReader();
+
+    // Setup the callback event to run when the file is read
+	reader.onload = logFile;
+    // Read the file
+	reader.readAsText(file.files[0]);
+
+
 }
 
-function readEnviroment(){
+
+function logFile (event) {
+	let str = event.target.result;
+	let json = JSON.parse(str);
+	// console.log('string', str);
+	// console.log('json', json);
 
     $.ajax({
-        url: "enviroment/",
+        url: "/uploadhosts/",
         type: "POST",
-        async: false,
-        data:{
-            res : 1,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        data: {
+            data: str,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
         },
+
         success: function(response){
-            $('#tbody_data').html(response)
+            console.log(response)
+        },
+        error: function(response){
+                           
+            console.log(response)
         }
     })
-
+   
+    // console.log(json.length)
+  
+    // ports = []
+    for(let i = 0; i < json.length; i++){
+        console.log(json[i].ip)
+        
+        for(let x = 0; x < json[i].ports.length; x++){
+           
+            portid = json[i].ports[x].portid
+            state = json[i].ports[x].state
+            protocol = json[i].ports[x].protocol
+            console.log("portID: " ,portid, "state: ", state, "protocol: ",protocol)
+           
+           
+        }
+        // console.log(host,totall_ports)
+        
+        
+        
+    }
 }
-
-// function EditHouse(){
-
-//     $('#houseEdit').click(function(){
-//         $id=$(this).attr('name');
-//         alert($id)
-//         // $('#updateHouse').modal('show');
-//         // $('#udistrict').val($id)
-
-
-//     })
-
-// }

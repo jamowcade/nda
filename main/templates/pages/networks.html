@@ -61,7 +61,7 @@
                               <tr>
                                 <td>{{ network.id }}</td>
                                 <td>
-                                  <a href="#">{{ network.network }}</a>
+                                  <a href="{% url 'host' network.id %}">{{ network.network }}</a>
                                 </td>
                                 <td>{{ network.compony_info}}</td>
                                 <td>{{ network.description}}</td>
@@ -74,7 +74,16 @@
                                     <td><span class="badge badge-danger">Close</span></td>
                                 {% endif %}
                                 <td>
-                                  <a class="btn btn-primary btn-sm RenterEdit" name="{{ Renter.id }}" data-toggle="modal" data-target="#updateRenter" data-id="{{ Renter.id }}">
+                                  <a 
+                                  class="btn btn-primary btn-sm networkEdit" 
+                                  name="{{ network.id }}" 
+                                  data-toggle="modal" 
+                                 
+                                  data-id="{{ network.id }}"
+                                  data-network="{{ network.network }}"
+                                  data-description="{{ network.description }}"
+                                  data-state="{{ network.state }}"
+                                  >
                                     <i data-feather="edit"></i>
                                   </a>
                                 </td>
@@ -166,11 +175,11 @@
 
 
          <!-- Modal -->
-         <div class="modal fade" id="updateRenter" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+         <div class="modal fade" id="updateNetwork" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="userRegister">Update Renter {{ Renter.id }}</h5>
+                <h5 class="modal-title" id="userRegister">Update Network {{ network.id }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -180,19 +189,27 @@
 
                 <form method="POST" id="UpdateForm">
                   <div class="form-group">
-                    <label>District</label>
-                    <input type="text" class="form-control" id="district" required>
-    
-                    <label>Renter Type</label>
-                    <select id="type" class="form-control" required>
-                      <option value="">Select one of them </option>
-                      <option value="Apartement">Apartment </option>
-                      <option value="Villo">Villo</option>
-                      <option value="Jiingad">Jiingad</option>
-                    </select>
+                    <!-- <label for="company">Company</label> -->
+                    <select hidden disabled id="company" class="form-control" required>            
+                          <option selected value="{{companyID}}">{{companyName}}</option>
+                     
+                    </select><br>
 
-                    <label>Renter No</label>
-                    <input type="number" class="form-control" id="Renterno" placeholder="e.g 001" required>
+                    <label for="network">Network</label>
+                    <input type="text" class="form-control" id="unetwork" required><br>
+  
+                    <label for="state">State</label>
+                    <select id="ustate" class="form-control" required>
+                      <option value="">State </option>
+                      <option value="O">Up</option>
+                      <option value="C">Down</option>
+                    </select><br>
+
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="udescription" required cols="30" rows="10"></textarea>
+                    <!-- <input type="text" class="form-control" id="description" required maxlength="200000" name="description"> -->
+
+                  
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

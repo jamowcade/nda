@@ -60,7 +60,7 @@
                               <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>
-                                  <a href="#">{{ network.network }}</a>
+                                  <a href="{% url 'host' network.id %}">{{ network.network }}</a>
                                 </td>
                                 <td>{{ network.description}}</td>
                                

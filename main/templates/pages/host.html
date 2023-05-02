@@ -32,13 +32,13 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Host</h4>
+                    <h4>Hosts</h4>
                   </div>
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newEnviroment">
-                        <i data-feather="user-plus"></i>
+                        <i data-feather="file-plus"></i>Upload File
                     </button>
 
                     <div class="table-responsive">
@@ -46,20 +46,21 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Renter</th>
-                            <th>House</th>
+                            <th>Host Name</th>
+                            <th>Status</th>
                             <th>Date</th>
+                            <th>Domain</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
 
-                          {% for Enviroment in enviromentData %}
+                          {% for host in hosts %}
                           <tr>
-                            <td>{{ Enviroment.id }}</td>
-                            <td>{{ Enviroment.renter.name }}</td>
-                            <td>{{ Enviroment.house.district }}-{{ Enviroment.house.houseno }} ({{ Enviroment.house.type }}) </td>
-                            <td>{{ Enviroment.register_date }}</td>
+                            <td>{{ host.id }}</td>
+                            <td>{{ host.hostname }}</td>
+                            <td>{{ host.status }}-{{ Enviroment.house.houseno }} ({{ Enviroment.house.type }}) </td>
+                            <td>{{ host.time }}</td>
                             <td>
                               <!-- <button class="btn btn-primary btn-sm ">
                                 <i data-feather="edit" ></i>
@@ -81,9 +82,10 @@
                         <tfooter>
                           <tr>
                             <th>#</th>
-                            <th>District</th>
-                            <th>Enviroment Type</th>
-                            <th>Enviroment No</th>
+                            <th>Host Name</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Domain</th>
                             <th>Action</th>
                           </tr>
                         </tfooter>
@@ -113,27 +115,10 @@
                 <div class="modal-body">
                   {% csrf_token %}
 
-                  <form method="POST" id="registerForm">
+                  <form method="POST" id="upload">
                     <div class="form-group">
-                      <label>House No</label>
-                      <select id="houseno" class="form-control" required>
-                        <option value="">Select......</option>
-                        {% for house in houseData %}
-                            <option value="{{house.id}}">{{house.district}} ({{house.type}}) ({{house.houseno}})</option>
-                        {% endfor %}
-                      </select>
-
-                      <label>Renter</label>
-                      <select id="renter" class="form-control" required>
-                        <option value="">Select......</option>
-                        {% for renter in renterData %}
-                            <option value="{{renter.id}}">{{renter.name}} ({{renter.tell}}) ({{renter.martial_status}})</option>
-                        {% endfor %}
-                        
-                      </select>
-    
-                      <label>Martial Status</label>
-                      <input type="date" id="regoster_date" class="form-control" required>
+                      <label>Upload File</label>
+                      <input type="file" id="file"  class="form-control" required>
 
                     
                     </div>
@@ -141,7 +126,7 @@
                     
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="submit" id="btnSave" class="btn btn-primary">Save</button>                  
+                      <button type="submit" id="btnSave" class="btn btn-primary">Upload</button>                  
           
                     </div>
 

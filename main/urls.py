@@ -18,7 +18,9 @@ urlpatterns = [
     path('networks/', Network.networkDetails, name='networks'),
     path('all_networks/', Network.all_networks, name='all_networks'),
     path('network/<int:id>/', Network.networkDetails, name='network'),
-    path('host/', Hosts.host, name='host'),
+    # path('host/', Hosts.host, name='host'),
+    path('host/<int:id>/', Hosts.host, name='host'),
+    path('uploadhosts/', Hosts.uploadHosts, name='uploadhosts'),
     path('addnetwork/', Network.addNetwork, name='add_network'),
     path('updateNetwork/', Network.updateNetwork, name='update_network'),
 
@@ -33,4 +35,6 @@ urlpatterns = [
     path('scan_case/', Scan.scan_case, name='scan_case'),
     path('compare/', Compare.compare, name='compare'),
     path('reports/', Reports.Reports, name='reports'),
+    path('newCompany/', company.createCompany, name='add_company'),
+    path('editCompany/', company.editCompany, name='edit_company'),
 ]

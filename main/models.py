@@ -37,10 +37,9 @@ class Network(models.Model):
 class Host(models.Model):
     hostname = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    ignored_status = models.CharField(max_length=50)
     time = models.DateTimeField(auto_now_add=True)
-    scan_case = models.ForeignKey(Network, on_delete=models.CASCADE)
-    domain = models.CharField(max_length=50)
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.hostname
@@ -50,9 +49,9 @@ class Port(models.Model):
     port = models.CharField(max_length=50,null=True)
     state = models.CharField(max_length=50,null=True)
     protocol = models.CharField(max_length=50,null=True)
-    owner = models.CharField(max_length=50, null=True)
+    reason = models.CharField(max_length=50, null=True)
     service = models.CharField(max_length=50,null=True)
     rpc_info = models.CharField(max_length=50,null=True)
     version = models.CharField(max_length=50,null=True)
-    host_info = models.ForeignKey(Host, on_delete=models.CASCADE)
+    host = models.ForeignKey(Host, on_delete=models.CASCADE)
                     

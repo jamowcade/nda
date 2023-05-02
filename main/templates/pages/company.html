@@ -37,7 +37,7 @@
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newUser">
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newCompany">
                         <i data-feather="user-plus"></i>
                     </button>
 
@@ -54,28 +54,6 @@
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
-                          <!-- <tr>
-                            <td>1</td>
-                            <td>HORMUUD NETWORK Services</td>
-                            <td>HORMUUD</td>
-                            <td>2:40pm</td>
-                            <td>AS3424452</td>
-                            <td> -->
-                              <!-- <button class="btn btn-primary btn-sm ">
-                                <i data-feather="edit" ></i>
-                                
-                              </button> -->
-                              <!-- <a class="btn btn-primary btn-sm houseEdit" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ house.id }}">
-                                <i data-feather="edit"></i>
-                              </a>
-
-                              <a class="btn btn-danger btn-sm houseDelete" name="{{ house.id }}" data-toggle="modal" data-target="#updateHouse">
-                                <i data-feather="trash"></i>
-                              </a>
-                              
-                                
-                            </td>
-                          </tr> -->
 
                           {% for company in company %}
                           <tr>
@@ -91,7 +69,16 @@
                                 <i data-feather="edit" ></i>
                                 
                               </button> -->
-                              <a class="btn btn-primary btn-sm houseEdit" name="{{ company.id }}" data-toggle="modal" data-target="#updateHouse" data-id="{{ company.id }}">
+                              <a class="btn btn-primary btn-sm companyEdit" 
+                              name="{{ company.id }}" 
+                              data-toggle="modal" 
+                            
+                              data-id="{{ company.id }}"
+                              data-name="{{ company.owner }}"
+                              data-asn="{{ company.asn }}"
+                              data-description="{{ company.title }}"
+                              
+                              >
                                 <i data-feather="edit"></i>
                               </a>
 
@@ -128,7 +115,7 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="companyRegister" aria-hidden="true">
+        <div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -142,20 +129,16 @@
 
                   <form method="POST" id="registerForm">
                     <div class="form-group">
-                      <label>Case</label>
-                      <input type="text" class="form-control" id="case" placeholder="fill the case name" required>
+                      <label>Company Name</label>
+                      <input type="text" class="form-control" id="name" placeholder="Company name" required>
 
-                      <label>Owner</label>
-                      <input type="text" class="form-control" id="owner" placeholder="fill the owner name" required>
+                      <label>Description</label>
+                      <input type="text" class="form-control" id="description" placeholder="Company description" required>
 
                       <label>ASN</label>
-                      <input type="text" class="form-control" id="asn" placeholder="fill the case name" required>
-
-                   
-                     
-      
-                     
+                      <input type="text" class="form-control" id="asn" placeholder="Company ASN" required>
                     </div>
+                 
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <button type="submit" id="btnSave" class="btn btn-primary">Save</button>                  
@@ -176,7 +159,7 @@
 
 
          <!-- Modal -->
-         <div class="modal fade" id="updateHouse" tabindex="-1" role="dialog" aria-labelledby="companyUpdate" aria-hidden="true">
+         <div class="modal fade" id="updateCompany" tabindex="-1" role="dialog" aria-labelledby="companyUpdate" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -190,19 +173,14 @@
 
                 <form method="POST" id="UpdateForm">
                   <div class="form-group">
-                    <label>Case</label>
-                    <input type="text" class="form-control" id="ucase" placeholder="fill the case name" required>
+                    <label>Company Name</label>
+                    <input type="text" class="form-control" id="uname" placeholder="Company name" required>
 
-                    <label>Owner</label>
-                    <input type="text" class="form-control" id="uowner" placeholder="fill the owner name" required>
+                    <label>Description</label>
+                    <input type="text" class="form-control" id="udescription" placeholder="Company description" required>
 
                     <label>ASN</label>
-                    <input type="text" class="form-control" id="uasn" placeholder="fill the case name" required>
-
-                 
-                   
-    
-                   
+                    <input type="text" class="form-control" id="uasn" placeholder="Company ASN" required>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

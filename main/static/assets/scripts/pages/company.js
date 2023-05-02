@@ -1,39 +1,26 @@
 $(document).ready(function() {
-    readCompany();
-    creatCompany();
-    // EditHouse();
+    // readNetwork();
+    createCompany();
+    EditCompany();
 })
 
-function creatCompany(){
+function createCompany(){
     $('#registerForm').submit(function (e){
         e.preventDefault();
-
-        $case = $('#case').val();
-        $owner = $('#owner').val();
-        $asn = $('#asn').val();
-        var currentTime = new Date();
-        var formattedTime = currentTime.toLocaleTimeString();
-        // alert(`The current time is ${formattedTime}`);
-        // $timing = formattedTime
-
-
         
-        if($case != null && $owner != null && $asn != null && formattedTime != null ) {
-            
-            // alert(`Option Value: ${$District}\ndata-foo: ${$DistrictApr}\nHouseNumer: ${$HouseNumber}`);
-       
-     
-            console.log($case + " " + $owner + " " + $asn+ " " + formattedTime)
+        const formData = $(this).serialize();
+        console.log(formData)
+            // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
             $.ajax({
-                url: '',
+                url: '/newCompany/',
                 type: "POST",
                 data: {
-                    'case': $case,
-                    'owner': $owner,
-                    'asn': $asn,
-                    'formattedTime': formattedTime,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()                    
+                    name: $('#name').val(),
+                    description: $('#description').val(),
+                    asn: $('#asn').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
                 },
+              
                 success: function(data) {
                     swal({
                         title: "Success !",
@@ -44,14 +31,16 @@ function creatCompany(){
                         showConfirmButton: false
                     })
                     .then(function(){
+                        
 
-                        $('#newUser').hide();
-                        readCompany()
+                        $('#newCompany').hide();
+                        // readNetwork()
                         location.reload();
                     })
 
                 },
                 error:function(data){
+                    console.log(data)
                     swal({
                         title: "Error !",
                         text: "There was an error: "+data,
@@ -60,54 +49,76 @@ function creatCompany(){
                         timerProgressBar: true,
                         showConfirmButton: false
                     })
-                    // console.log("Erro is "+data)
                 }
             })
-         
-
-            
-        }
-        else{
-                swal({
-                        title: "Error !",
-                        text: "There was an error for Saving",
-                        icon: "error",
-                        timer: 4000, // time in milliseconds
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    })
-        }
 
 
     })
 }
 
-function readCompany(){
 
-    $.ajax({
-        url: "house/",
-        type: "POST",
-        async: false,
-        data:{
-            res : 1,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(response){
-            $('#tbody_data').html(response)
-        }
+
+
+function EditCompany(){
+    $('.companyEdit').click(function(){
+        console.log("clicked")
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+        var asn = $(this).data('asn');
+        // alert('The ID of this row is: ' + id+network+description+state);
+        $('#updateCompany').modal('show')
+        $('#uname').val(name)
+        $('#udescription').val(description)
+        $('#uasn').val(asn)
+
+
+        $('#UpdateForm').submit(function (e){
+            e.preventDefault();
+   
+                // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+                $.ajax({
+                    url: '/editCompany/',
+                    type: "POST",
+                    data: {
+                        id: id,
+                        name:  $('#uname').val(),
+                        asn:  $('#uasn').val(),
+                        description: $('#udescription').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+                    },
+                  
+                    success: function(data) {
+                      
+                        swal("Success", data, "success")
+                        .then(function(){
+                            $('#updateCompany').hide();
+                            // readNetwork()
+                            location.reload();
+                        })
+    
+                    },
+                    error: function(data){
+                       
+                        swal("Error", data, "error");
+                        // swal({
+                        //     title: "Error !",
+                        //     text: "There was an error: "+data,
+                        //     icon: "error",
+                        //     timer: 4000, // time in milliseconds
+                        //     timerProgressBar: true,
+                        //     showConfirmButton: false
+                        // })
+                    }
+                })
+    
+    
+        })
+
+
+
+        
     })
 
+
 }
-
-// function EditHouse(){
-
-//     $('#houseEdit').click(function(){
-//         $id=$(this).attr('name');
-//         alert($id)
-//         // $('#updateHouse').modal('show');
-//         // $('#udistrict').val($id)
-
-
-//     })
-
-// }

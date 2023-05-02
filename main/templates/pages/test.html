@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form id="upload">
+        <label for="file">File to upload</label>
+        <input type="file" id="file" accept=".json">
+    
+        <button>Upload</button>
+    </form>
+
+
+
+    <script>
+let form = document.querySelector('#upload');
+let file = document.querySelector('#file');
+
+form.addEventListener('submit', handleSubmit);
+
+function handleSubmit (event) {
+
+	// Stop the form from reloading the page
+	event.preventDefault();
+
+	// If there's no file, do nothing
+	if (!file.value.length) return;
+
+
+    let reader = new FileReader();
+
+    // Setup the callback event to run when the file is read
+	reader.onload = logFile;
+    // Read the file
+	reader.readAsText(file.files[0]);
+
+
+}
+
+
+function logFile (event) {
+	let str = event.target.result;
+	let json = JSON.parse(str);
+	console.log('string', str);
+	console.log('json', json);
+}
+</script>
+</body>
+</html>
