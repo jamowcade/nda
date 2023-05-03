@@ -29,23 +29,7 @@ function logFile (event) {
 	// console.log('string', str);
 	// console.log('json', json);
 
-    $.ajax({
-        url: "/uploadhosts/",
-        type: "POST",
-        data: {
-            data: str,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 
-        },
-
-        success: function(response){
-            console.log(response)
-        },
-        error: function(response){
-                           
-            console.log(response)
-        }
-    })
    
     // console.log(json.length)
   
@@ -54,11 +38,28 @@ function logFile (event) {
         console.log(json[i].ip)
         
         for(let x = 0; x < json[i].ports.length; x++){
-           
-            portid = json[i].ports[x].portid
-            state = json[i].ports[x].state
-            protocol = json[i].ports[x].protocol
-            console.log("portID: " ,portid, "state: ", state, "protocol: ",protocol)
+            $.ajax({
+                url: "/uploadhosts/",
+                type: "POST",
+                data: {
+                    host_ip:    json[i].ip,
+                    portid:     json[i].ports[x].portid,
+                    state:      json[i].ports[x].state,
+                    protocol:   json[i].ports[x].protocol,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        
+                },
+        
+                success: function(response){
+                    console.log("1 host saved")
+                },
+                error: function(response){
+                                   
+                    console.log(response)
+                }
+            })
+            
+            // console.log("portID: " ,portid, "state: ", state, "protocol: ",protocol)
            
            
         }

@@ -17,11 +17,11 @@ def host(request,id):
 def uploadHosts(request):
     if request.method == 'POST':
         data = request.POST.get('data')
-        jsondata = json.load(data)
+        jsondata = json.loads(data)
         print("total host:",len(jsondata))
         print(jsondata)
         for host in jsondata:
-            print(host.ip)
+            print(host)
 
 
     # data = json.loads('data')
