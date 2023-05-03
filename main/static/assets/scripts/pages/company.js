@@ -95,7 +95,7 @@ function EditCompany(){
                             $('#updateCompany').hide();
                             // readNetwork()
                             location.reload();
-                        })
+                        });
     
                     },
                     error: function(data){

@@ -20,7 +20,7 @@ urlpatterns = [
     path('network/<int:id>/', Network.networkDetails, name='network'),
     # path('host/', Hosts.host, name='host'),
     path('host/<int:id>/', Hosts.host, name='host'),
-    path('uploadhosts/', Hosts.uploadHosts, name='uploadhosts'),
+    path('uploadhosts/', Hosts.addHosts, name='uploadhosts'),
     path('addnetwork/', Network.addNetwork, name='add_network'),
     path('updateNetwork/', Network.updateNetwork, name='update_network'),
 
