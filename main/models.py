@@ -11,6 +11,7 @@ class Campany(models.Model):
 
     def __str__(self):
         return self.owner
+    
 
 
 
@@ -60,7 +61,5 @@ class Port(models.Model):
                     
 
 class ScanCase(models.Model):
-    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    models.DateField(auto_now_add=True)
     compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='scancases')
