@@ -1,0 +1,56 @@
+<div id="accordion">
+    {% for data in records %}
+    {% with num=forloop.counter|add:'1' %}
+    <div class="accordion">
+      <div class="accordion-header" role="button" data-toggle="collapse" data-target='#clo{{num}}'
+        aria-expanded="true">
+        <h4>{{forloop.counter}}- Host->{{data.host}}- network: {{data.network}}- company-> ({{data.company}})- Total Ports->- {{data.totalports}}</h4>
+      </div>
+      <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
+        {% for port in data.ports %}
+        <p class="mb-0">port: {{port.portid}}</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+</div>
+
+
+<!-- 
+<div id="accordion">
+    {% for category in categories %}
+      <div class="card">
+        <div class="card-header" id="heading{{ category.id }}">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ category.id }}" aria-expanded="true" aria-controls="collapse{{ category.id }}">
+              {{ category.name }}
+            </button>
+          </h5>
+        </div>
+        <div id="collapse{{ category.id }}" class="collapse" aria-labelledby="heading{{ category.id }}" data-parent="#accordion">
+          <div class="card-body">
+            {{ category.description }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+    
+
+  <div id="accordion">
+    <div class="accordion">
+      <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
+        aria-expanded="true">
+        <h4>Panel 1</h4>
+      </div>
+      <div class="accordion-body collapse show" id="panel-body-1" data-parent="#accordion">
+        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+</div> -->

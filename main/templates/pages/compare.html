@@ -47,12 +47,31 @@
 <!-- Display the filtered records -->
 <ul id="record-list">
 </ul>
+<div id="accordion">
+</div>
+<!-- <div id="accordion" class="listRecord">
+  <div class="accordion">
+    <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
+      aria-expanded="false">
+      <h4 id="networkstitle"></h4>
+    </div>
+    <div class="accordion-body collapse " id="panel-body-1" data-parent="#accordion">
+      <p class="mb-0" id="hostsData"></p>
+    </div>
+  </div>
+<div class="dropdown">
+  <div class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    
+  </div>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-data">
+  </ul>
+</div>
                     <div class="table-responsive">
                  
                     </div>
 
 
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -106,6 +125,7 @@
 
   <script>
     $(document).ready(function() {
+      $('.listRecord').hide()
       $('#filter-form').submit(function(event) {
         event.preventDefault();
         var filterDate = $('#filter-date').val();
@@ -114,19 +134,36 @@
           url: '/filter_by_date/',
           data: {'filter_date': filterDate},
           success: function(response) {
-            console.log(response.records);
-            var total = response.records.length
-            console.log(total);
-            $('#record-list').empty();
-            $.each(response.records, function(index, record) {
-              index = index+1
-              var item = $('<li>').text(index+ ' '+'host'+' | ' +record.host + ' network'+' | ' +record.network +' company'+' | '+record.company);
-              $('#record-list').append(item);
-            });
+            $('#accordion').append(response)
+            // var accordion = $('#accordion');
+            // $('#record-list').empty();
+            // $.each(response.records, function(index, record) {
+            //   var network_list = ''
+
+            //   network_list+= '<li>' + record.network + '</li>';
+
+            //   var category_html = '<div class="card"><div class="card-header" id="heading' + category.id + '"><h5 class="mb-0"><button class="btn btn-link" data-toggle="collapse" data-target="#collapse' + category.id + '" aria-expanded="true" aria-controls="collapse' + category.id + '">' + category.name + '</button></h5></div><div id="collapse' + category.id + '" class="collapse" aria-labelledby="heading' + category.id + '" data-parent="#accordion"><div class="card-body"><ul>' + products_list + '</ul></div></div></div>';
+            // accordion.append(category_html);
+            //   // $('.listRecord').show()
+            //   // $('#networkstitle').text(record.network + " - " + record.company)
+            //   // $('#hostsData').text(record.host)
+            //   // index = index+1
+            //   // var item = $('<li>').text(index+ ' '+'host'+' | ' +record.host + ' network'+' | ' +record.network +' company'+' | '+record.company);
+                
+            //   // $('#record-list').append(item);
+            // });
           }
+         
         });
+        $('#accordion').html('')
       });
     });
+
+
+
+
+
+
     </script>
   <!-- End Scripts Section -->
 </body>
