@@ -46,18 +46,28 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Enviromet</th>
-                            <th>Date</th>
+                            <th>portID</th>
+                            <th>protocol</th>
+                            <th>state</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
 
-                          {% for Services in serviceData %}
+                          {% for port in ports %}
                           <tr>
-                            <td>{{ Services.id }}</td>
-                            <td>{{ Services.enviroment.house.type }} - ( {{ Services.enviroment.house.district }} - {{ Services.enviroment.house.houseno }} )</td>
-                            <td>{{ Services.date }}</td>
+                            <td>{{ port.id }}</td>
+                            <td>{{ port.port }}</td>
+                            <td>{{port.protocol}}</td>
+                            {% if port.state == 'open' %}
+                            <td><span class="badge badge-success">Open</span></td>
+                            {% endif %}
+                            {% if port.state == 'closed' %}
+                            
+                            <td><span class="badge badge-danger">Close</span></td>
+                            {% else %}
+                            <td><span class="badge badge-info">{{port.state}}</span></td>
+                            {% endif %}
                             
                             <td>
                               <!-- <button class="btn btn-primary btn-sm ">

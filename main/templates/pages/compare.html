@@ -36,63 +36,19 @@
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newUser">
-                        <i data-feather="user-plus"></i>
-                    </button>
+                      <!-- Create a form with a date input -->
+            <form id="filter-form">
+                  {% csrf_token %}
+                  <label for="filter-date">Filter by Date:</label>
+                  <input type="date" id="filter-date" name="filter_date">
+                <button type="submit">Filter Data</button>
+            </form>
+
+<!-- Display the filtered records -->
+<ul id="record-list">
+</ul>
                     <div class="table-responsive">
-                      <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
-                        <thead>
-                          <tr>
-                            
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Enviroment</th>
-                            <th>Phone</th>
-                            <th>House NO</th>
-                            <th>Statu</th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            
-                            <td>001</td>
-                            <td>Maxamed Axmed</td>
-                            <td>Waabari</td>
-                            <td>0616122362</td>
-                            <td>004</td>
-                            <td>No</td>
-                            <td>
-                              <i data-feather="edit" class="btn btn-primary btn-sm">
-                                <button></button>
-                              </i>
-                                <i data-feather="settings" class="btn btn-info btn-sm">
-                                  <button></button>
-                                </i>
-                            </td>
-                          </tr>
-                          
-                        </thead>
-                        <tbody>
-                            <tr>
-                            
-                                <td>002</td>
-                                <td>Mahad MOhamed</td>
-                                <td>Waabari</td>
-                                <td>0618844063</td>
-                                <td>005</td>
-                                <td>No</td>
-                                <td>
-                                  <i data-feather="edit" class="btn btn-primary btn-sm">
-                                    <button></button>
-                                  </i>
-                                    <i data-feather="settings" class="btn btn-info btn-sm">
-                                      <button></button>
-                                    </i>
-                                </td>
-                              </tr>
-                        </tbody>
-                      </table>
+                 
                     </div>
 
 
@@ -147,6 +103,31 @@
 
   <!-- Scripts Section -->
   {% include "includes/scripts.html" %}
+
+  <script>
+    $(document).ready(function() {
+      $('#filter-form').submit(function(event) {
+        event.preventDefault();
+        var filterDate = $('#filter-date').val();
+        $.ajax({
+          type: 'GET',
+          url: '/filter_by_date/',
+          data: {'filter_date': filterDate},
+          success: function(response) {
+            console.log(response.records);
+            var total = response.records.length
+            console.log(total);
+            $('#record-list').empty();
+            $.each(response.records, function(index, record) {
+              index = index+1
+              var item = $('<li>').text(index+ ' '+'host'+' | ' +record.host + ' network'+' | ' +record.network +' company'+' | '+record.company);
+              $('#record-list').append(item);
+            });
+          }
+        });
+      });
+    });
+    </script>
   <!-- End Scripts Section -->
 </body>
 

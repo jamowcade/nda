@@ -46,50 +46,20 @@
                             
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Enviroment</th>
-                            <th>Phone</th>
-                            <th>House NO</th>
-                            <th>Statu</th>
+                            <th>Date</th>
                             
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            
-                            <td>001</td>
-                            <td>Maxamed Axmed</td>
-                            <td>Waabari</td>
-                            <td>0616122362</td>
-                            <td>004</td>
-                            <td>No</td>
-                            <td>
-                              <i data-feather="edit" class="btn btn-primary btn-sm">
-                                <button></button>
-                              </i>
-                                <i data-feather="settings" class="btn btn-info btn-sm">
-                                  <button></button>
-                                </i>
-                            </td>
-                          </tr>
+                         
                           
-                        </thead>
+                       
                         <tbody>
                             <tr>
-                            
-                                <td>002</td>
-                                <td>Mahad MOhamed</td>
-                                <td>Waabari</td>
-                                <td>0618844063</td>
-                                <td>005</td>
-                                <td>No</td>
-                                <td>
-                                  <i data-feather="edit" class="btn btn-primary btn-sm">
-                                    <button></button>
-                                  </i>
-                                    <i data-feather="settings" class="btn btn-info btn-sm">
-                                      <button></button>
-                                    </i>
-                                </td>
+             
+                                {% for date in scan_cases %}
+                                <td>{{date.date}}</td>
+                             
                               </tr>
                         </tbody>
                       </table>
@@ -115,7 +85,12 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <h1>Create Scan Case</h1>
+                  <form id="scancase-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Create</button>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
