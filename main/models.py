@@ -25,7 +25,7 @@ class Network(models.Model):
     state = models.CharField(max_length=50,choices=PAYMENT_STATUS_CHOICES, default=OPEN)
     network = models.CharField(max_length=50)
     time = models.DateTimeField(auto_now_add=True)
-    compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='ports')
+    compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='networks')
     description = models.CharField(max_length=500)
 
     
@@ -63,3 +63,4 @@ class ScanCase(models.Model):
     scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='scancases')
