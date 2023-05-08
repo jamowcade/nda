@@ -1,6 +1,6 @@
 from django.urls import path
 from main import views
-from .code import company,user,Network,Hosts,Ports,Scan,Reports,Compare
+from .code import company,user,Network,Hosts,Ports,Reports,Compare, scan_case
 
 
 urlpatterns = [
@@ -33,7 +33,7 @@ urlpatterns = [
     path('host_ports/', Ports.ports, name='ports'),
     # path('host_ports/<int:id>/', Ports.ports, name='ports'),
     
-    path('scan_case/', Scan.scan_case, name='scan_case'),
+    path('scan_case/', scan_case.scan_case, name='scan_case'),
     path('compare/', Compare.compare, name='compare'),
     path('filter_by_date/', Compare.filter_by_date, name='filter_by_date'),
     path('reports/', Reports.Reports, name='reports'),

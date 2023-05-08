@@ -39,8 +39,15 @@
                       <!-- Create a form with a date input -->
             <form id="filter-form">
                   {% csrf_token %}
-                  <label for="filter-date">Filter by Date:</label>
-                  <input type="date" id="filter-date" name="filter_date">
+                  <label for="filter-date">Filter by Scan Casess:</label>
+                  <select   id="filter-date" class="form-control" required>            
+                    {% for scan in scan_cases %}
+                    <option selected value="{{scan.scan_date}}">{{scan.name}}</option>
+                    {% endfor %}
+                  </select>
+                  
+
+                  
                 <button type="submit">Filter Data</button>
             </form>
 
@@ -132,6 +139,12 @@
       $('#filter-form').submit(function(event) {
         event.preventDefault();
         var filterDate = $('#filter-date').val();
+        var date = new Date(filterDate);
+        var year = date.getFullYear().toString();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = ('0' + date.getDate()).slice(-2);
+        var formattedDate = year + '-' + month + '-' + day;
+        console.log(formattedDate);
         $.ajax({
           type: 'GET',
           url: '/filter_by_date/',
@@ -139,7 +152,7 @@
               // Show the loading spinner before the request is sent
               $('#loading-spinner').show();
           },
-          data: {'filter_date': filterDate},
+          data: {'filter_date': formattedDate},
           success: function(response) {
             $('#accordion').append(response)
             // var accordion = $('#accordion');

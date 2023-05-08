@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from main.models import Campany, Host
+from main.models import Campany, Host, ScanCase
 from django.utils import timezone
 from datetime import datetime
 
@@ -8,19 +8,28 @@ from datetime import datetime
 
 
 def compare(request):
-    return render(request,'pages/compare.html')
+    scan_cases = ScanCase.objects.all()
+    context = {
+        "scan_cases":scan_cases
+    }
+    return render(request,'pages/compare.html', context)
 
 
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
+    Listcompany = Campany.objects.all()
     print(filter_date)
     filtered_hosts = []
     data = {
         "records": []
     }
     for host in hosts:
-        host_date = str(host.get_date())
+        host_date =str(host.get_date())
+        print(host_date)
+
+        # data_string = host_date.strftime('%Y-%m-%d')
+        
         # print(type(host_date), type(filter_date))
         if host_date == filter_date:
             ports = host.ports.all()
@@ -35,9 +44,9 @@ def filter_by_date(request):
 
             })
            
-            data = {'records': filtered_hosts, "network": host.network}
+            data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
      
-        print(filtered_hosts)
+        # print(filtered_hosts)
     # return JsonResponse(data)
     return render(request, 'pages/display.html',data)
 

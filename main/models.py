@@ -5,7 +5,7 @@ from datetime import datetime
 class Campany(models.Model):
     title = models.CharField(max_length=50)
     owner = models.CharField(max_length=50)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateField(auto_now_add=True)
     asn = models.CharField(max_length=100)
 
 
@@ -24,13 +24,14 @@ class Network(models.Model):
 
     state = models.CharField(max_length=50,choices=PAYMENT_STATUS_CHOICES, default=OPEN)
     network = models.CharField(max_length=50)
-    time = models.DateTimeField(auto_now_add=True)
-    compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='ports')
+    time = models.DateField(auto_now_add=True)
+    compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='networks')
     description = models.CharField(max_length=500)
 
     
     def __str__(self):
         return self.network
+
 
 
 
@@ -58,6 +59,7 @@ class Port(models.Model):
     version = models.CharField(max_length=50,null=True)
     host = models.ForeignKey(Host, on_delete=models.CASCADE,related_name='ports')
                     
+    
 
 class ScanCase(models.Model):
     scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)

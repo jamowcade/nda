@@ -38,30 +38,34 @@
                   <div class="card-body">
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newUser">
                         <i data-feather="user-plus"></i>
+                        New Scan Case
                     </button>
                     <div class="table-responsive">
                       <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
                         <thead>
                           <tr>
                             
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Date</th>
                             
                           </tr>
                         </thead>
                         <tbody>
+                          <tr>
+             
+                            {% for scan in scan_cases %}
+                            <td>{{forloop.counter}}</td>
+                            <td>{{scan.name}}</td>
+                            <td>{{scan.scan_date}}</td>
                          
+                          </tr>
+                          {% endfor %}
                           
                        
                         <tbody>
-                            <tr>
-             
-                                {% for date in scan_cases %}
-                                <td>{{date.date}}</td>
-                             
-                              </tr>
-                        </tbody>
+                        
+                     
                       </table>
                     </div>
 
@@ -85,17 +89,23 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <h1>Create Scan Case</h1>
-                  <form id="scancase-form">
+                 
+                  <form id="scancase-form" method="POST">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Create</button>
-                  </form>
+                    <div class="form-group">
+                      <label>Date</label>
+                      <input type="date" class="form-control" id="date" placeholder="Company ASN" required>
+                    </div>
+                   
+                   
+                    
+                
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
                 </div>
+              </form>
               </div>
             </div>
           </div>
@@ -122,6 +132,34 @@
 
   <!-- Scripts Section -->
   {% include "includes/scripts.html" %}
+
+  
+  <script>
+    $('#scancase-form').submit(function (e){
+        e.preventDefault();
+        
+        name = $('#name').val()
+        date = $('#date').val()
+        description = $('#description').val()
+       
+       $.ajax({
+        method: 'POST',
+        url: '/scan_case/',
+        data : {
+          'date':date,
+           csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        
+        success: function(response){
+              alert(response.message)
+              location.reload()
+        },
+        error: function(){
+          alert("error saving data")
+        }
+       })
+    })
+  </script>
   <!-- End Scripts Section -->
 </body>
 

@@ -1,0 +1,26 @@
+from main.models import Campany, Host, Network, Port, ScanCase
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+
+
+def scan_case(request):
+
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        name = f"scan case- {date}"
+        scan_case = ScanCase(name=name, scan_date=date, description=name)
+        scan_case.save()
+        return JsonResponse ({'success': True,"message":"data saved"})
+
+        print(name, date, description)
+    else:
+        scan_cases = ScanCase.objects.all()
+   
+        context = {
+        "scan_cases":scan_cases,
+        
+        }
+  
+        return render(request, 'pages/scan_case.html', context)
+
+

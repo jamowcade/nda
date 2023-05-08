@@ -1,11 +1,47 @@
+ 
+    <!-- <div class="form-row"> -->
+        <!-- <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <select id="inputState" class="form-control">
+                <option selected>Choose...</option>
+                {% for company in dataCompany %}
+                <option value="{{company.id}}">{{company.owner}}</option>
+                {% endfor %}
+            </select>
+        </div> -->
+        
+<!-- 
+        <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+            <option>...</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+            <option>...</option>
+            </select>
+        </div>
+         -->
+    <!-- </div> -->
+
+    <div class="form-group">
+    <label>Filter by Keyword</label>
+    <input type="text" class="form-control" id="search-box" placeholder="Search...">
+    </div>
+
+
 <div id="accordion">
-    {{network}}
+   
     {% for data in records %}
     {% with num=forloop.counter|add:'1' %}
-    <div class="accordion">
+    <div class="accordion" id="my-data">
       <div class="accordion-header" role="button" data-toggle="collapse" data-target='#clo{{num}}'
         aria-expanded="true">
-        <h4>{{forloop.counter}}- Host->{{data.host}}- network: {{data.network}}- company-> ({{data.company}})- Total Ports->- {{data.totalports}}</h4>
+        <h4>{{forloop.counter}}- Host {{data.host}}- network: {{data.network}}- company- ({{data.company}}) - Total Ports->- {{data.totalports}}</h4>
       </div>
       <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
         {% for port in data.ports%}
@@ -18,41 +54,15 @@
     {% endfor %}
 </div>
 
-
-<!-- 
-<div id="accordion">
-    {% for category in categories %}
-      <div class="card">
-        <div class="card-header" id="heading{{ category.id }}">
-          <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ category.id }}" aria-expanded="true" aria-controls="collapse{{ category.id }}">
-              {{ category.name }}
-            </button>
-          </h5>
-        </div>
-        <div id="collapse{{ category.id }}" class="collapse" aria-labelledby="heading{{ category.id }}" data-parent="#accordion">
-          <div class="card-body">
-            {{ category.description }}
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-    
-
-  <div id="accordion">
-    <div class="accordion">
-      <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
-        aria-expanded="true">
-        <h4>Panel 1</h4>
-      </div>
-      <div class="accordion-body collapse show" id="panel-body-1" data-parent="#accordion">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-    </div>
-</div> -->
+<script>
+    $(document).ready(function() {
+  $('#search-box').keyup(function() {
+    const searchTerm = $(this).val().toLowerCase();
+    $('#my-data .accordion-header').filter(function() {
+      const text = $(this).text().toLowerCase();
+      const match = text.indexOf(searchTerm) > -1;
+      $(this).toggle(match);
+    });
+  });
+});
+</script>
