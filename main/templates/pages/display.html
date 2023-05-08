@@ -1,4 +1,5 @@
 <div id="accordion">
+    {{network}}
     {% for data in records %}
     {% with num=forloop.counter|add:'1' %}
     <div class="accordion">
@@ -7,8 +8,9 @@
         <h4>{{forloop.counter}}- Host->{{data.host}}- network: {{data.network}}- company-> ({{data.company}})- Total Ports->- {{data.totalports}}</h4>
       </div>
       <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
-        {% for port in data.ports %}
-        <p class="mb-0">port: {{port.portid}}</p>
+        {% for port in data.ports%}
+        
+        <p class="mb-0">port: {{port.port}} - protocol: {{port.protocol}} - State: {{port.state}}</p>
         {% endfor %}
       </div>
     </div>

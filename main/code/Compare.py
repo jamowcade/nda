@@ -24,12 +24,10 @@ def filter_by_date(request):
         # print(type(host_date), type(filter_date))
         if host_date == filter_date:
             ports = host.ports.all()
-            for por in ports
+            
             filtered_hosts.append({
                 "host":host.hostname,
-                "ports": [{
-                    "portid":[p.port for p in ports]
-                }],
+                "ports": ports,
                 "totalports": host.ports.all().count(),
                 "network": host.network.network,
                 "company": host.network.compony_info.owner,
@@ -37,8 +35,8 @@ def filter_by_date(request):
 
             })
            
-            data = {'records': filtered_hosts}
-        
+            data = {'records': filtered_hosts, "network": host.network}
+     
         print(filtered_hosts)
     # return JsonResponse(data)
     return render(request, 'pages/display.html',data)

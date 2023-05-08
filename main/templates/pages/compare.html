@@ -49,6 +49,9 @@
 </ul>
 <div id="accordion">
 </div>
+<div id="loading-spinner" style="display:none">
+  <i class="fa fa-spinner fa-spin"></i> Loading...
+</div>
 <!-- <div id="accordion" class="listRecord">
   <div class="accordion">
     <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
@@ -132,6 +135,10 @@
         $.ajax({
           type: 'GET',
           url: '/filter_by_date/',
+          beforeSend: function() {
+              // Show the loading spinner before the request is sent
+              $('#loading-spinner').show();
+          },
           data: {'filter_date': filterDate},
           success: function(response) {
             $('#accordion').append(response)
@@ -152,7 +159,11 @@
                 
             //   // $('#record-list').append(item);
             // });
+          },
+          complete: function(){
+            $('#loading-spinner').hide();
           }
+
          
         });
         $('#accordion').html('')

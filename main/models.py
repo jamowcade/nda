@@ -60,6 +60,6 @@ class Port(models.Model):
                     
 
 class ScanCase(models.Model):
-    my_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
+    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
