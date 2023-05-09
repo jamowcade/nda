@@ -1,68 +1,141 @@
- 
-    <!-- <div class="form-row"> -->
-        <!-- <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                {% for company in dataCompany %}
-                <option value="{{company.id}}">{{company.owner}}</option>
-                {% endfor %}
-            </select>
-        </div> -->
-        
-<!-- 
-        <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
-            </select>
-        </div>
-         -->
-    <!-- </div> -->
+<div class="container card-body">
+  <div class="form-row">
 
-    <div class="form-group">
-    <label>Filter by Keyword</label>
-    <input type="text" class="form-control" id="search-box" placeholder="Search...">
-    </div>
-
-
-<div id="accordion">
-   
-    {% for data in records %}
-    {% with num=forloop.counter|add:'1' %}
-    <div class="accordion" id="my-data">
-      <div class="accordion-header" role="button" data-toggle="collapse" data-target='#clo{{num}}'
-        aria-expanded="true">
-        <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total Ports-> - {{data.totalports}}</h4>
+    <div class="card-body">
+      <div class="form-group col-md-4 ">
+        <label>Filter by Keyword</label>
+        <input type="text" class="form-control" id="search-box" placeholder="Search...">
       </div>
-      <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
-        {% for port in data.ports%}
-        
-        <p class="mb-0">port: {{port.port}} - protocol: {{port.protocol}} - State: {{port.state}}</p>
+      <div id="accordion">
+
+        {% for data in records %}
+        {% with num=forloop.counter|add:'1' %}
+        <div class="accordion" id="my-data">
+          <div class="accordion-header" role="button" data-toggle="collapse" data-target='#clo{{num}}'
+            aria-expanded="true">
+            <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total
+              Ports-> - {{data.totalports}}</h4>
+          </div>
+          <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Port Number</th>
+                    <th>State</th>
+                    <th>protocol</th>
+                    <th>Service</th>
+                    <th>RPCinfo</th>
+                    <th>version</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody_data">
+
+                  {% for port in data.ports%}
+                  <tr>
+                    <td>{{port.id}}</td>
+
+                    <td>{{port.port}}</td>
+                    <td>{{ port.state }}</td>
+                    <td>{{port.protocol}}</td>
+                    <td>
+                      <a href="" data-toggle="modal" data-target="#newCompany">Service</a>
+                    </td>
+                    <td>{{port.protocol}}</td>
+                    <td>{{port.protocol}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            
+          </div>
+        </div>
+        {% endwith %}
         {% endfor %}
+
+
       </div>
-    </div>
-    {% endwith %}
-    {% endfor %}
+  </div>
+ 
+</div>
 </div>
 
+<div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="companyRegister">Registeration Company</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% csrf_token %}
+
+        <form method="POST" id="registerForm">
+          <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Company name" required>
+
+            <label>Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Company description" required>
+
+            <label>ASN</label>
+            <input type="text" class="form-control" id="asn" placeholder="Company ASN" required>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+
+          </div>
+
+        </form>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
 <script>
-    $(document).ready(function() {
-  $('#search-box').keyup(function() {
-    const searchTerm = $(this).val().toLowerCase();
-    $('#my-data .accordion-header').filter(function() {
-      const text = $(this).text().toLowerCase();
-      const match = text.indexOf(searchTerm) > -1;
-      $(this).toggle(match);
+  $(document).ready(function () {
+
+
+    CallModal()
+    $('#search-box').keyup(function () {
+      const searchTerm = $(this).val().toLowerCase();
+      $('#my-data .accordion-header').filter(function () {
+        const text = $(this).text().toLowerCase();
+        const match = text.indexOf(searchTerm) > -1;
+        $(this).toggle(match);
+      });
+
+
     });
+    function CallModal() {
+      $('#modalService').click(function (e) {
+        e.preventDefault()
+        $('#newCompany').modal('show')
+      })
+    }
+
+
+    // $('#my-data .accordion-header').click(function(){
+    //   $('#my-data .accordion-header').hide();
+    // })
+
   });
-});
+
+
+
 </script>
