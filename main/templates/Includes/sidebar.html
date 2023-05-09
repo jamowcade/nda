@@ -78,15 +78,23 @@
         >
       </li>
       <li>
-        <a class="nav-link" href="{% url 'compare' %}"
+        <a class="nav-link" href="#"
           ><i data-feather="command"></i><span>Compare</span></a
         >
       </li>
-      <li>
-        <a class="nav-link" href="{% url 'reports' %}"
-          ><i data-feather="printer"></i><span>Reports</span></a
+      <li class="dropdown">
+        <a href="#" class="menu-toggle nav-link has-dropdown"
+          ><i data-feather="user-check"></i><span>Reports</span></a
         >
+        <ul class="dropdown-menu">
+          <li>
+            <a class="nav-link" href="{% url 'scan_cases_report' %}"
+              >Scan Case Reports</a
+            >
+          </li>
+        </ul>
       </li>
+
       <li class="dropdown">
         <a href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span>Scans</span></a
