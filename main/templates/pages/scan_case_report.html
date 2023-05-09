@@ -11,18 +11,18 @@
   <div class="loader"></div>
 
 
-  
+
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
 
-           <!-- Nav Bar Section  -->
-        {% include "includes/nav.html" %}
-        <!-- End Nav Bar Section -->
-        
-        <!-- Side Bar Section -->
-        {% include "includes/sidebar.html" %}        
-        <!-- End Side Bar Section -->
+      <!-- Nav Bar Section  -->
+      {% include "includes/nav.html" %}
+      <!-- End Nav Bar Section -->
+
+      <!-- Side Bar Section -->
+      {% include "includes/sidebar.html" %}
+      <!-- End Side Bar Section -->
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
@@ -34,88 +34,78 @@
                     <h4>Scan Case Reports</h4>
                   </div>
                   <!-- Button trigger modal -->
-                   
+
                   <div class="card-body">
-                      <!-- Create a form with a date input -->
-            <form id="filter-form">
-                  {% csrf_token %}
-                  <label for="filter-date">Filter by Scan Casess:</label>
-                  <select   id="filter-date" class="form-control" required>            
-                    {% for scan in scan_cases %}
-                    <option selected value="{{scan.scan_date}}">{{scan.name}}</option>
-                    {% endfor %}
-                  </select>
-                  
+                    <!-- Create a form with a date input -->
 
-                  
-                <button type="submit">Search</button>
-            </form>
+                    <!-- <form class="form-inline" method="POST" id="group">
+                        <div class="form-group mx-sm-3 mb-2">
+                          
+                          <input type="text" class="form-control" id="gname" name="gname" placeholder="Enter Group name">
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Add</button>
+                      </form> -->
 
-<!-- Display the filtered records -->
-<ul id="record-list">
-</ul>
-<div id="accordion">
-</div>
-<div id="loading-spinner" style="display:none">
-  <i class="fa fa-spinner fa-spin"></i> Loading...
-</div>
-<!-- <div id="accordion" class="listRecord">
-  <div class="accordion">
-    <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
-      aria-expanded="false">
-      <h4 id="networkstitle"></h4>
-    </div>
-    <div class="accordion-body collapse " id="panel-body-1" data-parent="#accordion">
-      <p class="mb-0" id="hostsData"></p>
-    </div>
-  </div>
-<div class="dropdown">
-  <div class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    
-  </div>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-data">
-  </ul>
-</div>
-                    <div class="table-responsive">
-                 
+                    <form class="form-inline" id="filter-form">
+                      <label for="filter-date">Filter by Scan Casess:</label><br>
+                      {% csrf_token %}
+                      <div class="form-group mx-sm-3">
+                        <select id="filter-date" class="form-control" required>
+                          {% for scan in scan_cases %}
+                          <option selected value="{{scan.scan_date}}">{{scan.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <button class="btn btn-info btn-sm" type="submit">Search</button>
+
+
+                    </form>
+
+                    <!-- Display the filtered records -->
+                    <div id="record-list">
                     </div>
 
+                    <div id="loading-spinner" style="display:none">
+                      <i class="fa fa-spinner fa-spin"></i> Loading...
+                    </div>
 
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
         </section>
 
 
         <!-- Modal -->
-        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="userRegister">Registeration User</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="userRegister"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="userRegister">Registeration User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
+        </div>
         <!-- End Modal -->
 
         <!-- Setting Bar Sections -->
-        {% include "includes/settingbar.html" %}        
+        {% include "includes/settingbar.html" %}
         <!-- Ending Setting Bar Sections -->
 
 
+        <div id="accordion">
+        </div>
       </div>
 
       <!-- Footbar Section -->
@@ -134,9 +124,9 @@
   {% include "includes/scripts.html" %}
 
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('.listRecord').hide()
-      $('#filter-form').submit(function(event) {
+      $('#filter-form').submit(function (event) {
         event.preventDefault();
         var filterDate = $('#filter-date').val();
         var date = new Date(filterDate);
@@ -148,12 +138,12 @@
         $.ajax({
           type: 'GET',
           url: '/filter_by_date/',
-          beforeSend: function() {
-              // Show the loading spinner before the request is sent
-              $('#loading-spinner').show();
+          beforeSend: function () {
+            // Show the loading spinner before the request is sent
+            $('#loading-spinner').show();
           },
-          data: {'filter_date': formattedDate},
-          success: function(response) {
+          data: { 'filter_date': formattedDate },
+          success: function (response) {
             $('#accordion').append(response)
             // var accordion = $('#accordion');
             // $('#record-list').empty();
@@ -169,15 +159,15 @@
             //   // $('#hostsData').text(record.host)
             //   // index = index+1
             //   // var item = $('<li>').text(index+ ' '+'host'+' | ' +record.host + ' network'+' | ' +record.network +' company'+' | '+record.company);
-                
+
             //   // $('#record-list').append(item);
             // });
           },
-          complete: function(){
+          complete: function () {
             $('#loading-spinner').hide();
           }
 
-         
+
         });
         $('#accordion').html('')
       });
@@ -188,10 +178,11 @@
 
 
 
-    </script>
+  </script>
   <!-- End Scripts Section -->
 </body>
 
 
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+
 </html>
