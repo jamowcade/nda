@@ -41,7 +41,7 @@
     <div class="accordion" id="my-data">
       <div class="accordion-header" role="button" data-toggle="collapse" data-target='#clo{{num}}'
         aria-expanded="true">
-        <h4>{{forloop.counter}}- Host {{data.host}}- network: {{data.network}}- company- ({{data.company}}) - Total Ports->- {{data.totalports}}</h4>
+        <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total Ports-> - {{data.totalports}}</h4>
       </div>
       <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
         {% for port in data.ports%}
