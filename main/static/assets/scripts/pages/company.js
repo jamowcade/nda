@@ -61,7 +61,7 @@ function createCompany(){
 
 function EditCompany(){
     $('.companyEdit').click(function(){
-        console.log("clicked")
+        
         var id = $(this).data('id');
         var name = $(this).data('name');
         var description = $(this).data('description');

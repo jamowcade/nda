@@ -25,7 +25,7 @@ def filter_by_date(request):
         "records": []
     }
     for host in hosts:
-        host_date =str(host.get_date())
+        host_date = str(host.host_date)
         print(host_date)
 
         # data_string = host_date.strftime('%Y-%m-%d')

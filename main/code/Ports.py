@@ -14,8 +14,9 @@ def ports(request):
         host_ports.append({
             "port": port.port,
             "protocol":port.protocol,
-            "state": port.state
+            "state": port.state,
+            "service": port.service
         })
   
-    print(host_ports)
+    
     return JsonResponse(host_ports, safe=False)

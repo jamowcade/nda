@@ -8,6 +8,9 @@ def scan_case(request):
     if request.method == 'POST':
         date = request.POST.get('date')
         name = f"scan case- {date}"
+        is_exist = ScanCase.objects.filter(scan_date = date)
+        if is_exist:
+            return JsonResponse ({'success': False,"message":"Scan case already Created"})
         scan_case = ScanCase(name=name, scan_date=date, description=name)
         scan_case.save()
         return JsonResponse ({'success': True,"message":"data saved"})

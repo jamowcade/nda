@@ -6,9 +6,10 @@ from .code import company,user,Network,Hosts,Ports,Reports,Compare, scan_case
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('login/', user.login, name='login'),
+    path('login/', user.login_user, name='login'),
     path('register/', user.register, name='register'),
     path('forgot/', user.forgot, name='forgot'),
+    path('logout/', user.logout_user, name='logout'),
     path('staffs/', user.staffs, name='staffs'),
 
 
