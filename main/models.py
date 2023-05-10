@@ -38,15 +38,14 @@ class Network(models.Model):
 class Host(models.Model):
     hostname = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    time = models.DateTimeField(auto_now_add=True)
+    host_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     network = models.ForeignKey(Network, on_delete=models.CASCADE, related_name='hosts')
     reason = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.hostname
     
-    def get_date(self):
-        return self.time.date()
+
 
 
 class Port(models.Model):

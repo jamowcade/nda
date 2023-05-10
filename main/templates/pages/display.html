@@ -8,8 +8,8 @@
 <div class="container card-body">
   <div class="form-row">
 
-    <div class="card-body">
-      <div class="form-group col-md-4 ">
+
+      <div class="form-group col-md-12 ">
         <label>Filter by Keyword</label>
         <input type="text" class="form-control" id="search-box" placeholder="Search...">
       </div>
@@ -48,7 +48,8 @@
                     <td>{{ port.state }}</td>
                     <td>{{port.protocol}}</td>
                     <td>
-                      <a href="" id="Service" data-toggle="modal" data-target="#newCompany">Service</a>
+                      {{port.service}}
+                      <!-- <a href="" data-toggle="modal" data-target="#newCompany">Service</a> -->
                     </td>
                     <td>{{port.protocol}}</td>
                     <td>{{port.protocol}}</td>
@@ -66,9 +67,9 @@
 
 
       </div>
-  </div>
+
  
-</div>
+
 </div>
 
 <div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister"
@@ -82,27 +83,7 @@
         </button>
       </div>
       <div class="modal-body">
-        {% csrf_token %}
-
-        <form method="POST" id="registerForm">
-          <div class="form-group">
-            <label>Company Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Company name" required>
-
-            <label>Description</label>
-            <input type="text" class="form-control" id="description" placeholder="Company description" required>
-
-            <label>ASN</label>
-            <input type="text" class="form-control" id="asn" placeholder="Company ASN" required>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
-
-          </div>
-
-        </form>
+    
 
       </div>
       <!-- <div class="modal-footer">
@@ -121,7 +102,7 @@
     CallModal()
     $('#search-box').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
-      $('#my-data .accordion-header').filter(function () {
+      $('#my-data').filter(function () {
         const text = $(this).text().toLowerCase();
         const match = text.indexOf(searchTerm) > -1;
         $(this).toggle(match);
