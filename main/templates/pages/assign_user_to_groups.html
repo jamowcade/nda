@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+  <!-- Header Section -->
+  {% include "includes/head.html" %}
+  <!-- End Header Section -->
+
+  <body>
+    <div class="loader"></div>
+
+    <div id="app">
+      <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+
+        <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}
+        <!-- End Side Bar Section -->
+        <!-- Main Content -->
+        <div class="main-content">
+          <section class="section">
+            <div class="section-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Groups</h4>
+                     
+                    </div>
+                    <div id="message" style="background-color: green; color: white;"></div>
+                    <div class="card-body">
+                      {% csrf_token %}
+                        
+                    
+                        <div class="form-group">
+                          <label for="user-select">Select a user:</label>
+                          <select class="form-control" id="user-select">
+                            <option value="" selected disabled>Select a user</option>
+                            {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group" id="user_groups" style="display: none;">
+                          
+                          <label>Select groups:</label><br>
+                          {% for group in groups %}
+                          <div class="form-check">
+                           
+                            <input class="form-check-input" type="checkbox" name="groups" id="group{{ group.id }}" value="{{ group.id }}">
+                            <label class="form-check-label" for="group{{ group.id }}">{{ group.name }}</label>
+                          </div>
+                          {% endfor %}
+                        </div>
+                       
+                      
+                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="newGroup"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="userRegister"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="userRegister">
+                    Registeration User
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+
+          <!-- Setting Bar Sections -->
+          {% include "includes/settingbar.html" %}
+          <!-- Ending Setting Bar Sections -->
+        </div>
+
+        <!-- Footbar Section -->
+        {% include "includes/footer.html" %}
+        <!-- EndFootbar Section -->
+      </div>
+    </div>
+
+    <!-- General JS Scripts -->
+
+    <!-- Scripts Section -->
+    {% include "includes/scripts.html" %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <script src="{% static 'assets/scripts/pages/assignGroups.js' %}"></script>
+    <!-- End Scripts Section -->
+  </body>
+
+  <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

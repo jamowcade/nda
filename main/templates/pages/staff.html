@@ -52,12 +52,13 @@
                           </tr>
                         </thead>
                         <tbody>
+                          {% for user in users %}
                           <tr>
                             <td>1</td>
-                            <td>Yusuf</td>
-                            <td>yucadde</td>
-                            <td>yuucadde@gmail.com</td>
-                            <td>Admin</td>
+                            <td>{{user.first_name}} {{user.last_name}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.role}}</td>
                             <td>
                               <i data-feather="edit" class="btn btn-primary btn-sm">
                                 <button></button>
@@ -66,22 +67,9 @@
                                   <button></button>
                                 </i>
                             </td>
+                            {% endfor %}
                           </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Ismail</td>
-                            <td>isma541</td>
-                            <td>ismadhanto@gmail.com</td>
-                            <td>Client</td>
-                            <td>
-                              <i data-feather="edit" class="btn btn-primary btn-sm">
-                                <button></button>
-                              </i>
-                                <i data-feather="settings" class="btn btn-info btn-sm">
-                                  <button></button>
-                                </i>
-                            </td>
-                          </tr>
+               
                         </tbody>
                       </table>
                     </div>
