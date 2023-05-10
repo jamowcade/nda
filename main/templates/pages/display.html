@@ -48,7 +48,7 @@
                     <td>{{ port.state }}</td>
                     <td>{{port.protocol}}</td>
                     <td>
-                      <a href="" data-toggle="modal" data-target="#newCompany">Service</a>
+                      <a href="" id="Service" data-toggle="modal" data-target="#newCompany">Service</a>
                     </td>
                     <td>{{port.protocol}}</td>
                     <td>{{port.protocol}}</td>
@@ -116,6 +116,7 @@
 
 <script>
   $(document).ready(function () {
+
    
     CallModal()
     $('#search-box').keyup(function () {
@@ -139,6 +140,12 @@
     // $('#my-data .accordion-header').click(function(){
     //   $('#my-data .accordion-header').hide();
     // })
+
+
+    $('#Service').mouseenter(function () {
+      $('#newCompany').modal('show')
+
+    })
 
   });
 
