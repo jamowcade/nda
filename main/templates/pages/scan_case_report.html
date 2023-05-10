@@ -105,6 +105,7 @@
 
 
         <div id="accordion">
+          
         </div>
       </div>
 
@@ -125,6 +126,7 @@
 
   <script>
     $(document).ready(function () {
+      $('#save').DataTable();
       $('.listRecord').hide()
       $('#filter-form').submit(function (event) {
         event.preventDefault();
@@ -171,7 +173,12 @@
         });
         $('#accordion').html('')
       });
+    
     });
+
+
+
+
 
 
 
