@@ -102,9 +102,12 @@
         >
         <ul class="dropdown-menu">
           <li>
-            <a class="nav-link" href=""
-              >Assign permission</a
+            <a class="nav-link" href="{% url 'permissions' %}"
+              >Assign User permission</a
             >
+          </li>
+          <li>
+            <a class="nav-link" href="{% url 'group_Permissions' %}">Assign group Permissions</a>
           </li>
         </ul>
       </li>
@@ -117,9 +120,7 @@
           <li>
             <a class="nav-link" href="{% url 'user_groups' %}">Assign group</a>
           </li>
-          <li>
-            <a class="nav-link" href="{% url 'group_Permissions' %}">Assign group Permissions</a>
-          </li>
+        
         </ul>
       </li>
 

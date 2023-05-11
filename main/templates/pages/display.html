@@ -91,7 +91,7 @@
   $(document).ready(function () {
    
     CallModal()
-    $('#search-box').keyup(function () {
+    $('#search-box .accordion-header').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
       $('#my-data').filter(function () {
         const text = $(this).text().toLowerCase();

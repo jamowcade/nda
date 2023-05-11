@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+  <!-- Header Section -->
+  {% include "includes/head.html" %}
+  <!-- End Header Section -->
+
+  <body>
+    <div class="loader"></div>
+
+    <div id="app">
+      <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+
+        <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}
+        <!-- End Side Bar Section -->
+        <!-- Main Content -->
+        <div class="main-content">
+          <section class="section">
+            <div class="section-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Assign user to permissions</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <form method="post" class="form-inline">
+                            {% csrf_token %}
+                            <div class="form-group mx-sm-3 mb-2 mr-5">
+                              <label class="form-label"  for="search-input">User name:</label>
+                              <input class="form-control" type="text" id="search-input">
+                        
+                             </div>
+                          
+                            <div id="content_typeDiv" style="display: none;" class="form-group">
+                            <label>Content type:</label>
+                            <select name="content_type" class="form-control" id="content_type">
+                              <option value="">Select a content type</option>
+                              {% for content_type in content_types %}
+                              <option value="{{ content_type.id }}">{{ content_type.name }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                            <br>
+                          
+                            <br>
+                            <br>
+                            <hr>
+                         
+                            <div class="table-responsive" style="display: none;" id="permissionDiv">
+                                <table id="permissions_table" class="table table-striped table-hover">
+                                    <thead>
+                                      <tr>
+                                        <th>Permission</th>
+                                        <th>assign</th>
+                                        
+                                      </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                  </table>
+                            </div>
+                     
+                            <br>
+                          
+                          </form>
+                          <ul id="user-list">
+                            <!-- User list items will be dynamically added here -->
+                          </ul>
+                       
+                      
+                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="newGroup"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="userRegister"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="userRegister">
+                    Registeration User
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+
+          <!-- Setting Bar Sections -->
+          {% include "includes/settingbar.html" %}
+          <!-- Ending Setting Bar Sections -->
+        </div>
+
+        <!-- Footbar Section -->
+        {% include "includes/footer.html" %}
+        <!-- EndFootbar Section -->
+      </div>
+    </div>
+
+    <!-- General JS Scripts -->
+
+    <!-- Scripts Section -->
+    {% include "includes/scripts.html" %}
+    <script src="{% static 'assets/scripts/pages/assignUserToPermissions.js' %}"></script>
+    <!-- End Scripts Section -->
+  </body>
+
+  <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

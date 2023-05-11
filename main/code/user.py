@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 
 
@@ -77,3 +79,71 @@ def create_user(request):
             user = User.objects.create_user(username=username, password=password)
             user.groups.add(group)
             return redirect('users')
+        
+
+def permissions(request):
+
+    content_types = ContentType.objects.all()
+    context = {
+        "content_types":content_types
+    }
+    return render (request, "pages/user_permissions.html", context)
+
+@csrf_exempt
+def get_user_info(request):
+    search_value = request.POST.get('search_value')
+    users = User.objects.filter(username__icontains=search_value)# Only retrieve the first matching user
+    user_list = []
+    for user in users:
+        user_list.append({
+            'name': user.username,
+            'email': user.email,
+            'user_id':user.id
+        })
+
+    return JsonResponse(user_list, safe=False)
+
+def get_permissions_user(request):
+    content_type_id = request.GET.get('content_type_id')
+    content_type = ContentType.objects.get(id=content_type_id)
+    permissions = Permission.objects.filter(content_type=content_type)
+    # permissions_list = [{'id': p.id, 'name': p.name} for p in permissions ]
+    # return JsonResponse(permissions_list, safe=False)
+    context = {
+        "permissions":permissions
+    }
+    return render(request, 'pages/user_permissions_table.html', context)
+
+# get user permissions according to selected user and content type.
+def get_user_permissions(request):
+    user_id = request.GET.get('user_id')
+    print(user_id)
+    content_type_id =  request.GET.get('content_type_id')
+    user = User.objects.get(username=user_id)
+    content_type = ContentType.objects.get(id=content_type_id)
+    user_permissions = user.user_permissions.all()
+    permissions_list = [p.id for p in user_permissions ]
+    print(permissions_list)
+    return JsonResponse({'permissions': permissions_list})
+
+
+
+# assigns permission to user
+def assign_permissions_to_user(request):
+    if request.method == 'POST':
+        permission_id = request.POST.get('permission_id')
+        user_id = request.POST.get('user_id')
+        is_checked = request.POST.get('is_checked')
+
+        user = User.objects.get(username=user_id)
+        permission = Permission.objects.get(id=permission_id)
+        if is_checked == "true":
+            user.user_permissions.add(permission)
+            
+        else:
+            user.user_permissions.remove(permission)
+
+        return JsonResponse({'status': 'success'})
+    
+    else:
+        return JsonResponse({'status': 'error'})
