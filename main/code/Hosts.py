@@ -18,22 +18,16 @@ def host(request,id):
 
     return render(request,'pages/host.html', context)
 
-# def uploadHosts(request):
-#     if request.method == 'POST':
-#         data = request.POST.get('data')
-#         jsondata = json.loads(data)
-#         print("total host:",len(jsondata))
-#         print(jsondata)
-#         for host in jsondata:
-#             print(host)
+def search(request):
+    id = request.GET.get('id')
+    port = Port.objects.get(id=id)
 
-
-#     # data = json.loads('data')
+    data = {"port_service": port.service}
+    return JsonResponse(data)
     
 
-#     return HttpResponse("success! file received")
 
-
+    
 @csrf_exempt
 def addHosts(request):
     if request.method == 'POST':
@@ -74,7 +68,7 @@ def addHosts(request):
                     service_name =  data[host]['ports'][port]['service']['name']
                     service_method =  data[host]['ports'][port]['service']['method']
                     service_conf =  data[host]['ports'][port]['service']['conf']
-                    service = f"name: {service_name} method: {service_method} conf: {service_conf}"
+                    service = f"{service_name},{service_method},{service_conf}"
                     # for service in range(1):
                     #     service_name
                     reason = data[host]['ports'][port]['state']
