@@ -58,8 +58,14 @@ urlpatterns = [
 
     #user permissions
     path("get-user-info/",user.get_user_info, name="get-user-info"),
-     path("get_permissions_user/",user.get_permissions_user, name="get_permissions_user"),
+    path("get_permissions_user/",user.get_permissions_user, name="get_permissions_user"),
     path("get_user_permissions/",user.get_user_permissions, name="get_user_permissions"),
     path("assign_permissions_to_user/",user.assign_permissions_to_user, name="assign_permissions_to_user"),
+
+    # compare and reports.
+
+
+
+
 
     ]

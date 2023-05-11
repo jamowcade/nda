@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+<!-- Header Section -->
+{% include "includes/head.html" %}
+<!-- End Header Section -->
+
+<body>
+  <div class="loader"></div>
+
+
+  
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+
+           <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+        
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}        
+        <!-- End Side Bar Section -->
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-6">
+                <div class="card">
+                  <div class="card-header">
+                      <h1>part one</h1>
+                  </div>
+                    <div class="card-body">
+                        <div class="row">
+                        <div class="col col-md-4">
+                                <select class="form-select" name="company" aria-label="Select 2">
+                                    <option selected disabled>Select Company</option>
+                                    {% for company in companies %}
+                                    <option value="{{company.id}}">{{company.owner}}</option>
+                                    {% endfor %}
+                                  </select>
+                        </div>
+                        <div class="col col-md-4">
+                            <select class="form-select" name="network" aria-label="Select 2">
+                                <option selected disabled>Select network</option>
+                                {% for network in networks %}
+                                <option value="{{network.id}}">{{network.network}}</option>
+                                {% endfor %}
+                              </select>
+                        </div>
+                        <div class="col col-md-4">
+                            <select class="form-select"  id="scan_case1" name="scan_case" aria-label="Select 2">
+                                <option selected disabled>Select Scan Case</option>
+                                {% for scan in scan_cases %}
+                                <option value="{{scan.date}}">{{scan.name}} </option>
+                                {% endfor %}
+                              </select>
+                        </div>
+                        </div>
+                     
+                    </div>
+                  </div>
+                
+           
+              </div>
+              <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>part one</h1>
+                    </div>
+                      <div class="card-body">
+                        <div class="row">
+                            <div class="col col-md-4">
+                                    <select class="form-select" name="company" aria-label="Select 2">
+                                        <option selected disabled>Select Company</option>
+                                        {% for company in companies %}
+                                        <option value="{{company.id}}">{{company.owner}}</option>
+                                        {% endfor %}
+                                      </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <select class="form-select" name="network" aria-label="Select 2">
+                                    <option selected disabled>Select network</option>
+                                    {% for network in networks %}
+                                    <option value="{{network.id}}">{{network.network}}</option>
+                                    {% endfor %}
+                                  </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <select class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
+                                    <option selected disabled>Select Scan Case</option>
+                                    {% for scan in scan_cases %}
+                                    <option value="{{scan.scan_date}}">{{scan.name}}/option>
+                                    {% endfor %}
+                                  </select>
+                            </div>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+           
+              </div>
+              <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button class="btn btn-primary " id="btn_comp">Compare Now</button>
+                    <button class="btn btn-primary " id="btn_comp2">Compare Now</button>
+                    <h2 id="data"></h2>
+                </div>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+
+   
+
+        <!-- Setting Bar Sections -->
+        {% include "includes/settingbar.html" %}        
+        <!-- Ending Setting Bar Sections -->
+
+
+      </div>
+
+      <!-- Footbar Section -->
+      {% include "includes/footer.html" %}
+      <!-- EndFootbar Section -->
+
+    </div>
+  </div>
+
+
+
+
+  <!-- General JS Scripts -->
+
+  <!-- Scripts Section -->
+  {% include "includes/scripts.html" %}
+  
+  <script src="{% static 'assets/scripts/pages/company.js' %}"></script>
+
+
+  <script>
+    var onchang= false
+    $(document).ready(function(){
+       
+        $('#btn_comp2').hide()
+        $("#btn_comp").click(function(){
+            // $(this).hide();
+            console.log("clicked");
+            // $(this).prop('disabled', true);
+
+            // $(this).text("Loading..")
+            // console.log("clicked");
+            compare2();
+        })
+
+        display();
+   
+    })
+
+    function compare2(){
+        $('#btn_comp2').show()
+        $('#btn_comp').hide()
+        $("#btn_comp2").dblclick(() => {
+            $(this).prop('disabled', true);
+
+            $(this).text("Loading..")
+            console.log("compared");
+        })
+    }
+
+    function display(){
+        $('#scan_case1').on('change',function(){            
+            $('#btn_comp').hide()
+            var scan_case = $(this).val()
+            console.log(scan_case);
+            $('#data').text(scan_case)
+            onchang = true
+            console.log(onchang)
+        })
+        
+        
+
+        if (onchang == true){ 
+            $('#scan_case2').on('change',function(){
+                console.log(onchang)
+                $('#btn_comp').hide()
+                var scan_case = $(this).val()
+                console.log(scan_case);
+                $('#data').text(scan_case)                
+                })
+        }
+        
+    }
+     
+  </script>
+  <!-- End Scripts Section -->
+</body>
+
+
+
+<!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>
