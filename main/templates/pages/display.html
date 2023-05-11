@@ -1,4 +1,12 @@
-<div class="containe">
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" >
+  <script src="https://cdn.datatables.net"></script>
+ <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+ </head>
+<div class="container card-body">
+  <div class="form-row">
 
 
       <div class="form-group col-md-12 ">
@@ -89,6 +97,7 @@
 
 <script>
   $(document).ready(function () {
+
    
     CallModal()
     $('#search-box .accordion-header').keyup(function () {
@@ -112,7 +121,13 @@
     // $('#my-data .accordion-header').click(function(){
     //   $('#my-data .accordion-header').hide();
     // })
-    getTable();
+
+
+    $('#Service').mouseenter(function () {
+      $('#newCompany').modal('show')
+
+    })
+
   });
 
   
