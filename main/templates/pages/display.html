@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html
 <html lang="en">
  <head>
   <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" >
@@ -48,8 +48,7 @@
                     <td>{{ port.state }}</td>
                     <td>{{port.protocol}}</td>
                     <td>
-                      {{port.service}}
-                      <!-- <a href="" data-toggle="modal" data-target="#newCompany">Service</a> -->
+                      <a id="ser" href="" data-toggle="modal" data-service="{{port.service}}" data-id={{port.id}} data-target="#newCompany">Service</a>
                     </td>
                     <td>{{port.protocol}}</td>
                     <td>{{port.protocol}}</td>
@@ -83,6 +82,41 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="modal-body">
+    
+          <form method="POST" id="updatecase"> {% csrf_token %}
+            <div class="container">
+              <div class="row">
+                <input type="text" hidden id="uid" name="p" class="form-control" aria-describedby="">
+
+                <label for="">Name</label>
+                <input type="text" id="uname" readonly name="case_name" class="form-control" aria-describedby="" required>
+
+              </div>
+              <br>
+              <div class="row">
+                <label for="">Method</label>
+                <input type="text" id="method" readonly name="case_type" class="form-control" aria-describedby="" required>
+
+              </div><br>
+
+             
+              <div class="row">
+                <label for="">Conf</label>
+                <input type="text" id="conf" readonly name="device_type" class="form-control" aria-describedby=""  required>
+                
+              </div><br>
+              <br>  
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary">
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary" id="savebutton">
+                  Save changes
+                </button>
+              </div>
+          </form>
+        </div>
     
 
       </div>
@@ -97,8 +131,6 @@
 
 <script>
   $(document).ready(function () {
-
-   
     CallModal()
     $('#search-box').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
@@ -107,8 +139,6 @@
         const match = text.indexOf(searchTerm) > -1;
         $(this).toggle(match);
       });
-
-
     });
     function CallModal() {
       $('#modalService').click(function (e) {
@@ -117,16 +147,51 @@
       })
     }
 
-
-    // $('#my-data .accordion-header').click(function(){
-    //   $('#my-data .accordion-header').hide();
-    // })
-
-
-    $('#Service').mouseenter(function () {
+    $("h4").click(function () {
+      $('#ser').mouseenter(function () {
       $('#newCompany').modal('show')
+      var id = $(this).data('id')
+      console.log(id)
+      var service = $(this).data('service');
+      sr=service.split(",")
+      $("#uname").val(sr[0])
+      $("#method").val(sr[1])
+      $("#conf").val(sr[2])
+      // console.log(sr[0],sr[1],sr[2])
+      $.ajax({
+        url: '/getport_service/',
+        type: "GET",
+        data: {
+          id: id,
+         
+        },
+
+        success: function (data) {
+
+          console.log(data);
+
+        },
+        error: function (data) {
+
+         
+          console.log("error", data);
+          swal({
+              title: "Error !",
+              text: "There was an error: "+data,
+              icon: "error",
+              timer: 4000, // time in milliseconds
+              timerProgressBar: true,
+              showConfirmButton: false
+          })
+        }
+      })
+
+
 
     })
+      
+    })
+
 
   });
 
