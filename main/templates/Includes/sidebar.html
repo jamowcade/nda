@@ -19,24 +19,10 @@
         >
       </li>
       
-      <!-- <li class="menu-header">Users & Authentications</li> -->
-      <!-- <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
-        ><i data-feather="user-check"></i><span> User Accounts</span></a
-        >
-        <ul class="dropdown-menu">
-          <li><a class="nav-link" href="{% url 'staffs' %}">Staff</a></li>
-          <li><a class="nav-link" href="#">Admins</a></li>
-          <li><a class="nav-link" href="#">Clients</a></li>
-        </ul>
-      </li> -->
+
       
-      <li class="menu-header">Sevices</li>
-      <li>
-        <a class="nav-link" href="{% url 'staffs' %}"
-        ><i data-feather="user-check"></i><span>User Accounts</span></a
-        >
-      </li>
+      <li class="menu-header">Company and Networks</li>
+  
       <!-- <li>
         <a class="nav-link" href="#"
           ><i data-feather="grid"></i><span>Groups</span></a
@@ -76,6 +62,8 @@
       </li>
         </ul>
       </li>
+
+
    
      
 
@@ -100,6 +88,39 @@
               >Scan Case Reports</a
             >
           </li>
+        </ul>
+      </li>
+      <li class="menu-header">Users and Accounts</li>
+      <li>
+        <a class="nav-link" href="{% url 'users' %}"
+        ><i data-feather="user-check"></i><span>User Accounts</span></a
+        >
+      </li>
+      <li class="dropdown">
+        <a href="#" class="menu-toggle nav-link has-dropdown"
+          ><i data-feather="user-check"></i><span> Permissions</span></a
+        >
+        <ul class="dropdown-menu">
+          <li>
+            <a class="nav-link" href="{% url 'permissions' %}"
+              >Assign User permission</a
+            >
+          </li>
+          <li>
+            <a class="nav-link" href="{% url 'group_Permissions' %}">Assign group Permissions</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="menu-toggle nav-link has-dropdown"
+          ><i data-feather="user-check"></i><span> Groups</span></a
+        >
+        <ul class="dropdown-menu">
+          <li><a class="nav-link" href="{% url 'groups' %}">add group</a></li>
+          <li>
+            <a class="nav-link" href="{% url 'user_groups' %}">Assign group</a>
+          </li>
+        
         </ul>
       </li>
 

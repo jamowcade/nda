@@ -1,0 +1,9 @@
+{% load static %}
+{% for permission in permissions %}
+<tr>
+  <td>{{ permission.name }}</td>
+  <td><input type="checkbox" name="view_permissions" value="{{ permission.id }}"></td>
+</tr>
+{% endfor %}
+
+<script src="{% static 'assets/scripts/pages/assignUserToPermissions.js' %}"></script>

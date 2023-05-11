@@ -44,24 +44,23 @@
                         <thead>
                           <tr>
                             
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Name</th>
-                            <th>Enviroment</th>
-                            <th>Phone</th>
-                            <th>House NO</th>
-                            <th>Statu</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Actions</th>
                             
                           </tr>
                         </thead>
                         <tbody>
+                          {% for user in users %}
                           <tr>
-                            
-                            <td>001</td>
-                            <td>Maxamed Axmed</td>
-                            <td>Waabari</td>
-                            <td>0616122362</td>
-                            <td>004</td>
-                            <td>No</td>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{user.first_name}} {{user.last_name}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.role}}</td>
                             <td>
                               <i data-feather="edit" class="btn btn-primary btn-sm">
                                 <button></button>
@@ -70,27 +69,8 @@
                                   <button></button>
                                 </i>
                             </td>
+                            {% endfor %}
                           </tr>
-                          
-                        </thead>
-                        <tbody>
-                            <tr>
-                            
-                                <td>002</td>
-                                <td>Mahad MOhamed</td>
-                                <td>Waabari</td>
-                                <td>0618844063</td>
-                                <td>005</td>
-                                <td>No</td>
-                                <td>
-                                  <i data-feather="edit" class="btn btn-primary btn-sm">
-                                    <button></button>
-                                  </i>
-                                    <i data-feather="settings" class="btn btn-info btn-sm">
-                                      <button></button>
-                                    </i>
-                                </td>
-                              </tr>
                         </tbody>
                       </table>
                     </div>
@@ -115,7 +95,34 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  ...
+                
+                  <form method="POST" id="register">
+                    {% csrf_token %}
+                    <div class="row">
+                      
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input id="email" type="email" class="form-control" name="email">
+                      <div class="invalid-feedback">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password2" class="d-block">User Type</label>
+                      <select name="role" class="form-control mb-4" aria-label="Default select example"  required>
+                        <option selected>user type</option>
+                        <option value="superuser">Superuser</option>
+                        {% for role in roles %}
+                        <option value="{{role.name}}">{{role.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        Register
+                      </button>
+                    </div>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

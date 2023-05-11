@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 # Create your models here.
+from django.contrib.auth.models import AbstractUser
+
 
 class Campany(models.Model):
     title = models.CharField(max_length=50)
@@ -58,7 +60,6 @@ class Port(models.Model):
     version = models.CharField(max_length=50,null=True)
     host = models.ForeignKey(Host, on_delete=models.CASCADE,related_name='ports')
                     
-    
 
 class ScanCase(models.Model):
     scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)

@@ -18,7 +18,7 @@
         {% for data in records %}
         {% with num=forloop.counter|add:'1' %}
         <div class="accordion" id="my-data">
-          <div class="accordion-header" role="button" data-toggle="collapse"id="tbshow" data-target='#clo{{num}}'
+          <div class="accordion-header" role="button" data-toggle="collapse" id="tbshow" data-target='#clo{{num}}'
             aria-expanded="true">
             <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total
               Ports-> - {{data.totalports}}</h4>
@@ -132,7 +132,7 @@
 <script>
   $(document).ready(function () {
     CallModal()
-    $('#search-box').keyup(function () {
+    $('#search-box .accordion-header').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
       $('#my-data').filter(function () {
         const text = $(this).text().toLowerCase();
@@ -195,13 +195,15 @@
 
   });
 
-$(document).ready(function () {
-  $("#tbshow").click(function (){
-    console.log("tbshow clicke");
-    $('#save').DataTable();
+  
+function getTable(){
+  $('#save').DataTable();
+}
+
+$("#tbshow").click(function (){
+ getTable();
 
   })
-});
 
 </script>
 </html>

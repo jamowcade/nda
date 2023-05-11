@@ -42,7 +42,9 @@ function scan_case_fileUpload(){
         success: function(data) {
           $('.progress').hide(); // hide the progress bar
           if (data.success) {
-            swal("Form submitted!", data.message, "success");
+            swal("Form submitted!", data.message, "success").then(function(){
+              location.reload();
+            });
           } else {
             swal("Form submission failed!", data.error, "error");
           }
