@@ -32,7 +32,7 @@
               <div class="col-6">
                 <div class="card">
                   <div class="card-header">
-                      <h1>part one</h1>
+                      <h4>Scan Case One</h4>
                   </div>
                     <div class="card-body">
                         <div class="row">
@@ -54,12 +54,15 @@
                         </div>
                         <div class="col col-md-4">
                             <select class="form-select"  id="scan_case1" name="scan_case" aria-label="Select 2">
-                                <option selected disabled>Select Scan Case</option>
                                 {% for scan in scan_cases %}
-                                <option value="{{scan.date}}">{{scan.name}} </option>
+                                <option selected value="{{scan.name}}">{{scan.name}} </option>
                                 {% endfor %}
                               </select>
                         </div>
+                        </div>
+                        <div>
+                          <div id="accordion">   
+                          </div>
                         </div>
                      
                     </div>
@@ -70,25 +73,19 @@
               <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h1>part one</h1>
+                        <h4>Scan Case Two</h4>
                     </div>
                       <div class="card-body">
                         <div class="row">
                             <div class="col col-md-4">
-                                    <select class="form-select" name="company" aria-label="Select 2">
-                                        <option selected disabled>Select Company</option>
-                                        {% for company in companies %}
-                                        <option value="{{company.id}}">{{company.owner}}</option>
-                                        {% endfor %}
-                                      </select>
+  
+                            <input type="text" class="form-control" id="compony_name" readonly placeholder="compony name" required> 
                             </div>
                             <div class="col col-md-4">
-                                <select class="form-select" name="network" aria-label="Select 2">
-                                    <option selected disabled>Select network</option>
-                                    {% for network in networks %}
-                                    <option value="{{network.id}}">{{network.network}}</option>
-                                    {% endfor %}
-                                  </select>
+                               
+                                
+                                 <input type="text" class="form-control" id="network" readonly placeholder="Network" required>
+                               
                             </div>
                             <div class="col col-md-4">
                                 <select class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
@@ -150,57 +147,52 @@
   <script>
     var onchang= false
     $(document).ready(function(){
-       
-        $('#btn_comp2').hide()
-        $("#btn_comp").click(function(){
-            // $(this).hide();
-            console.log("clicked");
-            // $(this).prop('disabled', true);
 
-            // $(this).text("Loading..")
-            // console.log("clicked");
-            compare2();
+
+      $('#scan_case1').on('change',function(){     
+        event.preventDefault();
+        var filterDate = $(this).val();
+        var date = new Date(filterDate);
+        var year = date.getFullYear().toString();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = ('0' + date.getDate()).slice(-2);
+        var formattedDate = year + '-' + month + '-' + day;
+        console.log(formattedDate);
+        $.ajax({
+          type:'GET',
+          url:'/compare_by_date/',
+          data:{'FILTERED_DATE': formattedDate},
+          success: function(data) {
+            $('#accordion').append(data)
+          }
+
         })
 
-        display();
+        // $.ajax({
+        //   type: 'GET',
+        //   url: '/compare_by_date/',
+        //   beforeSend: function () {
+        //     // Show the loading spinner before the request is sent
+        //     // $('#loading-spinner').show();
+        //   },
+        //   data: { 'filter_date': formattedDate },
+        //   success: function (response) {
+        //     $('#accordion').append(response)
+           
+        //   },
+        //   complete: function () {
+        //     $('#loading-spinner').hide();
+        //   }
+
+
+        // });
+      });
+       
+        
+
+      
    
     })
-
-    function compare2(){
-        $('#btn_comp2').show()
-        $('#btn_comp').hide()
-        $("#btn_comp2").dblclick(() => {
-            $(this).prop('disabled', true);
-
-            $(this).text("Loading..")
-            console.log("compared");
-        })
-    }
-
-    function display(){
-        $('#scan_case1').on('change',function(){            
-            $('#btn_comp').hide()
-            var scan_case = $(this).val()
-            console.log(scan_case);
-            $('#data').text(scan_case)
-            onchang = true
-            console.log(onchang)
-        })
-        
-        
-
-        if (onchang == true){ 
-            $('#scan_case2').on('change',function(){
-                console.log(onchang)
-                $('#btn_comp').hide()
-                var scan_case = $(this).val()
-                console.log(scan_case);
-                $('#data').text(scan_case)                
-                })
-        }
-        
-    }
-     
   </script>
   <!-- End Scripts Section -->
 </body>

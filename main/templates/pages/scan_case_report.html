@@ -146,23 +146,7 @@
           data: { 'filter_date': formattedDate },
           success: function (response) {
             $('#accordion').append(response)
-            // var accordion = $('#accordion');
-            // $('#record-list').empty();
-            // $.each(response.records, function(index, record) {
-            //   var network_list = ''
-
-            //   network_list+= '<li>' + record.network + '</li>';
-
-            //   var category_html = '<div class="card"><div class="card-header" id="heading' + category.id + '"><h5 class="mb-0"><button class="btn btn-link" data-toggle="collapse" data-target="#collapse' + category.id + '" aria-expanded="true" aria-controls="collapse' + category.id + '">' + category.name + '</button></h5></div><div id="collapse' + category.id + '" class="collapse" aria-labelledby="heading' + category.id + '" data-parent="#accordion"><div class="card-body"><ul>' + products_list + '</ul></div></div></div>';
-            // accordion.append(category_html);
-            //   // $('.listRecord').show()
-            //   // $('#networkstitle').text(record.network + " - " + record.company)
-            //   // $('#hostsData').text(record.host)
-            //   // index = index+1
-            //   // var item = $('<li>').text(index+ ' '+'host'+' | ' +record.host + ' network'+' | ' +record.network +' company'+' | '+record.company);
-
-            //   // $('#record-list').append(item);
-            // });
+           
           },
           complete: function () {
             $('#loading-spinner').hide();

@@ -37,9 +37,11 @@
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
+                    {%if perms.main.add_network%}
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newRenter">
                         <i data-feather="user-plus"></i>
                     </button>
+                    {%endif%}
 
                     <div class="table-responsive">
                
@@ -60,9 +62,15 @@
                           {% for network in networks %}
                               <tr>
                                 <td>{{ network.id }}</td>
+                                {% if perms.main.view_host%}
                                 <td>
                                   <a href="{% url 'host' network.id %}">{{ network.network }}</a>
                                 </td>
+                                {%else%}
+                                <td>
+                                  <a href="#">{{ network.network }}</a>
+                                </td>
+                                {%endif%}
                                 <td>{{ network.compony_info}}</td>
                                 <td>{{ network.description}}</td>
                                 <td>{{ network.time}}</td>
@@ -73,6 +81,7 @@
                                     
                                     <td><span class="badge badge-danger">Close</span></td>
                                 {% endif %}
+                                {%if perms.main.change_network%}
                                 <td>
                                   <a 
                                   class="btn btn-primary btn-sm networkEdit" 
@@ -87,6 +96,22 @@
                                     <i data-feather="edit"></i>
                                   </a>
                                 </td>
+                                {%else%}
+                                <td>
+                                  <a 
+                                  class="btn btn-primary btn-sm networkEdit disabled" 
+                                  name="{{ network.id }}" 
+                                  data-toggle="modal" 
+                                 
+                                  data-id="{{ network.id }}"
+                                  data-network="{{ network.network }}"
+                                  data-description="{{ network.description }}"
+                                  data-state="{{ network.state }}"
+                                  >
+                                    <i data-feather="edit"></i>
+                                  </a>
+                                </td>
+                                {%endif%}
                               </tr>
                           {% endfor %}
                         </tbody>

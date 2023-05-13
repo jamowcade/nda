@@ -37,6 +37,7 @@ urlpatterns = [
     path('scan_case/', scan_case.scan_case, name='scan_case'),
     path('compare/', Compare.compare, name='compare'),
     path('filter_by_date/', Compare.filter_by_date, name='filter_by_date'),
+    path('compare_by_date/', Compare.compare_by_date, name='compare_by_date'),
     path('reports/', Reports.Reports, name='reports'),
     path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'),
     path('newCompany/', company.createCompany, name='add_company'),

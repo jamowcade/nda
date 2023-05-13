@@ -35,24 +35,30 @@
       </li> -->
 
       <!-- <li class="menu-header">ENVIROMENTS</li> -->
+      {%if perms.main.view_campany%}
       <li>
         <a class="nav-link" href="{% url 'company' %}"
           ><i data-feather="briefcase"></i><span>Company</span></a
         >
       </li>
+      {%endif%}
         
         
       </li>
+      {%if perms.main.view_network%}
 
       <li>
         <a class="nav-link" href="{% url 'all_networks' %}"
           ><i data-feather="bar-chart"></i><span>Networks</span></a
         >
       </li>
+      {%endif%}
+      {%if perms.main.view_scancase%}
       <li class="dropdown">
         <a href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span>Scans</span></a
         >
+       
         <ul class="dropdown-menu">
           
       <li>
@@ -61,6 +67,7 @@
         >
       </li>
         </ul>
+        {%endif%}
       </li>
 
 
@@ -69,33 +76,39 @@
 
       <!-- <li class="menu-header">SERVICES</li> -->
 
-    
-
+      
       <li class="menu-header">Report & Scanning</li>
-  
+      {%if perms.main.view_network or user.is_superuser%}
       <li>
         <a class="nav-link" href="{% url 'compare' %}"
-          ><i data-feather="command"></i><span>Compare</span></a
+        ><i data-feather="command"></i><span>Compare</span></a
         >
       </li>
+      {%endif%}
+      {%if perms.main.view_network %}
       <li class="dropdown">
         <a href="#" class="menu-toggle nav-link has-dropdown"
-          ><i data-feather="user-check"></i><span>Reports</span></a
+        ><i data-feather="user-check"></i><span>Reports</span></a
         >
         <ul class="dropdown-menu">
           <li>
             <a class="nav-link" href="{% url 'scan_cases_report' %}"
-              >Scan Case Reports</a
+            >Scan Case Reports</a
             >
           </li>
         </ul>
       </li>
+      {%endif%}
+    
       <li class="menu-header">Users and Accounts</li>
+      {%if perms.auth_user.add_user%}
       <li>
         <a class="nav-link" href="{% url 'users' %}"
         ><i data-feather="user-check"></i><span>User Accounts</span></a
         >
       </li>
+      {%endif%}
+      {% if perms.auth.add_permission%}
       <li class="dropdown">
         <a href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span> Permissions</span></a
@@ -111,6 +124,8 @@
           </li>
         </ul>
       </li>
+      {%endif%}
+      {%if perms.auth.add_group%}
       <li class="dropdown">
         <a href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span> Groups</span></a
@@ -123,7 +138,7 @@
         
         </ul>
       </li>
-
+      {%endif%}
   
 
       
