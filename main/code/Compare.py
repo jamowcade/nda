@@ -9,8 +9,10 @@ from datetime import datetime
 
 def compare(request):
     scan_cases = ScanCase.objects.all()
+    companies = Campany.objects.all()
     context = {
-        "scan_cases":scan_cases
+        "scan_cases":scan_cases,
+        "companies":companies
     }
     return render(request,'pages/compare.html', context)
 
