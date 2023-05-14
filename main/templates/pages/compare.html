@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="row">
                         <div class="col col-md-4">
-                                <select class="form-select" name="company" aria-label="Select 2">
+                                <select class="form-select" id="company" name="company" aria-label="Select 2">
                                     <option selected disabled>Select Company</option>
                                     {% for company in companies %}
                                     <option value="{{company.id}}">{{company.owner}}</option>
@@ -45,11 +45,9 @@
                                   </select>
                         </div>
                         <div class="col col-md-4">
-                            <select class="form-select" name="network" aria-label="Select 2">
+                            <select class="form-select" name="network" id="network" aria-label="Select 2">
                                 <option selected disabled>Select network</option>
-                                {% for network in networks %}
-                                <option value="{{network.id}}">{{network.network}}</option>
-                                {% endfor %}
+                               
                               </select>
                         </div>
                         <div class="col col-md-4">
@@ -84,17 +82,19 @@
                             <div class="col col-md-4">
                                
                                 
-                                 <input type="text" class="form-control" id="network" readonly placeholder="Network" required>
+                                 <input type="text" class="form-control" id="ntwork" readonly placeholder="Network" required>
                                
                             </div>
                             <div class="col col-md-4">
                                 <select class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
                                     <option selected disabled>Select Scan Case</option>
                                     {% for scan in scan_cases %}
-                                    <option value="{{scan.scan_date}}">{{scan.name}}/option>
+                                    <option value="{{scan.scan_date}}">{{scan.name}}</option>
                                     {% endfor %}
                                   </select>
                             </div>
+                            </div>
+                            <div id="accordion2">   
                             </div>
                       </div>
                     </div>
@@ -104,8 +104,7 @@
               <div class="row">
                 <div class="col-4"></div>
                 <div class="col-4">
-                    <button class="btn btn-primary " id="btn_comp">Compare Now</button>
-                    <button class="btn btn-primary " id="btn_comp2">Compare Now</button>
+                    
                     <h2 id="data"></h2>
                 </div>
                 <div class="col-4"></div>
@@ -145,54 +144,126 @@
 
 
   <script>
-    var onchang= false
     $(document).ready(function(){
-
-
-      $('#scan_case1').on('change',function(){     
+      $('#company').on('change',function(){
         event.preventDefault();
-        var filterDate = $(this).val();
-        var date = new Date(filterDate);
-        var year = date.getFullYear().toString();
-        var month = ('0' + (date.getMonth() + 1)).slice(-2);
-        var day = ('0' + date.getDate()).slice(-2);
-        var formattedDate = year + '-' + month + '-' + day;
-        console.log(formattedDate);
-        $.ajax({
-          type:'GET',
-          url:'/compare_by_date/',
-          data:{'FILTERED_DATE': formattedDate},
-          success: function(data) {
-            $('#accordion').append(data)
+        var campany_name = $(this).val();
+        var t = $('#company option:selected').text();
+        console.log(t);
+        $("#compony_name").val(t);
+       $.ajax({
+        type:'GET',
+        url: '/get_campany_name/',
+        data:{
+          'name': campany_name
+        },
+          success : function(data){
+            // console.log(data);
+           var network_dr = $('#network').empty()
+           network_dr.empty()
+          
+            $.each(data, function(index, element) {
+              const option = document.createElement("option");
+              option.text = element.network;
+              option.value = element.id
+              $('#ntwork').val(element.network)
+              network_dr.append(option);
+              console.log(element.network);
+            
+    });
+
+            
+
           }
-
-        })
-
-        // $.ajax({
-        //   type: 'GET',
-        //   url: '/compare_by_date/',
-        //   beforeSend: function () {
-        //     // Show the loading spinner before the request is sent
-        //     // $('#loading-spinner').show();
-        //   },
-        //   data: { 'filter_date': formattedDate },
-        //   success: function (response) {
-        //     $('#accordion').append(response)
-           
-        //   },
-        //   complete: function () {
-        //     $('#loading-spinner').hide();
-        //   }
-
-
-        // });
-      });
+       })
        
-        
 
+      });
+
+      $('#network').on("change", function(){
+        var text = $('#network option:selected').text();
+        $('#ntwork').val(text)
+        console.log(text);
+
+      })
+
+      send_comper_request()
+      send_comper2_request()
       
    
     })
+    function send_comper_request(){
+
+      $('#scan_case1').on('change',function(){     
+      event.preventDefault();
+      var filterDate = $(this).val();
+      var date = new Date(filterDate);
+      var network = $('#network').val();
+      var year = date.getFullYear().toString();
+      var month = ('0' + (date.getMonth() + 1)).slice(-2);
+      var day = ('0' + date.getDate()).slice(-2);
+      var formattedDate = year + '-' + month + '-' + day;
+      $('#accordion').empty()
+      console.log(formattedDate);
+      $.ajax({
+        type:'GET',
+        url:'/compare_by_date/',
+        data:{
+          'FILTERED_DATE': formattedDate,
+          'network': network
+
+      },
+        success: function(data) {
+
+          $('#accordion').append(" Total Networks ", data.all_networks, " | ","Total Ports : ",data.all_ports, " | "," Total Hosts ", data.all_hosts);
+        }
+
+      })
+
+
+
+
+      });
+
+
+}  
+    function send_comper2_request(){
+
+      $('#scan_case2').on('change',function(){     
+      event.preventDefault();
+      var filterDate = $(this).val();
+      var date = new Date(filterDate);
+      var network = $('#network').val();
+      var year = date.getFullYear().toString();
+      var month = ('0' + (date.getMonth() + 1)).slice(-2);
+      var day = ('0' + date.getDate()).slice(-2);
+      var formattedDate = year + '-' + month + '-' + day;
+      $('#accordion2').empty()
+      console.log(formattedDate);
+      $.ajax({
+        type:'GET',
+        url:'/compare2_by_date/',
+        data:{
+          'FILTERED_DATE': formattedDate,
+          'network': network
+
+      },
+        success: function(data) {
+
+          $('#accordion2').append(" Total Networks ", data.all_networks, " | ","Total Ports : ",data.all_ports, " | "," Total Hosts ", data.all_hosts);
+        }
+
+      })
+
+
+
+
+      });
+
+
+
+    }
+
   </script>
   <!-- End Scripts Section -->
 </body>
