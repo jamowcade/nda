@@ -24,50 +24,85 @@ def get_campany_name(request):
     name = request.GET.get('name')
     network = Network.objects.filter(compony_info= name).values().all()
     data = {'network': network}
-
-    print(network)
-   
     return JsonResponse(list(network), safe=False)
 
 def compare_by_date(request):
     compare_date = request.GET.get('FILTERED_DATE')
-    network = request.GET.get('network')
-    company = request.GET.get('company')
-    network_id  = Network.objects.get(id=network)
-    date_object = datetime.strptime(compare_date, "%Y-%m-%d").date()
-    all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
-    all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
-    all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
-    data = {
-        "all_hosts":all_host,
-        "all_networks":all_network,
-        "all_ports":all_ports
-    }
-    print(type(date_object), date_object, "Total hosts", all_host, "total networks", all_network, "allports", all_ports)
-    return JsonResponse(data, safe=False)
+    compare_date2 = request.GET.get('FILTERED_DATE2')
 
-def compare2_by_date(request):
-    compare_date = request.GET.get('FILTERED_DATE')
-    network = request.GET.get('network')
-    company = request.GET.get('company')
-    network_id  = Network.objects.get(id=network)
-    date_object = datetime.strptime(compare_date, "%Y-%m-%d").date()
-    all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
-    all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
-    all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
-    data = {
-        "all_hosts":all_host,
-        "all_networks":all_network,
-        "all_ports":all_ports
-    }
-    print(type(date_object), date_object, "Total hosts", all_host, "total networks", all_network, "allports", all_ports)
-    return JsonResponse(data, safe=False)
+    if compare_date is not None : 
+        network = request.GET.get('network')   
+        company = request.GET.get('company')
+        network_id  = Network.objects.get(id=network)
+        date_object = datetime.strptime(compare_date, "%Y-%m-%d").date()
+        all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
+        all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
+        all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
+        data = {
+            "all_hosts":all_host,
+            "all_networks":all_network,
+            "all_ports":all_ports
+        }
+        global all_host1 
+        all_host1 = Host.objects.filter(host_date=date_object,network= network_id).all()
+        return JsonResponse(data, safe=False)
+    else:
+  
+        network = request.GET.get('network')   
+        company = request.GET.get('company')
+        network_id  = Network.objects.get(id=network)
+        date_object = datetime.strptime(compare_date2, "%Y-%m-%d").date()
+        all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
+        all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
+        all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
+        data = {
+            "all_hosts2":all_host,
+            "all_networks2":all_network,
+            "all_ports2":all_ports
+        }
+        global all_host2 
+        all_host2 = Host.objects.filter(host_date=date_object,network= network_id).all()
+
+        all_h2 =[]
+        all_h1 =[]
+        
+        for all_hst in all_host2:
+            all_h2.append(all_hst.hostname)
+        for all_hst in all_host1:
+            all_h1.append(all_hst.hostname)
+        # dff = set(all_host1) - set(all_host2)
+
+
+        dff = set(all_h1) - set(all_h2)
+        print(len(dff))
+
+        if len(dff)==0:
+            print("Get the elements in list2 that are not in list1")
+            dff = set(all_h2) - set(all_h1)
+            print("-----------------------------difference------------------------------------")
+            print("the set is /n ",dff)
+            print("-------------------------------host one----------------------------------")
+            print(all_h1)
+            print("------------------------------host two-----------------------------------")
+            print(all_h2)
+        else:
+            print("Get the elements in list1 that are not in list2")
+            dff = set(all_h1) - set(all_h2)
+            print("-----------------------------difference------------------------------------")
+            print("the set is /n ",dff)
+            print("-------------------------------host one----------------------------------")
+            print(all_h1)
+            print("------------------------------host two-----------------------------------")
+            print(all_h2)
+       
+        return JsonResponse(data, safe=False)
+    
+    
 
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
     Listcompany = Campany.objects.all()
-
     filtered_hosts = []
     data = {
         "records": []
@@ -87,8 +122,6 @@ def filter_by_date(request):
                 "totalports": host.ports.all().count(),
                 "network": host.network.network,
                 "company": host.network.compony_info.owner,
-
-
             })
            
             data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
