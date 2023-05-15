@@ -8,8 +8,8 @@
 {% include "includes/head.html" %}
 <!-- End Header Section -->
 
-<body>
-  <div class="loader"></div>
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
 
 
   
@@ -207,11 +207,7 @@
   <script>
     $('#scancase-form').submit(function (e){
         e.preventDefault();
-        
-       
         date = $('#date').val()
-       
-       
        $.ajax({
         method: 'POST',
         url: '/scan_case/',
@@ -219,7 +215,6 @@
           'date':date,
            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
         },
-        
         success: function(data){
           if (data.success) {
             swal("Form submitted!", data.message, "success").then(function(){

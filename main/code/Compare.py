@@ -4,10 +4,11 @@ from django.http import JsonResponse
 from main.models import Campany, Host, ScanCase
 from django.utils import timezone
 from datetime import datetime
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 
-
+@permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def compare(request):
     scan_cases = ScanCase.objects.all()
     companies = Campany.objects.all()
@@ -16,7 +17,7 @@ def compare(request):
         "companies":companies
     }
     return render(request,'pages/compare.html', context)
-
+@permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def compare_by_date(request):
     compare_date = request.GET.get('FILTERED_DATE')
     hosts = Host.objects.all()
@@ -42,7 +43,7 @@ def compare_by_date(request):
     print("hello world")
 
     return render(request, 'pages/display.html',data)
-
+@permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
@@ -59,19 +60,18 @@ def filter_by_date(request):
         
         # print(type(host_date), type(filter_date))
         if host_date == filter_date:
-            ports = host.ports.all().count()
+            ports = host.ports.all()
             
             filtered_hosts.append({
-                "host":host.hostname.all().count(),
+                "host":host.hostname,
                 "ports": ports,
                 "totalports": host.ports.all().count(),
-                "network": host.network.network.all().count(),
-                "company": host.network.compony_info.owner.all().count(),
+                "network": host.network.network,
+                "company": host.network.compony_info.owner
 
 
             })
-            for filtered_hosts in filtered_hosts:
-                print(filtered_hosts.host)
+          
             data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
      
         # print(filtered_hosts)

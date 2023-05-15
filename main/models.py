@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 # Create your models here.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 
 
 class Campany(models.Model):
@@ -65,3 +65,26 @@ class ScanCase(models.Model):
     scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+
+    class Meta:
+        permissions = [
+            ("can_compare_scancase", "Can compare Scancase"),
+        ]
+
+    
+
+class ErrorLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message
+
+class UserLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message

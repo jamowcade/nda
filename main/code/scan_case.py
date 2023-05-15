@@ -1,8 +1,9 @@
 from main.models import Campany, Host, Network, Port, ScanCase
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required, permission_required
 
-
+@permission_required('main.view_scancase', raise_exception=True, login_url=None)
 def scan_case(request):
 
     if request.method == 'POST':

@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
+from main.models import UserLog
+
 
 
 
@@ -48,9 +50,16 @@ def assign_user_to_groups(request):
         
         if is_checked == 'true':
             user.groups.add(group)
+            UserLog.objects.create(
+            user=request.user,
+            message=f"user addded ({user.username}) to Group ({group.name})",
+        )
         else:
             user.groups.remove(group)
-        
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user}  removed ({user.username}) from Group ({group.name})",
+        )
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error'})
@@ -84,8 +93,16 @@ def assign_permissions_to_group(request):
         permission = Permission.objects.get(id=permission_id)
         if is_checked == "true":
             group.permissions.add(permission)
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user}  assigned permission ({permission.name}) to Group ({group.name})",
+        )
         else:
             group.permissions.remove(permission)
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user} removed permission ({permission.name}) from Group ({group.name})",
+        )
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error'})

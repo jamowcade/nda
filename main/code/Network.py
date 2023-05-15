@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, HttpResponse
-from main.models import Campany,Network
+from main.models import Campany,Network, UserLog
+from django.contrib.auth.decorators import login_required, permission_required
+
 
 # Create your views here.
-
+@permission_required('main.view_network', raise_exception=True, login_url=None)
 def networkDetails(request,id):
-
+    
     companyList = Campany.objects.all()
     company = Campany.objects.get(id=id)
     networkList = Network.objects.all()
@@ -25,9 +27,13 @@ def networkDetails(request,id):
     # for n in networkList:
     #     print(n.compony_info)
     # print(singleNetwork)
-
+    UserLog.objects.create(
+            user=request.user,
+            message=f"user visisted network Details page",
+        )
     return render(request,'pages/networkDetails.html',context)
 
+@permission_required('main.view_network', raise_exception=True, login_url=None)
 def all_networks(request):
     networks = Network.objects.all()
     companyList = Campany.objects.all()
@@ -36,6 +42,10 @@ def all_networks(request):
         'companyData': companyList,
         'totalNetworks': networks.count()
     }
+    # UserLog.objects.create(
+    #         user=request.user,
+    #         message=f"user visisted network listing page",
+    #     )
     return render(request, 'pages/networks.html',context)
 
 def addNetwork(request):
@@ -50,9 +60,13 @@ def addNetwork(request):
         new_network.save()
         
         success = 'data successfully saved'
+        UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user}  added new network ({new_network.network}) for ({company_id.owner})",
+        )
     return HttpResponse(success)
 
-
+@permission_required('main.change_network', raise_exception=True, login_url=None)
 def updateNetwork(request):
     if request.method == 'POST':
         id = request.POST.get('id')
@@ -71,7 +85,11 @@ def updateNetwork(request):
         success = True
         if success:
             messages = 'Successfully Update'
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user}  updated network ({network_update.network})",
+        )
         else:
             messages = "Error  ..........."
-            
+        
     return HttpResponse(messages)

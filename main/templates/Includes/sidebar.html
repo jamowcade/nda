@@ -139,6 +139,29 @@
         </ul>
       </li>
       {%endif%}
+      <li class="menu-header">Logs and Errors</li>
+      {%if perms.main.view_errorlog%}
+      <li class="dropdown">
+        <a href="#" class="menu-toggle nav-link has-dropdown"
+          ><i data-feather="user-check"></i><span> Logs </span></a
+        >
+        <ul class="dropdown-menu">
+          <li>
+            <a class="nav-link" href="{% url 'userlogs' %}"
+              ><i data-feather="user-x"></i><span>User Logs</span></a
+            >
+          </li>   
+          <li>
+            <a class="nav-link" href="{% url 'erorlogs' %}"
+              ><i data-feather="x-circle"></i><span>Error Logs</span></a
+            >
+          </li>
+        
+        </ul>
+      </li> 
+  
+
+      {%endif%}
   
 
       
