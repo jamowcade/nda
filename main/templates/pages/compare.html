@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="row">
                         <div class="col col-md-4">
-                                <select class="form-select" name="company" aria-label="Select 2">
+                                <select class="form-select" id="company" name="company" aria-label="Select 2">
                                     <option selected disabled>Select Company</option>
                                     {% for company in companies %}
                                     <option value="{{company.id}}">{{company.owner}}</option>
@@ -45,11 +45,9 @@
                                   </select>
                         </div>
                         <div class="col col-md-4">
-                            <select class="form-select" name="network" aria-label="Select 2">
+                            <select class="form-select" name="network" id="network" aria-label="Select 2">
                                 <option selected disabled>Select network</option>
-                                {% for network in networks %}
-                                <option value="{{network.id}}">{{network.network}}</option>
-                                {% endfor %}
+                               
                               </select>
                         </div>
                         <div class="col col-md-4">
@@ -90,18 +88,19 @@
                             <div class="col col-md-4">
                                
                                 
-                                 <input type="text" class="form-control" id="network" readonly placeholder="Network" required>
+                                 <input type="text" class="form-control" id="ntwork" readonly placeholder="Network" required>
                                
                             </div>
                             <div class="col col-md-4">
                                 <select class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
                                     <option selected disabled>Select Scan Case</option>
                                     {% for scan in scan_cases %}
-                                    <option value="{{scan.scan_date}}">{{scan.name}}/option>
+                                    <option value="{{scan.scan_date}}">{{scan.name}}</option>
                                     {% endfor %}
                                   </select>
                             </div>
                             </div>
+<<<<<<< HEAD
                             <div class="row">
                               <select class="select2">
                                 <option value="1">192.168.1.102</option>
@@ -109,12 +108,17 @@
                                 <option value="3">192.168.1.104</option>
                             </select>
                             </div>
+=======
+                            <div id="accordion2">   
+                            </div>
+                            
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                       </div>
                     </div>
                   </div>
-           
               </div>
               <div class="row">
+<<<<<<< HEAD
                 <div class="col-4"></div>
         
                 <div class="col-4">
@@ -179,22 +183,53 @@
                     
                     </table>
                     <h2 id="data"></h2>
+=======
+                <div class="col-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4>Difference</h4>
+                      </div>
+                        <div class="card-body">
+                              <div id="accordion2"> 
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>                                           
+                                        </td>                                  
+                                      </tr>
+                                    <tbody>
+                                    
+                                 
+                                  </table>
+                                </div>
+              
+                              </div>
+                              
+                        </div>
+                      </div>
+                    </div>
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                 </div>
-                <div class="col-4"></div>
               </div>
             </div>
           </div>
         </section>
 
-
-
-
-   
-
         <!-- Setting Bar Sections -->
         {% include "includes/settingbar.html" %}        
         <!-- Ending Setting Bar Sections -->
-
 
       </div>
 
@@ -205,62 +240,56 @@
     </div>
   </div>
 
-
-
-
   <!-- General JS Scripts -->
 
   <!-- Scripts Section -->
   {% include "includes/scripts.html" %}
   
   <script src="{% static 'assets/scripts/pages/company.js' %}"></script>
+<<<<<<< HEAD
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 
+=======
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
   <script>
-    var onchang= false
     $(document).ready(function(){
+<<<<<<< HEAD
       $('.select2').select2();
 
       $('#scan_case1').on('change',function(){     
+=======
+      $('#company').on('change',function(){
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
         event.preventDefault();
-        var filterDate = $(this).val();
-        var date = new Date(filterDate);
-        var year = date.getFullYear().toString();
-        var month = ('0' + (date.getMonth() + 1)).slice(-2);
-        var day = ('0' + date.getDate()).slice(-2);
-        var formattedDate = year + '-' + month + '-' + day;
-        console.log(formattedDate);
-        $.ajax({
-          type:'GET',
-          url:'/compare_by_date/',
-          data:{'FILTERED_DATE': formattedDate},
-          success: function(data) {
-            $('#accordion').append(data)
+        var campany_name = $(this).val();
+        var t = $('#company option:selected').text();
+        console.log(t);
+        $("#compony_name").val(t);
+       $.ajax({
+        type:'GET',
+        url: '/get_campany_name/',
+        data:{
+          'name': campany_name
+        },
+          success : function(data){
+            // console.log(data);
+           var network_dr = $('#network').empty()
+           network_dr.empty()
+          
+            $.each(data, function(index, element) {
+              const option = document.createElement("option");
+              option.text = element.network;
+              option.value = element.id
+              $('#ntwork').val(element.network)
+              network_dr.append(option);
+              console.log(element.network);
+            
+    });
           }
-
-        })
-
-        // $.ajax({
-        //   type: 'GET',
-        //   url: '/compare_by_date/',
-        //   beforeSend: function () {
-        //     // Show the loading spinner before the request is sent
-        //     // $('#loading-spinner').show();
-        //   },
-        //   data: { 'filter_date': formattedDate },
-        //   success: function (response) {
-        //     $('#accordion').append(response)
-           
-        //   },
-        //   complete: function () {
-        //     $('#loading-spinner').hide();
-        //   }
-
-
-        // });
-      });
+       })
        
+<<<<<<< HEAD
         
       compare_now();
       
@@ -278,14 +307,85 @@
           $('#table_ports').hide()
           $('#table_hosts').show()
         }
+=======
+
+      });
+
+      $('#network').on("change", function(){
+        var text = $('#network option:selected').text();
+        $('#ntwork').val(text)
+        console.log(text);
+
+      })
+
+      send_comper_request()
+      send_comper2_request()
+      
+   
+    })
+    function send_comper_request(){
+  
+      $('#scan_case1').on('change',function(){     
+      event.preventDefault();
+      var filterDate = $(this).val();
+      var date = new Date(filterDate);
+      var network = $('#network').val();
+      var year = date.getFullYear().toString();
+      var month = ('0' + (date.getMonth() + 1)).slice(-2);
+      var day = ('0' + date.getDate()).slice(-2);
+      var formattedDate = year + '-' + month + '-' + day;
+      $('#accordion').empty()
+      console.log(formattedDate);
+      $.ajax({
+        type:'GET',
+        url:'/compare_by_date/',
+        data:{
+          'FILTERED_DATE': formattedDate,
+          'network': network,
+         
+      },
+        success: function(data) {
+
+          $('#accordion').append(" Total Networks ", data.all_networks, " | ","Total Ports : ",data.all_ports, " | "," Total Hosts ", data.all_hosts);
+        }
+
+      })
+
+      });
+
+
+}  
+    function send_comper2_request(){
+
+      $('#scan_case2').on('change',function(){     
+      event.preventDefault();
+      var filterDate = $(this).val();
+      var date = new Date(filterDate);
+      var network = $('#network').val();
+      var year = date.getFullYear().toString();
+      var month = ('0' + (date.getMonth() + 1)).slice(-2);
+      var day = ('0' + date.getDate()).slice(-2);
+      var formattedDate = year + '-' + month + '-' + day;
+      $('#accordion2').empty()
+      console.log(formattedDate);
+      $.ajax({
+        type:'GET',
+        url:'/compare_by_date/',
+        data:{
+          'FILTERED_DATE2': formattedDate,
+          'network': network,
+          
+      },
+        success: function(data) {
+          $('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2, data.diference);
+        }
+      })
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
       });
     }
 
   </script>
   <!-- End Scripts Section -->
 </body>
-
-
-
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 </html>

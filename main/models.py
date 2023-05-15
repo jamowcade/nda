@@ -29,6 +29,7 @@ class Network(models.Model):
     time = models.DateField(auto_now_add=True)
     compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='networks')
     description = models.CharField(max_length=500)
+    
 
     
     def __str__(self):
