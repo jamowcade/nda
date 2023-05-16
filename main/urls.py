@@ -38,6 +38,13 @@ urlpatterns = [
     path('compare/', Compare.compare, name='compare'),
     path('filter_by_date/', Compare.filter_by_date, name='filter_by_date'),
     path('compare_by_date/', Compare.compare_by_date, name='compare_by_date'),
+    path('get_Hosts/', Compare.get_Hosts, name='get_Hosts'),
+
+
+
+
+
+
     # path('compare2_by_date/', Compare.compare2_by_date, name='compare2_by_date'),
     path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
     path('reports/', Reports.Reports, name='reports'),

@@ -1,29 +1,40 @@
-<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html
 <html lang="en">
- <head>
+
+  {% include "includes/head.html" %}
+
+ <!-- <head>
   <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" >
   <script src="https://cdn.datatables.net"></script>
  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
- </head>
+ </head> -->
 <div class="container card-body">
   <div class="form-row">
 
-
+    <h1>Here Is Different Result</h1>
       <div class="form-group col-md-12 ">
         <label>Filter by Keyword</label>
         <input type="text" class="form-control" id="search-box" placeholder="Search...">
       </div>
-      <div id="accordion">
+      <div id="accordion3">
 
-        {% for data in records %}
+        {% for data in dff %}
         {% with num=forloop.counter|add:'1' %}
         <div class="accordion" id="my-data">
-          <div class="accordion-header" role="button" data-toggle="collapse" id="tbshow" data-target='#clo{{num}}'
-            aria-expanded="true">
-            <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total
-              Ports-> - {{data.totalports}}</h4>
+          <div 
+          class="accordion-header getHost" 
+          role="button" 
+          data-toggle="collapse" 
+          
+          data-value="{{data}}"
+            aria-expanded="true"
+            id="tbshow" data-target='#clo{{num}}'
+            >
+            <h3>{{forloop.counter}} - Host {{data}}</h3>
+            
           </div>
-          <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
+          <div class="accordion-body collapse getingPorts" id='clo{{num}}' data-parent="#accordion3">
 
             <div class="table-responsive">
               <table class="table table-striped table-hover" id="save" style="width:100%;">
@@ -40,20 +51,7 @@
                 </thead>
                 <tbody id="tbody_data">
 
-                  {% for port in data.ports%}
-                  <tr>
-                    <td>{{port.id}}</td>
-
-                    <td>{{port.port}}</td>
-                    <td>{{ port.state }}</td>
-                    <td>{{port.protocol}}</td>
-                    <td>
-                      <a id="ser" href="" data-toggle="modal" data-service="{{port.service}}" data-id={{port.id}} data-target="#newCompany">Service</a>
-                    </td>
-                    <td>{{port.protocol}}</td>
-                    <td>{{port.protocol}}</td>
-                  </tr>
-                  {% endfor %}
+                  
                 </tbody>
               </table>
             </div>
@@ -128,9 +126,15 @@
   </div>
 </div>
 
+{% include "includes/scripts.html" %}
+
 
 <script>
+
   $(document).ready(function () {
+    dispalyTable();
+    
+
     CallModal()
     $('#search-box .accordion-header').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
@@ -197,13 +201,59 @@
 
   
 function getTable(){
-  $('#save').DataTable();
+  e.preventDefault();
+  // $('#save').DataTable();
 }
 
-$("#tbshow").click(function (){
- getTable();
+// $("#tbshow").click(function (){
+//  getTable();
 
-  })
+//   })
+
+
+function dispalyTable(){
+    $(".getHost").click(function(){
+        var host = $(this).data("value");
+        $.ajax({
+            url:'/get_Hosts/',
+            type: "GET",
+            data : {
+                'host': host
+            },
+            success: function(response){
+              var num = 1
+              // $('.getingPorts').append(response)
+              $.each(response.ports, function(key,value){  
+                var html = '<tr>';
+                  html += '<td>' + num + '</td>';
+                  html += '<td>' + value.port + '</td>';
+                  html += '<td>' + value.state + '</td>';
+                  html += '<td>' + value.protocol + '</td>';
+                  html += '<td>' + value.service + '</td>';
+                  html += '<td>' + value.rpc_info + '</td>';
+                  html += '<td>' + value.version + '</td>';
+                  html += '</tr>';
+                  num++;
+
+
+                  $('#tbody_data').append(html);
+                  
+                  
+                  
+                });
+                
+                console.log(response);
+              }
+            })
+            $('#tbody_data').empty();
+          // $('.getingPorts').html('')
+
+        
+    })
+    // $(".getHost").dblclick(function(){
+    //   $('#tbody_data').hide();
+    // })
+}
 
 </script>
 </html>

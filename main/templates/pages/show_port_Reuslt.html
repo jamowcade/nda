@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>
-  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" >
-  <script src="https://cdn.datatables.net"></script>
- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
- </head>
-<div class="container card-body">
-  <div class="form-row">
 
+          <div class="accordion-body collapse getingPorts" id='clo{{num}}' data-parent="#accordion3">
 
-      <div class="form-group col-md-12 ">
-        <label>Filter by Keyword</label>
-        <input type="text" class="form-control" id="search-box" placeholder="Search...">
-      </div>
-      <div id="accordion">
-
-        {% for data in records %}
-        {% with num=forloop.counter|add:'1' %}
-        <div class="accordion" id="my-data">
-          <div class="accordion-header" role="button" data-toggle="collapse" id="tbshow" data-target='#clo{{num}}'
-            aria-expanded="true">
-            <h4>{{forloop.counter}} - Host {{data.host}} - network: {{data.network}} - company- ({{data.company}}) - Total
-              Ports-> - {{data.totalports}}</h4>
-          </div>
-          <div class="accordion-body collapse" id='clo{{num}}' data-parent="#accordion">
-
-            <div class="table-responsive">
+            <div class="table-responsive" id="tableResult">
+                <h4>TEst Table</h4>
               <table class="table table-striped table-hover" id="save" style="width:100%;">
                 <thead>
                   <tr>
@@ -60,16 +37,6 @@
 
             
           </div>
-        </div>
-        {% endwith %}
-        {% endfor %}
-
-
-      </div>
-
- 
-
-</div>
 
 <div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister"
   aria-hidden="true">
@@ -131,6 +98,9 @@
 
 <script>
   $(document).ready(function () {
+    // dispalyTable();
+    
+
     CallModal()
     $('#search-box .accordion-header').keyup(function () {
       const searchTerm = $(this).val().toLowerCase();
@@ -204,6 +174,25 @@ $("#tbshow").click(function (){
  getTable();
 
   })
+
+
+function dispalyTable(){
+    $(".getHost").click(function(){
+        var host = $(this).data("value");
+        $.ajax({
+            url:'/get_Hosts/',
+            type: "GET",
+            data : {
+                'host': host
+            },
+            success: function(response){
+                // console.log(response);
+            }
+        })
+
+        
+    })
+}
 
 </script>
 </html>
