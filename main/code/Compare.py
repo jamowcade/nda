@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.http import JsonResponse
-from main.models import Campany, Host, ScanCase, Network
+from main.models import Campany, Host, ScanCase, Network,Port
 from django.utils import timezone
 from datetime import datetime
 
@@ -55,47 +55,34 @@ def compare_by_date(request):
         all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
         all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
         all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
-        data = {
-            "all_hosts2":all_host,
-            "all_networks2":all_network,
-            "all_ports2":all_ports
-        }
         global all_host2 
         all_host2 = Host.objects.filter(host_date=date_object,network= network_id).all()
 
         all_h2 =[]
         all_h1 =[]
         
-        for all_hst in all_host2:
-            all_h2.append(all_hst.hostname)
-        for all_hst in all_host1:
-            all_h1.append(all_hst.hostname)
+        for all_hst2 in all_host2:
+            all_h2.append(all_hst2.hostname)
+        for all_hst1 in all_host1:
+            all_h1.append(all_hst1.hostname)
         # dff = set(all_host1) - set(all_host2)
+
+        print(f"host 2 ==> {all_h2}\n")
+        print(f"host 1 ==> {all_h1}\n")
 
 
         dff = set(all_h1) - set(all_h2)
-        print(len(dff))
-
-        if len(dff)==0:
-            print("Get the elements in list2 that are not in list1")
-            dff = set(all_h2) - set(all_h1)
-            print("-----------------------------difference------------------------------------")
-            print("the set is /n ",dff)
-            print("-------------------------------host one----------------------------------")
-            print(all_h1)
-            print("------------------------------host two-----------------------------------")
-            print(all_h2)
-        else:
-            print("Get the elements in list1 that are not in list2")
-            dff = set(all_h1) - set(all_h2)
-            print("-----------------------------difference------------------------------------")
-            print("the set is /n ",dff)
-            print("-------------------------------host one----------------------------------")
-            print(all_h1)
-            print("------------------------------host two-----------------------------------")
-            print(all_h2)
-       
-        return JsonResponse(data, safe=False)
+        dff1 = set(all_h2) - set(all_h1)
+        all_dff = dff.union(dff1)
+        print(f"\n\ndifference host ==> {all_dff}\n")
+            
+        data = {
+            "all_hosts2":all_host,
+            "all_networks2":all_network,
+            "all_ports2":all_ports,
+            "dff":list(all_dff),
+        }
+        return render(request, 'pages/show_cmpr.html',data)
     
     
 
@@ -129,4 +116,18 @@ def filter_by_date(request):
         # print(filtered_hosts)
     # return JsonResponse(data)
     return render(request, 'pages/display.html',data)
+
+
+
+def get_Hosts(request):
+    host = request.GET.get('host')
+    get_host_id = Host.objects.filter(hostname=host).all()
+    for id in get_host_id:
+        host_id = id.id
+        ports = Port.objects.filter(host=host_id).all()
+
+        data = {'ports': list(ports.values())}
+        
+        # return render(request, 'pages/show_port_Reuslt.html',data)
+        return JsonResponse(data)
 
