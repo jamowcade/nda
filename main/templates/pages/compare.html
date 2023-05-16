@@ -8,8 +8,8 @@
 {% include "includes/head.html" %}
 <!-- End Header Section -->
 
-<body>
-  <div class="loader"></div>
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
 
 
   
@@ -58,9 +58,15 @@
                               </select>
                         </div>
                         </div>
+                        <div class="row">
+                          <select class="select2">
+                            <option value="1">192.168.1.102</option>
+                            <option value="2">192.168.1.103</option>
+                            <option value="3">192.168.1.104</option>
+                        </select>
+                        </div>
                         <div>
-                          <div id="accordion">   
-                          </div>
+                         
                         </div>
                      
                     </div>
@@ -94,14 +100,90 @@
                                   </select>
                             </div>
                             </div>
+<<<<<<< HEAD
+                            <div class="row">
+                              <select class="select2">
+                                <option value="1">192.168.1.102</option>
+                                <option value="2">192.168.1.103</option>
+                                <option value="3">192.168.1.104</option>
+                            </select>
+                            </div>
+=======
                             <div id="accordion2">   
                             </div>
                             
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                       </div>
                     </div>
                   </div>
               </div>
               <div class="row">
+<<<<<<< HEAD
+                <div class="col-4"></div>
+        
+                <div class="col-4">
+             
+                    <button class="btn btn-primary " id="btn_comp">Compare Now</button>
+                    By: <select class="select" id="compare_by">
+                      <option value="hosts">Hosts</option>
+                      <option value="ports">Ports</option>
+                    
+                  </select>
+                    <hr><br>
+                    <table id="table_ports" class="table table-bordered" style="display: none;">
+                      <thead>
+                        <TR>
+                          <td>Scan Date</td>
+                          <td>Host</td>
+                          <td>Result</td>
+                        </TR>
+                        <tbody>
+                          <tr>
+                            <td>may 10 2023</td>
+                            <td>192.168.1.103</td>
+                            <td>Had 240 ports</td>
+                          </tr>
+                          <tr>
+                            <td>jun 14 2023</td>
+                            <td>192.168.1.103</td>
+                            <td>Had 246 ports</td>
+                          </tr>
+                        </tbody>
+        
+                        <tr>
+                          <td>Defference: 6 ports added</td>
+                        </tr>
+                      </thead>
+                    
+                    </table>
+                    <table id="table_hosts" class="table table-bordered" style="display: none;">
+                      <thead>
+                        <TR>
+                          <td>Scan Date</td>
+                          <td>Host</td>
+                          <td>Result</td>
+                        </TR>
+                        <tbody>
+                          <tr>
+                            <td>may 10 2023</td>
+                            <td>41.102.1.4</td>
+                            <td>Had 120 Hosts</td>
+                          </tr>
+                          <tr>
+                            <td>jun 10 2023</td>
+                            <td>41.102.1.4</td>
+                            <td>Had 124 Hosts</td>
+                          </tr>
+                        </tbody>
+        
+                        <tr>
+                          <td>Defference: 4 hosts added</td>
+                        </tr>
+                      </thead>
+                    
+                    </table>
+                    <h2 id="data"></h2>
+=======
                 <div class="col-12">
                   <div class="card">
                       <div class="card-header">
@@ -130,6 +212,7 @@
                         </div>
                       </div>
                     </div>
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                 </div>
               </div>
             </div>
@@ -155,9 +238,21 @@
   {% include "includes/scripts.html" %}
   
   <script src="{% static 'assets/scripts/pages/company.js' %}"></script>
+<<<<<<< HEAD
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+=======
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
   <script>
     $(document).ready(function(){
+<<<<<<< HEAD
+      $('.select2').select2();
+
+      $('#scan_case1').on('change',function(){     
+=======
       $('#company').on('change',function(){
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
         event.preventDefault();
         var campany_name = $(this).val();
         var t = $('#company option:selected').text();
@@ -186,6 +281,25 @@
           }
        })
        
+<<<<<<< HEAD
+        
+      compare_now();
+      
+   
+    })
+
+    function compare_now(){
+      $('#btn_comp').click(function(){
+        compare_by = $('#compare_by').val();
+        if(compare_by == "ports"){
+          $('#table_hosts').hide()
+          $('#table_ports').show();
+        }
+        else if(compare_by == "hosts"){
+          $('#table_ports').hide()
+          $('#table_hosts').show()
+        }
+=======
 
       });
 
@@ -277,7 +391,11 @@
         
         },
       })
+<<<<<<< HEAD
       $('#accordion3').html('')
+=======
+>>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
+>>>>>>> f951a5c9fe4e99c2ed46f8d817550d363d7f235d
       });
     }
 

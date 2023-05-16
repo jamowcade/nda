@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -7,6 +8,9 @@
  </head>
 <div class="container card-body">
   <div class="form-row">
+=======
+
+>>>>>>> f951a5c9fe4e99c2ed46f8d817550d363d7f235d
 
 
       <div class="form-group col-md-12 ">
@@ -66,67 +70,6 @@
 
 
       </div>
-
- 
-
-</div>
-
-<div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="companyRegister">Registeration Company</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-body">
-    
-          <form method="POST" id="updatecase"> {% csrf_token %}
-            <div class="container">
-              <div class="row">
-                <input type="text" hidden id="uid" name="p" class="form-control" aria-describedby="">
-
-                <label for="">Name</label>
-                <input type="text" id="uname" readonly name="case_name" class="form-control" aria-describedby="" required>
-
-              </div>
-              <br>
-              <div class="row">
-                <label for="">Method</label>
-                <input type="text" id="method" readonly name="case_type" class="form-control" aria-describedby="" required>
-
-              </div><br>
-
-             
-              <div class="row">
-                <label for="">Conf</label>
-                <input type="text" id="conf" readonly name="device_type" class="form-control" aria-describedby=""  required>
-                
-              </div><br>
-              <br>  
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary">
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary" id="savebutton">
-                  Save changes
-                </button>
-              </div>
-          </form>
-        </div>
-    
-
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
-</div>
 
 
 <script>

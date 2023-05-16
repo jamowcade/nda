@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+  <!-- Header Section -->
+  {% include "includes/head.html" %}
+  <!-- End Header Section -->
+
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
+
+    <div id="app">
+      <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+
+        <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}
+        <!-- End Side Bar Section -->
+
+        <!-- Main Content -->
+        <div class="main-content">
+          <section class="section">
+            <div class="section-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Error Logs</h4>
+                    </div>
+                    <!-- Button trigger modal -->
+
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table
+                          class="table"
+                          id="save-stage"
+                          style="width: 100%"
+                        >
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>user</th>
+                              <th>Message</th>
+                              <th>Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for log in error_logs %}
+                            <tr>
+                              <td>{{forloop.counter}}</td>
+                              <td>{{log.user.username}}</td>
+                              <td>{{log.message}}</td>
+                              <td>{{log.created_at}}</td>
+                              {% endfor %}
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%for logs in logs%}
+            <h1>{{logs}}</h1>
+            {%endfor%}
+          </section>
+
+          <!-- Setting Bar Sections -->
+          {% include "includes/settingbar.html" %}
+          <!-- Ending Setting Bar Sections -->
+        </div>
+
+        <!-- Footbar Section -->
+        {% include "includes/footer.html" %}
+        <!-- EndFootbar Section -->
+      </div>
+    </div>
+
+    <!-- General JS Scripts -->
+
+    <!-- Scripts Section -->
+    {% include "includes/scripts.html" %}
+    <!-- End Scripts Section -->
+  </body>
+
+  <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

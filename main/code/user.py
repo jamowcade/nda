@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from main.models import Campany
+from main.models import Campany, UserLog
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required, permission_required
@@ -20,7 +20,7 @@ def login_user(request):
         username = request.POST['email']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        print(username, password)
+        
         if user is not None:
             login(request, user)
              # log the user action
@@ -74,10 +74,18 @@ def create_user(request):
         role = request.POST['role']
         if role == "superuser":
             User.objects.create_superuser(username=username, password=password)
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user} created new Superuser {user.username} user",
+             )
         else:
             group = Group.objects.get(name=role)
             user = User.objects.create_user(username=username, password=password)
             user.groups.add(group)
+            UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user} created new {group.name} email {user.username} user",
+             )
             return redirect('users')
         
 
@@ -142,7 +150,10 @@ def assign_permissions_to_user(request):
             
         else:
             user.user_permissions.remove(permission)
-
+        UserLog.objects.create(
+            user=request.user,
+            message=f"{request.user}  give permission {permission.name}  to user {user.username}",
+        )
         return JsonResponse({'status': 'success'})
     
     else:

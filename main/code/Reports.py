@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from main.models import Campany, Host, Network, Port, ScanCase
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 
@@ -8,7 +9,7 @@ def Reports(request):
     return render(request,'pages/Reports.html')
 
 
-
+@permission_required('main.view_report', raise_exception=True, login_url=None)
 def scan_cases_report(request):
     scan_cases = ScanCase.objects.all()
     context = {
@@ -16,18 +17,19 @@ def scan_cases_report(request):
     }
     return render(request,'pages/scan_case_report.html', context)
 
+@permission_required('main.view_report', raise_exception=True, login_url=None)
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
     Listcompany = Campany.objects.all()
-    print(filter_date)
+    # print(filter_date)
     filtered_hosts = []
     data = {
         "records": []
     }
     for host in hosts:
         host_date = host.host_date
-        print(host_date)
+        # print(host_date)
 
         # data_string = host_date.strftime('%Y-%m-%d')
         
@@ -47,6 +49,4 @@ def filter_by_date(request):
            
             data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
      
-        # print(filtered_hosts)
-    # return JsonResponse(data)
     return render(request, 'pages/display.html',data)
