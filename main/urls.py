@@ -49,7 +49,7 @@ urlpatterns = [
 
 
     # path('compare2_by_date/', Compare.compare2_by_date, name='compare2_by_date'),
-    # path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
+    path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
 
     path('reports/', Reports.Reports, name='reports'),
     path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'),
