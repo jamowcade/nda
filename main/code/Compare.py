@@ -20,17 +20,7 @@ def compare(request):
         'network':network
     }
     return render(request,'pages/compare.html', context)
-<<<<<<< HEAD
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
-=======
-
-def get_campany_name(request):
-    name = request.GET.get('name')
-    network = Network.objects.filter(compony_info= name).values().all()
-    data = {'network': network}
-    return JsonResponse(list(network), safe=False)
-
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
 def compare_by_date(request):
     compare_date = request.GET.get('FILTERED_DATE')
     compare_date2 = request.GET.get('FILTERED_DATE2')
@@ -91,13 +81,10 @@ def compare_by_date(request):
     
     
 
-<<<<<<< HEAD
     print("hello world")
 
     return render(request, 'pages/display.html',data)
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
-=======
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
@@ -120,17 +107,11 @@ def filter_by_date(request):
                 "ports": ports,
                 "totalports": host.ports.all().count(),
                 "network": host.network.network,
-<<<<<<< HEAD
                 "company": host.network.compony_info.owner
 
 
             })
           
-=======
-                "company": host.network.compony_info.owner,
-            })
-           
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
             data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
      
         # print(filtered_hosts)
