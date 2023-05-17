@@ -8,20 +8,20 @@
           src="{% static 'assets/img/soc.png' %}"
           class="header-logo"
         />
-        <span class="logo-name">N D A</span>
+        <span style="color: aqua;" class="logo-name">N D A</span>
       </a>
     </div>
     <ul class="sidebar-menu">
-      <li class="menu-header">Main</li>
+      <li class="menu-header" style="color: aquamarine;">Main</li>
       <li class="dropdown active">
-        <a href="{% url 'index' %}" class="nav-link"
+        <a href="{% url 'index' %}" style="color: aqua;"  class="nav-link"
         ><i data-feather="monitor"></i><span>Dashboard</span></a
         >
       </li>
       
 
       
-      <li class="menu-header">Company and Networks</li>
+      <li style="color: aquamarine" class="menu-header">Company and Networks</li>
   
       <!-- <li>
         <a class="nav-link" href="#"
@@ -37,7 +37,7 @@
       <!-- <li class="menu-header">ENVIROMENTS</li> -->
       {%if perms.main.view_campany%}
       <li>
-        <a class="nav-link" href="{% url 'company' %}"
+        <a class="nav-link" style="color: aqua;"  href="{% url 'company' %}"
           ><i data-feather="briefcase"></i><span>Company</span></a
         >
       </li>
@@ -48,21 +48,21 @@
       {%if perms.main.view_network%}
 
       <li>
-        <a class="nav-link" href="{% url 'all_networks' %}"
+        <a style="color: aqua;"  class="nav-link" href="{% url 'all_networks' %}"
           ><i data-feather="bar-chart"></i><span>Networks</span></a
         >
       </li>
       {%endif%}
       {%if perms.main.view_scancase%}
       <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
+        <a style="color: aqua;"  href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span>Scans</span></a
         >
        
         <ul class="dropdown-menu">
           
       <li>
-        <a class="nav-link" href="{% url 'scan_case' %}"
+        <a style="color: aqua;"  class="nav-link" href="{% url 'scan_case' %}"
           ><i data-feather="airplay"></i><span>Scan Case</span></a
         >
       </li>
@@ -77,22 +77,22 @@
       <!-- <li class="menu-header">SERVICES</li> -->
 
       
-      <li class="menu-header">Report & Scanning</li>
+      <li class="menu-header" style="color: aquamarine" >Report & Scanning</li>
       {%if perms.main.view_network or user.is_superuser%}
       <li>
-        <a class="nav-link" href="{% url 'compare' %}"
+        <a  style="color: aqua;" class="nav-link" href="{% url 'compare' %}"
         ><i data-feather="command"></i><span>Compare</span></a
         >
       </li>
       {%endif%}
       {%if perms.main.view_network %}
       <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
+        <a style="color: aqua;"  href="#" class="menu-toggle nav-link has-dropdown"
         ><i data-feather="user-check"></i><span>Reports</span></a
         >
         <ul class="dropdown-menu">
           <li>
-            <a class="nav-link" href="{% url 'scan_cases_report' %}"
+            <a style="color: aqua;"  class="nav-link" href="{% url 'scan_cases_report' %}"
             >Scan Case Reports</a
             >
           </li>
@@ -100,59 +100,59 @@
       </li>
       {%endif%}
     
-      <li class="menu-header">Users and Accounts</li>
+      <li style="color: aquamarine" class="menu-header">Users and Accounts</li>
       {%if perms.auth_user.add_user%}
       <li>
-        <a class="nav-link" href="{% url 'users' %}"
+        <a style="color: aqua;"  class="nav-link" href="{% url 'users' %}"
         ><i data-feather="user-check"></i><span>User Accounts</span></a
         >
       </li>
       {%endif%}
       {% if perms.auth.add_permission%}
       <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
+        <a style="color: aqua;"  href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span> Permissions</span></a
         >
         <ul class="dropdown-menu">
           <li>
-            <a class="nav-link" href="{% url 'permissions' %}"
+            <a style="color: aqua;"  class="nav-link" href="{% url 'permissions' %}"
               >Assign User permission</a
             >
           </li>
           <li>
-            <a class="nav-link" href="{% url 'group_Permissions' %}">Assign group Permissions</a>
+            <a style="color: aqua;"  class="nav-link" href="{% url 'group_Permissions' %}">Assign group Permissions</a>
           </li>
         </ul>
       </li>
       {%endif%}
       {%if perms.auth.add_group%}
       <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
+        <a style="color: aqua;"  href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span> Groups</span></a
         >
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="{% url 'groups' %}">add group</a></li>
+          <li><a style="color: aqua;"  class="nav-link" href="{% url 'groups' %}">add group</a></li>
           <li>
-            <a class="nav-link" href="{% url 'user_groups' %}">Assign group</a>
+            <a style="color: aqua;"  class="nav-link" href="{% url 'user_groups' %}">Assign group</a>
           </li>
         
         </ul>
       </li>
       {%endif%}
-      <li class="menu-header">Logs and Errors</li>
+      <li style="color: aquamarine;"  class="menu-header">Logs and Errors</li>
       {%if perms.main.view_errorlog%}
       <li class="dropdown">
-        <a href="#" class="menu-toggle nav-link has-dropdown"
+        <a style="color: aqua;"  href="#" class="menu-toggle nav-link has-dropdown"
           ><i data-feather="user-check"></i><span> Logs </span></a
         >
         <ul class="dropdown-menu">
           <li>
-            <a class="nav-link" href="{% url 'userlogs' %}"
+            <a style="color: aqua;"  class="nav-link" href="{% url 'userlogs' %}"
               ><i data-feather="user-x"></i><span>User Logs</span></a
             >
           </li>   
           <li>
-            <a class="nav-link" href="{% url 'erorlogs' %}"
+            <a style="color: aqua;"  class="nav-link" href="{% url 'erorlogs' %}"
               ><i data-feather="x-circle"></i><span>Error Logs</span></a
             >
           </li>
