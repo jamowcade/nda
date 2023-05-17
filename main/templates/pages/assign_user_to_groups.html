@@ -28,7 +28,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h4>Groups</h4>
+                      <h4 style="color: aquamarine;">Groups</h4>
                      
                     </div>
                     <div id="message" style="background-color: green; color: white;"></div>
@@ -37,8 +37,8 @@
                         
                     
                         <div class="form-group">
-                          <label for="user-select">Select a user:</label>
-                          <select class="form-control" id="user-select">
+                          <label for="user-select" style="color: aquamarine;">Select a user:</label>
+                          <select class="form-control" id="user-select" style="border-color: aqua; color: aqua; background-color: #0c0900;">
                             <option value="" selected disabled>Select a user</option>
                             {% for user in users %}
                             <option value="{{ user.id }}">{{ user.username }}</option>
@@ -47,12 +47,12 @@
                         </div>
                         <div class="form-group" id="user_groups" style="display: none;">
                           
-                          <label>Select groups:</label><br>
+                          <label style="color: aquamarine;">Select groups:</label><br>
                           {% for group in groups %}
                           <div class="form-check">
                            
-                            <input class="form-check-input" type="checkbox" name="groups" id="group{{ group.id }}" value="{{ group.id }}">
-                            <label class="form-check-label" for="group{{ group.id }}">{{ group.name }}</label>
+                            <input style="border-color: aqua; background-color: black;" class="form-check-input" type="checkbox" name="groups" id="group{{ group.id }}" value="{{ group.id }}">
+                            <label style="color: aqua;" class="form-check-label" for="group{{ group.id }}">{{ group.name }}</label>
                           </div>
                           {% endfor %}
                         </div>
