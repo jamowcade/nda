@@ -32,7 +32,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>All Available Networks :[{{totalNetworks}}]</h4>
+                    <h4 style="color: aquamarine;" >All Available Networks :[{{totalNetworks}}]</h4>
                   </div>
                   <!-- Button trigger modal -->
                    
@@ -45,16 +45,16 @@
 
                     <div class="table-responsive">
                
-                      <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
+                      <table class="table" id="save-stage" style="width:100%; color: aqua;">
                         <thead>
                           <tr>
-                            <th>#</th>
-                            <th>Network</th>
-                            <th>Owner</th>
-                            <th>Description</th>
-                            <th>Time</th>
-                            <th>State</th>
-                            <th>Action</th>
+                            <th style="color: aquamarine;">#</th>
+                            <th style="color: aquamarine;">Network</th>
+                            <th style="color: aquamarine;">Owner</th>
+                            <th style="color: aquamarine;">Description</th>
+                            <th style="color: aquamarine;">Time</th>
+                            <th style="color: aquamarine;">State</th>
+                            <th style="color: aquamarine;">Action</th>
                           </tr>
                         </thead>
                         <tbody id="tbody_data">
@@ -64,7 +64,7 @@
                                 <td>{{ network.id }}</td>
                                 {% if perms.main.view_host%}
                                 <td>
-                                  <a href="{% url 'host' network.id %}">{{ network.network }}</a>
+                                  <a href="{% url 'host' network.id %}" style="color: aqua;">{{ network.network }}</a>
                                 </td>
                                 {%else%}
                                 <td>
@@ -115,17 +115,6 @@
                               </tr>
                           {% endfor %}
                         </tbody>
-                        <tfooter>
-                          <tr>
-                            <th>#</th>
-                            <th>Network</th>
-                            <th>Owner</th>
-                            <th>Description</th>
-                            <th>Time</th>
-                            <th>State</th>
-                            <th>Action</th>
-                          </tr>
-                        </tfooter>
 
                       </table>
                     </div>
