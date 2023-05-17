@@ -1,18 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
-<!-- Header Section -->
 {% include "includes/head.html" %}
 <!-- End Header Section -->
-
   <body class="dark dark-sidebar theme-black">
     <div class="loader dark"></div>
-
-
-  
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
@@ -32,12 +24,12 @@
               <div class="col-6">
                 <div class="card">
                   <div class="card-header">
-                      <h4>Scan Case One</h4>
+                      <h4 style="color: aquamarine;">Scan Case One</h4>
                   </div>
                     <div class="card-body">
                         <div class="row">
                         <div class="col col-md-4">
-                                <select class="form-select" id="company" name="company" aria-label="Select 2">
+                                <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" id="company" name="company" aria-label="Select 2">
                                     <option selected disabled>Select Company</option>
                                     {% for company in companies %}
                                     <option value="{{company.id}}">{{company.owner}}</option>
@@ -45,25 +37,20 @@
                                   </select>
                         </div>
                         <div class="col col-md-4">
-                            <select class="form-select" name="network" id="network" aria-label="Select 2">
+                            <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" name="network" id="network" aria-label="Select 2">
                                 <option selected disabled>Select network</option>
                                
                               </select>
                         </div>
                         <div class="col col-md-4">
-                            <select class="form-select"  id="scan_case1" name="scan_case" aria-label="Select 2">
+                            <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select"  id="scan_case1" name="scan_case" aria-label="Select 2">
                                 {% for scan in scan_cases %}
                                 <option selected value="{{scan.name}}">{{scan.name}} </option>
                                 {% endfor %}
                               </select>
                         </div>
                         </div>
-                        <div class="row">
-                          <select class="select2">
-                            <option value="1">192.168.1.102</option>
-                            <option value="2">192.168.1.103</option>
-                            <option value="3">192.168.1.104</option>
-                        </select>
+                        <div id="accordion">   
                         </div>
                         <div>
                          
@@ -77,22 +64,22 @@
               <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Scan Case Two</h4>
+                        <h4 style="color: aquamarine;" >Scan Case Two</h4>
                     </div>
                       <div class="card-body">
                         <div class="row">
                             <div class="col col-md-4">
   
-                            <input type="text" class="form-control" id="compony_name" readonly placeholder="compony name" required> 
+                            <input style="color: aqua; background-color: black; border-color: aquamarine;" type="text" class="form-control" id="compony_name" readonly placeholder="compony name" required> 
                             </div>
                             <div class="col col-md-4">
                                
                                 
-                                 <input type="text" class="form-control" id="ntwork" readonly placeholder="Network" required>
+                                 <input style="color: aqua; background-color: black; border-color: aquamarine;" type="text" class="form-control" id="ntwork" readonly placeholder="Network" required>
                                
                             </div>
                             <div class="col col-md-4">
-                                <select class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
+                                <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" id="scan_case2"  name="scan_case" aria-label="Select 2">
                                     <option selected disabled>Select Scan Case</option>
                                     {% for scan in scan_cases %}
                                     <option value="{{scan.scan_date}}">{{scan.name}}</option>
@@ -100,119 +87,41 @@
                                   </select>
                             </div>
                             </div>
-<<<<<<< HEAD
-                            <div class="row">
-                              <select class="select2">
-                                <option value="1">192.168.1.102</option>
-                                <option value="2">192.168.1.103</option>
-                                <option value="3">192.168.1.104</option>
-                            </select>
-                            </div>
-=======
                             <div id="accordion2">   
                             </div>
                             
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                       </div>
                     </div>
                   </div>
               </div>
               <div class="row">
-<<<<<<< HEAD
-                <div class="col-4"></div>
-        
-                <div class="col-4">
-             
-                    <button class="btn btn-primary " id="btn_comp">Compare Now</button>
-                    By: <select class="select" id="compare_by">
-                      <option value="hosts">Hosts</option>
-                      <option value="ports">Ports</option>
-                    
-                  </select>
-                    <hr><br>
-                    <table id="table_ports" class="table table-bordered" style="display: none;">
-                      <thead>
-                        <TR>
-                          <td>Scan Date</td>
-                          <td>Host</td>
-                          <td>Result</td>
-                        </TR>
-                        <tbody>
-                          <tr>
-                            <td>may 10 2023</td>
-                            <td>192.168.1.103</td>
-                            <td>Had 240 ports</td>
-                          </tr>
-                          <tr>
-                            <td>jun 14 2023</td>
-                            <td>192.168.1.103</td>
-                            <td>Had 246 ports</td>
-                          </tr>
-                        </tbody>
-        
-                        <tr>
-                          <td>Defference: 6 ports added</td>
-                        </tr>
-                      </thead>
-                    
-                    </table>
-                    <table id="table_hosts" class="table table-bordered" style="display: none;">
-                      <thead>
-                        <TR>
-                          <td>Scan Date</td>
-                          <td>Host</td>
-                          <td>Result</td>
-                        </TR>
-                        <tbody>
-                          <tr>
-                            <td>may 10 2023</td>
-                            <td>41.102.1.4</td>
-                            <td>Had 120 Hosts</td>
-                          </tr>
-                          <tr>
-                            <td>jun 10 2023</td>
-                            <td>41.102.1.4</td>
-                            <td>Had 124 Hosts</td>
-                          </tr>
-                        </tbody>
-        
-                        <tr>
-                          <td>Defference: 4 hosts added</td>
-                        </tr>
-                      </thead>
-                    
-                    </table>
-                    <h2 id="data"></h2>
-=======
                 <div class="col-12">
                   <div class="card">
                       <div class="card-header">
-                          <h4>Difference</h4>
+                          <!-- <h4>Difference</h4> -->
                       </div>
                         <div class="card-body">
-                              <div id="accordion3"> 
-                                <!-- <div class="table-responsive">
-                                  <table class="table table-striped table-hover" id="save-stage" style="width:100%;">
-                                    <thead>
-                                      <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody id="dffData">
-                                      
-                                    <tbody>
-                                    
-                                 
-                                  </table>
-                                </div> -->
-              
-                              </div>
+                          <div class="table-responsive">
+                            <table class="table" id="table-1" style="width:100%; color: aqua;">
+                              <thead>
+                                <tr>
+                                  <th style="color: aquamarine;">#</th>
+                                  <th style="color: aquamarine;">Hosts</th>
+                                  <th style="color: aquamarine;">Scan case date</th>
+                                  
+                        
+                                </tr>
+                              </thead>
+                              <tbody id ="tbody_data">
+                                
+                              </tbody>
                               
+      
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
                 </div>
               </div>
             </div>
@@ -238,21 +147,9 @@
   {% include "includes/scripts.html" %}
   
   <script src="{% static 'assets/scripts/pages/company.js' %}"></script>
-<<<<<<< HEAD
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
-
-=======
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
   <script>
     $(document).ready(function(){
-<<<<<<< HEAD
-      $('.select2').select2();
-
-      $('#scan_case1').on('change',function(){     
-=======
       $('#company').on('change',function(){
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
         event.preventDefault();
         var campany_name = $(this).val();
         var t = $('#company option:selected').text();
@@ -280,17 +177,12 @@
     });
           }
        })
-       
-<<<<<<< HEAD
-        
-      compare_now();
-      
-   
-    })
 
+      compare_now();
+    })
     function compare_now(){
       $('#btn_comp').click(function(){
-        compare_by = $('#compare_by').val();
+       var compare_by = $('#compare_by').val();
         if(compare_by == "ports"){
           $('#table_hosts').hide()
           $('#table_ports').show();
@@ -299,22 +191,18 @@
           $('#table_ports').hide()
           $('#table_hosts').show()
         }
-=======
-
       });
 
       $('#network').on("change", function(){
         var text = $('#network option:selected').text();
         $('#ntwork').val(text)
-        console.log(text);
-
+        
       })
-
       send_comper_request()
       send_comper2_request()
-      
-   
-    })
+    }
+  });
+  
     function send_comper_request(){
   
       $('#scan_case1').on('change',function(){     
@@ -351,6 +239,16 @@
 
       $('#scan_case2').on('change',function(){     
       event.preventDefault();
+      var filterDate1 = $("#scan_case1").val();
+      
+      var date1 = new Date(filterDate1);
+      var year1 = date1.getFullYear().toString();
+      console.log(year1);
+      var month1= ('0' + (date1.getMonth() + 1)).slice(-2);
+      var day1 = ('0' + date1.getDate()).slice(-2);
+      var formattedDate1 = year1 + '-' + month1 + '-' + day1
+     
+
       var filterDate = $(this).val();
       var date = new Date(filterDate);
       var network = $('#network').val();
@@ -364,14 +262,47 @@
         type:'GET',
         url:'/compare_by_date/',
         data:{
+          'FILTERED_DATE1':formattedDate1,
           'FILTERED_DATE2': formattedDate,
           'network': network,
           
       },
-        success: function(response) {
-          $('#accordion3').append(response);
+        success: function(data) {
+
+
+
+
+          console.log(data);
+
+          var num = 1
+              // $('.getingPorts').append(response)
+              $.each(data, function(key,value){  
+                var html = '<tr>';
+                  html += '<td>' + num + '</td>';
+                $.each(data.dff, function(key,value ){
+                    html += '<td>' + value + '</td>';
+                    return false;
+                  }) 
+                  html += '<td>' + data.dataw + '</td>';
+                  num++;
+                  
+                  html += '</tr>';
+                  
+                  $('#tbody_data').append(html);
+
+                  
+                  
+                  
+                });
+                
+
+          // console.log(data.dff);
+
+           $('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2);
+          // console.log(data.all_networks);
+           $('#accordion').append(data);
+          // $('#accordion3').append(data);
           // console.log(response)  ;
-          // $('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2, data.diference);
           // console.log(data.dff);
           // $('#dffData').empty();
          
@@ -391,11 +322,8 @@
         
         },
       })
-<<<<<<< HEAD
       $('#accordion3').html('')
-=======
->>>>>>> 75cdd065af5f79a8a20cb2db6ae045f6366f3b90
->>>>>>> f951a5c9fe4e99c2ed46f8d817550d363d7f235d
+
       });
     }
 
