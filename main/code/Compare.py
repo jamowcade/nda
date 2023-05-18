@@ -79,19 +79,21 @@ def compare_by_date(request):
 
         dff = set(all_h1) - set(all_h2)
         dff1 = set(all_h2) - set(all_h1)
+
         if len(dff) != 0:
             date_object5 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
             print(date_object5)
             all_dff = dff.union(dff1)
             a =  getALl(all_dff)
             
-            print(type(a))
-            serialized_queryset = serializers.serialize('json', a)
-            my_list2 = [list(a)]
+            print(a)
+           
+            
             data = {
-            'records':serialized_queryset
+            'records':a,
+            'scan_date':date_object5
         }
-            return JsonResponse(data)
+            return render(request,'pages/show_cmpr.html',data)
         
         else:
             date_object9 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
@@ -99,12 +101,12 @@ def compare_by_date(request):
             all_dff = dff.union(dff1)   
             a =  getALl(all_dff)
             print(a)
-            serialized_queryset = serializers.serialize('json', a)
-            my_list1 = [list(a)]
+           
             data = {
-                'records':serialized_queryset
+                'records':a,
+                'scan_date':date_object9
             }
-        return JsonResponse(data)
+        return render(request,'pages/show_cmpr.html',data)
     
     
 
@@ -168,3 +170,12 @@ def getALl(all_dff):
         #     print(port.id)
 
     # return all_dff
+
+def showdetaile(request):
+    id = request.POST.get('id')
+    print(id)
+    port = Port.objects.filter(host=id).all()
+   
+    print(" =====> ",port)
+    dataport ={"port": list(port.values())}
+    return JsonResponse(dataport,safe=False)  
