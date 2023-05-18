@@ -41,6 +41,7 @@ urlpatterns = [
 
     path('filter_by_date/', Compare.filter_by_date, name='filter_by_date'),
     path('compare_by_date/', Compare.compare_by_date, name='compare_by_date'),
+    path('showdetail/', Compare.showdetaile, name='showdetail'),
     path('get_Hosts/', Compare.get_Hosts, name='get_Hosts'),
 
 
