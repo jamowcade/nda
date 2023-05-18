@@ -101,23 +101,8 @@
                           <!-- <h4>Difference</h4> -->
                       </div>
                         <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table" id="table-1" style="width:100%; color: aqua;">
-                              <thead>
-                                <tr>
-                                  <th style="color: aquamarine;">#</th>
-                                  <th style="color: aquamarine;">Hosts</th>
-                                  <th style="color: aquamarine;">Scan case date</th>
-                                  
-                        
-                                </tr>
-                              </thead>
-                              <tbody id ="tbody_data">
-                                
-                              </tbody>
-                              
-      
-                            </table>
+                          <div id="accordion3">  
+                             
                           </div>
                         </div>
                       </div>
@@ -268,40 +253,35 @@
           
       },
         success: function(data) {
-
-
-
-
           console.log(data);
+          // var num = 1
+          //     // $('.getingPorts').append(response)
+          //     $.each(data, function(key,value){  
+          //       var html = '<tr>';
+          //         html += '<td>' + num + '</td>';
+          //       $.each(data.dff, function(key,value ){
+          //           html += '<td>' + value + '</td>';
+          //           return false;
+          //         }) 
+          //         html += '<td>' + data.dataw + '</td>';
+          //         num++;
+                  
+          //         html += '</tr>';
+                  
+          //         $('#tbody_data').append(html);
 
-          var num = 1
-              // $('.getingPorts').append(response)
-              $.each(data, function(key,value){  
-                var html = '<tr>';
-                  html += '<td>' + num + '</td>';
-                $.each(data.dff, function(key,value ){
-                    html += '<td>' + value + '</td>';
-                    return false;
-                  }) 
-                  html += '<td>' + data.dataw + '</td>';
-                  num++;
-                  
-                  html += '</tr>';
-                  
-                  $('#tbody_data').append(html);
-
                   
                   
                   
-                });
+          //       });
                 
 
           // console.log(data.dff);
 
-           $('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2);
+           //$('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2);
           // console.log(data.all_networks);
-           $('#accordion').append(data);
-          // $('#accordion3').append(data);
+           //$('#accordion').append(data);
+           $('#accordion3').append(data);
           // console.log(response)  ;
           // console.log(data.dff);
           // $('#dffData').empty();
