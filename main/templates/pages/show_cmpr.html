@@ -16,12 +16,85 @@
   <div class="form-row">
 
 
-    <h1 style="color: aquamarine;">Here Is Different Result</h1>
+    <!-------TABLE 1 -->
+    <h1 style="color: aquamarine;" id="tbh_1">Here Is Different Result</h1>
       <div class="form-group col-md-12 ">
-        <label style="color: aqua;">Filter by Keyword</label>
+        <div id="accordion3">
+
+          
+          <div class="table-responsive" id="tb_1">
+            <table class="table" id="table-1" style="width:100%; color: aqua;">
+              <thead >
+                <tr>
+                  <th style="color: aquamarine;">#</th>
+                  <th style="color: aquamarine;">Host</th>
+                  <th style="color: aquamarine;">Scan Date</th>
+                  <th style="color: aquamarine;">Detail</th>
+                  
+                </tr>
+              </thead>
+              <tbody id="tbody_data">
+
+                {% for data in records %}
+                <tr>
+                  <td>{{ data.host_id }}</td>
+                 
+                  <td>
+                   {{ data.hostname }}
+                  </td>
+                  <td>
+                    {{ scan_date}}
+                   </td>
+                   <td>
+                    <a class="btn btn-primary btn-sm showdetail"       
+                    data-id="{{ data.host_id }}"
+                    data-description="{{ company.title }}">
+                      <i data-feather="edit"></i>
+                    </a>
+                  </td>
+                 
+                  
+              
+                </tr>
+                {% endfor %}
+              </tbody>
+
+            </table>
+          </div>  
+          
+        <!-------TABLE 2 FOR PORTS-->
+        <div class="accordion4">
+
+          <div class="table-responsive" id="tb_port">
+            <button class="btn btn-primary btn-sm" id="btn_1">go back</button>
+            <h1 style="color: aquamarine;">Ports Result</h1>
+            <table class="table" id="table-3"  style="width:100%; color: aqua;">
+              <thead >
+                <tr>
+                  
+                  <th style="color: aquamarine;">#</th>
+                  <th style="color: aquamarine;">port</th>
+                  <th style="color: aquamarine;">state</th>
+                  <th style="color: aquamarine;">protocol</th>
+                  <th style="color: aquamarine;">reason</th>
+                  
+                </tr>
+              </thead>
+              <tbody id="tb_body">
+  
+      
+                </tr>
+               
+              </tbody>
+  
+            </table>
+          </div> 
+        </div>
+        </div>
+       
         <!-- <input type="text" class="form-control" id="search-box" placeholder="Search..."> -->
       </div>
-      <div style="border-color: aqua;" id="accordion3">
+      <!-- <div style="border-color: aqua;" id="accordion3">
 
         {% for data in records %}
         {% with num=forloop.counter|add:'1' %}
@@ -100,7 +173,7 @@
         {% endfor %}
 
 
-      </div>
+      </div> -->
 
  
 
@@ -169,8 +242,20 @@
 <script>
 
   $(document).ready(function () {
+    $("#table-3").DataTable({
+      "paging": true, // enable pagination
+      "pageLength": 5
+    })
+
+    $("#btn_1").click(function () {
+      $("#tb_body").html("");
+      $("#tbh_1").show();
+      $("#tb_port").hide();
+      $("#tb_1").show();
+
+    });
     dispalyTable();
-    
+    $("#tb_port").hide();
 
     CallModal()
     $('#search-box .accordion-header').keyup(function () {
@@ -233,7 +318,7 @@
       
     })
 
-
+    getports()
   });
 
   
@@ -292,5 +377,89 @@ function dispalyTable(){
     // })
 }
 
+
+function getports(){
+
+  $('.showdetail').click(function (e){
+            // e.preventDefault();
+           
+            $("#tb_port").show();
+            var id = $(this).data('id');
+            var rowsShown = 5;
+
+            // $("#save-stage").hide();
+
+            // alert(id)
+            //     // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+                $.ajax({
+                    url: '/showdetail/',
+                    type:"POST",
+                    data: {
+                        id: id,
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+                    },
+                  
+                    success: function(dataport) {
+                      var totalRows = dataport.port.total;
+                      var totalPages = Math.ceil(totalRows / rowsShown);
+
+                      console.log(totalRows)
+                      console.log(totalPages)
+
+
+
+
+
+                      $('#accordion4').append(dataport);
+                      $("#tb_1").hide();
+                      $("#tbh_1").hide();
+                      $("#tb_port").show();
+                      
+
+                      console.log(dataport);
+                      $.each(dataport.port, function(key,value){
+
+                            var html = '<tr>'
+                              
+                            html += '<td>' + key + '</td>';
+                            html += '<td>' + value.port + '</td>';
+                            html += '<td>' + value.state + '</td>';
+                            html += '<td>' + value.protocol+ '</td>';
+                            html += '<td>' + value.reason + '</td>';
+                            html += '</tr>';
+
+                            $("#tb_body").append(html);
+                          })
+
+
+                      
+                      
+                        // swal("Success", data, "success")
+                        // .then(function(){
+                        //     $('#updateCompany').hide();
+                        //     // readNetwork()
+                        //     location.reload();
+                        // });
+    
+                    },
+                    error: function(dataport){
+                       
+                        // swal("Error", data, "error");
+                        // swal({
+                        //     title: "Error !",
+                        //     text: "There was an error: "+data,
+                        //     icon: "error",
+                        //     timer: 4000, // time in milliseconds
+                        //     timerProgressBar: true,
+                        //     showConfirmButton: false
+                        // })
+                    }
+                })
+    
+    
+        })
+
+
+}
 </script>
 </html>
