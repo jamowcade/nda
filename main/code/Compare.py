@@ -6,7 +6,8 @@ from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core import serializers
-
+from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 # Create your views here.
 
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
@@ -87,12 +88,15 @@ def compare_by_date(request):
             a =  getALl(all_dff)
             
             print(a)
+            paginator = Paginator(a, 2)
+            page_number = request.GET.get('page')
+            pagePaginator= paginator.get_page(page_number)
            
-            
             data = {
-            'records':a,
-            'scan_date':date_object5
-        }
+                'records':pagePaginator,
+                'scan_date':date_object5,
+            }
+        
             return render(request,'pages/show_cmpr.html',data)
         
         else:
@@ -101,11 +105,15 @@ def compare_by_date(request):
             all_dff = dff.union(dff1)   
             a =  getALl(all_dff)
             print(a)
+            paginator = Paginator(a, 2)
+            page_number = request.GET.get('page')
+            pagePaginator= paginator.get_page(page_number)
            
             data = {
-                'records':a,
-                'scan_date':date_object9
+                'records':pagePaginator,
+                'scan_date':date_object9,
             }
+
         return render(request,'pages/show_cmpr.html',data)
     
     
@@ -161,7 +169,17 @@ def getALl(all_dff):
         port_with_host.append({
             'host_id':host_id.id,
             'hostname': host_id.hostname,
-            'port': ports 
+            'port': ports,
+            'company': host_id.network.compony_info.owner,
+          
+            'status': host_id.status,
+            'hostDate': host_id.host_date,
+            
+           "network": host_id.network.network,
+            "totalports": host_id.ports.all().count(),
+            'openPort': host_id.ports.filter(state='open').count(),
+            'closePort': host_id.ports.filter(state='closed').count(),
+            'filteredPort': host_id.ports.filter(state='filtered').count(),
             
         })
     return port_with_host
@@ -171,6 +189,7 @@ def getALl(all_dff):
 
     # return all_dff
 
+@csrf_exempt
 def showdetaile(request):
     id = request.POST.get('id')
     print(id)
@@ -178,4 +197,4 @@ def showdetaile(request):
    
     print(" =====> ",port)
     dataport ={"port": list(port.values())}
-    return JsonResponse(dataport,safe=False)  
+    return JsonResponse(dataport)
