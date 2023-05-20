@@ -4,236 +4,145 @@
 
   {% include "includes/head.html" %}
 
-
-
- <!-- <head>
-  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" >
-  <script src="https://cdn.datatables.net"></script>
- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
- </head> -->
- 
  <div class="container card-body">
   <div class="form-row">
-
-
-    <!-------TABLE 1 -->
+    <!--TABLE 1 -->
     <h1 style="color: aquamarine;" id="tbh_1">Here Is Different Result</h1>
       <div class="form-group col-md-12 ">
         <div id="accordion3">
 
           
-          <div class="table-responsive" id="tb_1">
-            <table class="table" id="table-1" style="width:100%; color: aqua;">
-              <thead >
-                <tr>
-                  <th style="color: aquamarine;">#</th>
-                  <th style="color: aquamarine;">Host</th>
-                  <th style="color: aquamarine;">Scan Date</th>
-                  <th style="color: aquamarine;">Detail</th>
-                  
-                </tr>
-              </thead>
-              <tbody id="tbody_data">
-
-                {% for data in records %}
-                <tr>
-                  <td>{{ data.host_id }}</td>
-                 
-                  <td>
-                   {{ data.hostname }}
-                  </td>
-                  <td>
-                    {{ scan_date}}
-                   </td>
-                   <td>
-                    <a class="btn btn-primary btn-sm showdetail"       
-                    data-id="{{ data.host_id }}"
-                    data-description="{{ company.title }}">
-                      <i data-feather="edit"></i>
-                    </a>
-                  </td>
-                 
-                  
-              
-                </tr>
-                {% endfor %}
-              </tbody>
-
-            </table>
-          </div>  
-          
-        <!-------TABLE 2 FOR PORTS-->
-        <div class="accordion4">
-
-          <div class="table-responsive" id="tb_port">
-            <button class="btn btn-primary btn-sm" id="btn_1">go back</button>
-            <h1 style="color: aquamarine;">Ports Result</h1>
-            <table class="table" id="table-3"  style="width:100%; color: aqua;">
-              <thead >
-                <tr>
-                  
-                  <th style="color: aquamarine;">#</th>
-                  <th style="color: aquamarine;">port</th>
-                  <th style="color: aquamarine;">state</th>
-                  <th style="color: aquamarine;">protocol</th>
-                  <th style="color: aquamarine;">reason</th>
-                  
-                </tr>
-              </thead>
-              <tbody id="tb_body">
-  
-      
-                </tr>
-               
-              </tbody>
-  
-            </table>
-          </div> 
-        </div>
-        </div>
-       
-        <!-- <input type="text" class="form-control" id="search-box" placeholder="Search..."> -->
-      </div>
-      <!-- <div style="border-color: aqua;" id="accordion3">
-
-        {% for data in records %}
-        {% with num=forloop.counter|add:'1' %}
-        <div  class="accordion" id="my-data">
-
           <div class="table-responsive">
-            <table class="table " id="table-1" style="width:100%; color: aqua;">
-              <thead>
-                <tr>
-                  <th style="color: aquamarine;">ID</th>
-                  <th style="color: aquamarine;">Port Number</th>
-                  
-                  
-                </tr>
-              </thead>
-              <tbody>
-                
-                <tr>
-                  <td>1</td>
-                  <td> <div 
-                    class="accordion-header getHost" 
-                    role="button" 
-                    data-toggle="collapse" 
-                    style="color: aqua; background-color: black; border-color: aquamarine;"
-                    
-                    data-value="{{data}}"
-                      aria-expanded="true"
-                      id="tbshow" data-target='#clo{{num}}'
-                      >
-                      <h3>{{forloop.counter}} - Host {{data.hostname}} Date {{dataw}} </h3>
-                      
-                    </div></td>
-                </tr>
-               
+                        
 
-                
-              </tbody>
-            </table>
-          </div>
-         
-          <div class="accordion-body collapse getingPorts" id='clo{{num}}' data-parent="#accordion3">
-
-            <div class="table-responsive">
-              <table class="table " id="table-1" style="width:100%; color: aqua;">
+            <table class="table table-bordered my-table"  id="table-1"  style="width:100%;">
                 <thead>
                   <tr>
-                    <th style="color: aquamarine;">ID</th>
-                    <th style="color: aquamarine;">Port Number</th>
-                    <th style="color: aquamarine;">State</th>
-                    <th style="color: aquamarine;">protocol</th>
-                    <th style="color: aquamarine;">Service</th>
-                    
-                    
+                    <th></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Host</th>
+                    <th scope="col">status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {% for port in data.port %}
-                  <tr>
-                    <td>{{port.id}}</td>
-                    <td>{{port.port}}</td>
-                    <td>{{port.state}}</td>
-                    <td>{{port.protocol}}</td>
-                    <td>{{port.service}}</td>
+                <tbody id="tbody_data">
+                    {% for data in records %}
+                    {% with num=forloop.counter|add:'1' %}
+                    
+                  <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
+                      <!-- <th><i class="fas fa-plus-circle" id="expand-icon"></i></th> -->
+                      <th scope="row" >{{forloop.counter}}</th>
+                      <th scope="row">
+                        <span class="badge badge-secondary " style="font-size: medium;" > {{data.hostname}} Ports {{data.totalports}}  open ports {{data.openPort}} 
+                          close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}
+                          
+                        </span>
+                        </th>
+                      <th scope="row">{{data.status}}</th>
                   </tr>
-                  {% endfor %}
+                  <tr id="{{num}}" style="display:none;">
+                    <td></td>
+                    <td>
+                      <center>
 
-                  
+                        <span style="font-size: medium;">
+                          <b> Company : {{data.company}}  {{data.network}} </b>
+                        </span><br><br>
+                      </center>
+
+
+                        {% for port in data.port %}
+                        {% with num=forloop.counter|add:'1' %}
+                        <div class="row">
+                        <div class="col-12 col-md-6 col-lg-3">
+                               
+                            <span style="cursor: pointer; text-align: center;" >
+                                 <b> Port {{forloop.counter}} </b>
+                            </span><br>
+                            <span>Port      : {{port.port}}</span><br>
+                            {% if port.state == 'filtered' %}
+                            <span>State     : <span style="color: orange;"> {{port.state}} </span></span><br>
+                            {% elif port.state == 'open' %}
+                            <span>State     : <span style="color: green;"> {{port.state}} </span></span><br>
+                            {% elif port.state == 'closed' %}
+                            <span>State     : <span style="color: red;"> {{port.state}} </span></span><br>
+                            {% endif %}
+                            <span>Protocol  : {{port.protocol}}</span><br>
+                            <span>Date      : {{port.time}}</span><br><br>
+                        </div>
+                        
+                        <div class="col-12 col-md-6 col-lg-9">
+
+                        
+                        <span style="cursor: pointer; text-align: center;">
+                            services
+                            "name": "ssh",
+                            "product": "OpenSSH",
+                            "version": "7.2p2 Ubuntu 4ubuntu2.10",
+                            "extrainfo": "Ubuntu Linux; protocol 2.0",
+                            "ostype": "Linux",
+                            "method": "probed",
+                            "conf": "10"
+                        </span>
+                        <span>
+                            "name": "ssh",
+                            "product": "OpenSSH",
+                            "version": "7.2p2 Ubuntu 4ubuntu2.10",
+                            "extrainfo": "Ubuntu Linux; protocol 2.0",
+                            "ostype": "Linux",
+                            "method": "probed",
+                            "conf": "10"
+
+                        </span>
+                        
+                        </div>
+
+
+
+                        
+                        </div>
+
+                            {% endwith %}
+                            {% endfor %}
+                            
+                        </td>
+                     
+                    </tr>
+                    {% endwith %}
+                    {% endfor %}
                 </tbody>
-              </table>
-            </div>
-
             
+              </table>
+
           </div>
+
+          <div class="pagination" style="justify-content: center; justify-items: center;">
+
+            <nav aria-label="Page navigation example">
+
+                <ul class="pagination">
+                    {% if records.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page=1"> <b> &laquo; </b></a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ records.previous_page_number }}"> <b> &lsaquo; </b></a></li><br>
+                  {% endif %}
+
+                  <li class="page-item"> <span class="badge"> Page {{ records.number }} of {{ records.paginator.num_pages }} </span></li>
+                  
+                  {% if records.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ records.next_page_number }}"> <b> &rsaquo; </b></a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ records.paginator.num_pages }}"> <b> &raquo; </b></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
         </div>
-        {% endwith %}
-        {% endfor %}
 
-
-      </div> -->
-
- 
-
-</div>
-
-<div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="companyRegister">Registeration Company</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-body">
-    
-          <form method="POST" id="updatecase"> {% csrf_token %}
-            <div class="container">
-              <div class="row">
-                <input type="text" hidden id="uid" name="p" class="form-control" aria-describedby="">
-
-                <label for="">Name</label>
-                <input type="text" id="uname" readonly name="case_name" class="form-control" aria-describedby="" required>
-
-              </div>
-              <br>
-              <div class="row">
-                <label for="">Method</label>
-                <input type="text" id="method" readonly name="case_type" class="form-control" aria-describedby="" required>
-
-              </div><br>
-
-             
-              <div class="row">
-                <label for="">Conf</label>
-                <input type="text" id="conf" readonly name="device_type" class="form-control" aria-describedby=""  required>
-                
-              </div><br>
-              <br>  
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary">
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary" id="savebutton">
-                  Save changes
-                </button>
-              </div>
-          </form>
+          
+        <!-------TABLE 2 FOR PORTS-->
+      
         </div>
-    
-
+       
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
+      
+
 </div>
 
 {% include "includes/scripts.html" %}
@@ -241,225 +150,52 @@
 
 <script>
 
-  $(document).ready(function () {
-    $("#table-3").DataTable({
-      "paging": true, // enable pagination
-      "pageLength": 5
-    })
 
-    $("#btn_1").click(function () {
-      $("#tb_body").html("");
-      $("#tbh_1").show();
-      $("#tb_port").hide();
-      $("#tb_1").show();
-
-    });
-    dispalyTable();
-    $("#tb_port").hide();
-
-    CallModal()
-    $('#search-box .accordion-header').keyup(function () {
-      const searchTerm = $(this).val().toLowerCase();
-      $('#my-data').filter(function () {
-        const text = $(this).text().toLowerCase();
-        const match = text.indexOf(searchTerm) > -1;
-        $(this).toggle(match);
-      });
-    });
-    function CallModal() {
-      $('#modalService').click(function (e) {
-        e.preventDefault()
-        $('#newCompany').modal('show')
-      })
-    }
-
-    $("h4").click(function () {
-      $('#ser').mouseenter(function () {
-      $('#newCompany').modal('show')
-      var id = $(this).data('id')
-      console.log(id)
-      var service = $(this).data('service');
-      sr=service.split(",")
-      $("#uname").val(sr[0])
-      $("#method").val(sr[1])
-      $("#conf").val(sr[2])
-      // console.log(sr[0],sr[1],sr[2])
-      $.ajax({
-        url: '/getport_service/',
-        type: "GET",
-        data: {
-          id: id,
-         
-        },
-
-        success: function (data) {
-
-          console.log(data);
-
-        },
-        error: function (data) {
-
-         
-          console.log("error", data);
-          swal({
-              title: "Error !",
-              text: "There was an error: "+data,
-              icon: "error",
-              timer: 4000, // time in milliseconds
-              timerProgressBar: true,
-              showConfirmButton: false
-          })
+          // Define the number of items to display per page
+          function searchTable($table, query) {
+    $table.find('tbody tr').each(function() {
+      var found = false;
+      $(this).find('td').each(function() {
+        var text = $(this).text().toLowerCase();
+        if (text.indexOf(query) !== -1) {
+          found = true;
+          return false;
+        } else if ($(this).find('table').length > 0) {
+          if (searchTable($(this).find('table'), query)) {
+            found = true;
+            return false;
+          }
         }
-      })
-
-
-
-    })
-      
-    })
-
-    getports()
-  });
-
+      });
+      if (found) {
+          
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  }
   
-function getTable(){
-  e.preventDefault();
-  // $('#save').DataTable();
-}
-
-// $("#tbshow").click(function (){
-//  getTable();
-
-//   })
-
-
-function dispalyTable(){
-    $(".getHost").click(function(){
-        var host = $(this).data("value");
-        $.ajax({
-            url:'/get_Hosts/',
-            type: "GET",
-            data : {
-                'host': host
-            },
-            success: function(response){
-              var num = 1
-              // $('.getingPorts').append(response)
-              $.each(response.ports, function(key,value){  
-                var html = '<tr>';
-                  html += '<td>' + num + '</td>';
-                  html += '<td>' + value.port + '</td>';
-                  html += '<td>' + value.state + '</td>';
-                  html += '<td>' + value.protocol + '</td>';
-                  html += '<td>' + value.service + '</td>';
-                  html += '<td>' + value.rpc_info + '</td>';
-                  html += '<td>' + value.version + '</td>';
-                  html += '</tr>';
-                  num++;
-
-
-                  $('#tbody_data').append(html);
-                  
-                  
-                  
-                });
-                
-                console.log(response);
-              }
-            })
-            // $('#tbody_data').empty();
-          // $('.getingPorts').html('')
-
-        
-    })
-    // $(".getHost").dblclick(function(){
-    //   $('#tbody_data').hide();
-    // })
-}
-
-
-function getports(){
-
-  $('.showdetail').click(function (e){
-            // e.preventDefault();
-           
-            $("#tb_port").show();
-            var id = $(this).data('id');
-            var rowsShown = 5;
-
-            // $("#save-stage").hide();
-
-            // alert(id)
-            //     // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
-                $.ajax({
-                    url: '/showdetail/',
-                    type:"POST",
-                    data: {
-                        id: id,
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
-                    },
-                  
-                    success: function(dataport) {
-                      var totalRows = dataport.port.total;
-                      var totalPages = Math.ceil(totalRows / rowsShown);
-
-                      console.log(totalRows)
-                      console.log(totalPages)
-
-
-
-
-
-                      $('#accordion4').append(dataport);
-                      $("#tb_1").hide();
-                      $("#tbh_1").hide();
-                      $("#tb_port").show();
-                      
-
-                      console.log(dataport);
-                      $.each(dataport.port, function(key,value){
-
-                            var html = '<tr>'
-                              
-                            html += '<td>' + key + '</td>';
-                            html += '<td>' + value.port + '</td>';
-                            html += '<td>' + value.state + '</td>';
-                            html += '<td>' + value.protocol+ '</td>';
-                            html += '<td>' + value.reason + '</td>';
-                            html += '</tr>';
-
-                            $("#tb_body").append(html);
-                          })
-
-
-                      
-                      
-                        // swal("Success", data, "success")
-                        // .then(function(){
-                        //     $('#updateCompany').hide();
-                        //     // readNetwork()
-                        //     location.reload();
-                        // });
-    
-                    },
-                    error: function(dataport){
-                       
-                        // swal("Error", data, "error");
-                        // swal({
-                        //     title: "Error !",
-                        //     text: "There was an error: "+data,
-                        //     icon: "error",
-                        //     timer: 4000, // time in milliseconds
-                        //     timerProgressBar: true,
-                        //     showConfirmButton: false
-                        // })
-                    }
-                })
-    
-    
-        })
-
-
-}
-</script>
+  $('#search-input').on('keyup', function() {
+    var searchTerm = $(this).val().toLowerCase();
+    searchTable($('.my-table'), searchTerm);
+  });
+  
+  function toggleRow(row) {
+      var x = document.getElementById(row);
+      if (x.style.display === "none") {
+        x.style.display = "table-row";
+      } else {
+        x.style.display = "none";
+      }
+    }
+  function servicetoggleRow(row) {
+      var x = document.getElementById(row);
+      if (x.style.display === "none") {
+        x.style.display = "table-row";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
 </html>
