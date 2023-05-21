@@ -85,7 +85,7 @@ function chart1() {
             size: 6
         },
         xaxis: {
-            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
 
             labels: {
                 style: {
@@ -95,7 +95,7 @@ function chart1() {
         },
         yaxis: {
             title: {
-                text: "Income"
+                text: "a"
             },
             labels: {
                 style: {
@@ -292,17 +292,17 @@ function chart4() {
             colors: ['#999b9c', '#4CC2B0'] // marker color
         },
         series: [{
-            name: 'series1',
+            name: '{{hosts}}',
             data: [31, 40, 28, 51, 22, 64, 80]
         }, {
-            name: 'series2',
+            name: '{{ports}}',
             data: [11, 32, 67, 32, 44, 52, 41]
         }],
         legend: {
             show: false,
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July','August', 'September', 'October', 'November', 'Dec'],
             labels: {
                 style: {
                     colors: "#9aa0ac"

@@ -72,7 +72,7 @@
                     <div class="padding-20">
                       <div class="text-right">
                         <h3 class="font-light mb-0">
-                          <i class="ti-arrow-up text-success"></i> 785
+                          <i class="ti-arrow-up text-success"></i> {{host}}
                         </h3>
                         <span class="text-muted">Host</span>
                       </div>
@@ -89,7 +89,7 @@
                     <div class="padding-20">
                       <div class="text-right">
                         <h3 class="font-light mb-0">
-                          <i class="ti-arrow-up text-success"></i> 5,263
+                          <i class="ti-arrow-up text-success"></i> {{ports}}
                         </h3>
                         <span class="text-muted">Ports</span>
                       </div>
@@ -102,41 +102,109 @@
             <div class="row">
               <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
-                  <div class="card-header">
+                  <!-- <div class="card-header">
                     <h4>Statistics</h4>
                     <div class="card-header-action">
                       <a href="#" class="btn active">Week</a>
                       <a href="#" class="btn">Month</a>
                       <a href="#" class="btn">Year</a>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <!-- <canvas id="myChart" height="100"></canvas> -->
-                    <canvas id="myChart2" height="100"></canvas>
-                    <div class="statistic-details mt-1">
-                      <div class="statistic-details-item">
-                        <div class="text-small text-muted"><span class="text-primary"><i
-                              class="fas fa-caret-up"></i></span> 12%</div>
-                        <div class="detail-value">$125</div>
-                        <div class="detail-name">Today</div>
+                  </div> -->
+                  <!-- <div class="card-body">
+                    <canvas id="myChart4" height="100"></canvas>
+                    
+                  </div> -->
+                  <!-- <div class="card-body">
+                    <div class="summary">
+                      <div class="summary-chart active" data-tab-group="summary-tab" id="summary-chart">
+                        <div id="chart4" class="chartsh"></div>
                       </div>
-                      <div class="statistic-details-item">
-                        <div class="text-small text-muted"><span class="text-danger"><i
-                              class="fas fa-caret-down"></i></span> 33%</div>
-                        <div class="detail-value">$3,564</div>
-                        <div class="detail-name">This Week</div>
+                      <div data-tab-group="summary-tab" id="summary-text">
                       </div>
-                      <div class="statistic-details-item">
-                        <div class="text-small text-muted"><span class="text-primary"><i
-                              class="fas fa-caret-up"></i></span>19%</div>
-                        <div class="detail-value">$14,687</div>
-                        <div class="detail-name">This Month</div>
-                      </div>
-                      <div class="statistic-details-item">
-                        <div class="text-small text-muted"><span class="text-primary"><i
-                              class="fas fa-caret-up"></i></span>29%</div>
-                        <div class="detail-value">$88,568</div>
-                        <div class="detail-name">This Year</div>
+                    </div>
+                  </div> -->
+
+
+                  <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-12">
+                      <div class="card ">
+                        <div class="card-header">
+                          <h4>Host and Ports Chart</h4>
+                          <div class="card-header-action">
+                            <div class="dropdown">
+                              <!-- <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a> -->
+                              <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                <a href="#" class="dropdown-item has-icon"><i class="far fa-edit"></i> Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i>
+                                  Delete</a>
+                              </div>
+                            </div>
+                            <!-- <a href="#" class="btn btn-primary">View All</a> -->
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-9">
+                              <div id="chart4"></div>
+                              <div class="row mb-0">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                  <div class="list-inline text-center">
+                                    <div class="list-inline-item p-r-30">
+                                      <span class="col-green">+{{openstate}}%</span>
+                                      <h5 class="m-b-0">
+                                        <span class="text-big">{{openport}}</span>
+                                      </h5>
+                                      <p class="text-muted font-14 m-b-0">Open Ports</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                  <div class="list-inline text-center">
+                                    <div class="list-inline-item p-r-30">
+                                      <span class="col-green">+{{closestate}}%</span>
+                                      
+                                      <h5 class="m-b-0">
+                                        <span class="text-big">{{closeport}}</span>
+                                      </h5>
+                                      <p class="text-muted font-14 m-b-0">Close Ports</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                  <div class="list-inline text-center">
+                                    <div class="list-inline-item p-r-30">
+                                      <span class="col-green">+{{filterstate}}%</span>
+                                      <h5 class="mb-0 m-b-0">
+                                        <span class="text-big">{{filterport}}</span>
+                                      </h5>
+                                      <p class="text-muted font-14 m-b-0">Filter Ports</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-3">
+                              <center>
+                                <div class="col-7 col-xl-7 mb-3">Top 5 Hight Level Ports</div>
+                              </center>
+                              <div class="row mt-5">
+                                {% for value in each_port_value %}
+                                <div class="col-7 col-xl-7 mb-3"> {{forloop.counter}}- Port : {{value.ports}}</div>
+                                <div class="col-5 col-xl-5 mb-3">
+                                  <span class="text-big">{{value.count}}</span>
+                                  <sup class="col-green">+{{value.percentage}}%</sup>
+                                </div>
+                                {% endfor %}
+
+
+
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -162,7 +230,11 @@
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
     <!-- Scripts -->
+
+    
   </body>
+
+
  <!-- Footbar Section -->
  {% include "includes/footer.html" %}
  <!-- EndFootbar Section -->
