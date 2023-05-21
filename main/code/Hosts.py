@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from main.models import Campany, ErrorLog, Host, Network, Port, UserLog
+from main.models import Campany, ErrorLog, Host, Network, Port, UserLog, ScanCase
 from django.contrib.auth.decorators import login_required, permission_required
 
 
@@ -37,6 +37,7 @@ def addHosts(request):
     if request.method == 'POST':
         file_data = request.FILES['file'].read().decode('utf-8') # read the uploaded file data
         get_date = request.POST.get('scan_date')
+        scan_case = ScanCase.objects.get(date=get_date)
 
         date_obj = datetime.strptime(get_date, "%B %d, %Y")
         scan_date = date_obj.strftime("%Y-%m-%d")

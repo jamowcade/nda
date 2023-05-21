@@ -48,7 +48,7 @@ def filter_data(request):
 
 
             })
-    paginator = Paginator(filtered_hosts, 10)
+    paginator = Paginator(filtered_hosts, 50)
   
     pagePaginator= paginator.get_page(page)
     data = {'records': pagePaginator, "network": host.network, 'dataCompany':Listcompany, "scan_date": filter_date}

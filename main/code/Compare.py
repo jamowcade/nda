@@ -93,7 +93,7 @@ def compare_by_date(request):
             a =  getALl(all_dff)
             
             print(a)
-            paginator = Paginator(a, 2)
+            paginator = Paginator(a, 10)
             page_number = request.GET.get('page')
             pagePaginator= paginator.get_page(page_number)
            
@@ -112,7 +112,7 @@ def compare_by_date(request):
             all_dff = dff.union(dff1)   
             a =  getALl(all_dff)
             print(a)
-            paginator = Paginator(a, 2)
+            paginator = Paginator(a, 10)
             page_number = request.GET.get('page')
             pagePaginator= paginator.get_page(page_number)
            

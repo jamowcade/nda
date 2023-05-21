@@ -257,56 +257,10 @@
           
       },
         success: function(data) {
-          console.log(data);
-          // var num = 1
-          //     // $('.getingPorts').append(response)
-          //     $.each(data, function(key,value){  
-          //       var html = '<tr>';
-          //         html += '<td>' + num + '</td>';
-          //       $.each(data.dff, function(key,value ){
-          //           html += '<td>' + value + '</td>';
-          //           return false;
-          //         }) 
-          //         html += '<td>' + data.dataw + '</td>';
-          //         num++;
-                  
-          //         html += '</tr>';
-                  
-          //         $('#tbody_data').append(html);
-
-                  
-                  
-                  
-          //       });
-                
-
-          // console.log(data.dff);
-
-           //$('#accordion2').append(" Total Networks ", data.all_networks2, " | ","Total Ports : ",data.all_ports2, " | "," Total Hosts ", data.all_hosts2);
-          // console.log(data.all_networks);
-           //$('#accordion').append(data);
            $('#accordion3').append(data);
-          // console.log(response)  ;
-          // console.log(data.dff);
-          // $('#dffData').empty();
-         
-          // $.each(data.dff, function(key,value){
-
-          //   var html = '<tr>'
-              
-          //   html += '<td>' + key + '</td>';
-          //   html += '<td>' + value  + '</td>';
-          //   html += '</tr>';
-
-          //   $('#dffData').append(html);
-          // })
-
-
-          // $('#accordion3').append(data.dff);
-        
         },
       })
-      $('#accordion3').html('')
+      $('#accordion3').empty()
 
       });
     }

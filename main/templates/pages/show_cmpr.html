@@ -15,10 +15,9 @@
           <div class="table-responsive">
                         
 
-            <table class="table table-bordered my-table"  id="table-1"  style="width:100%;">
+            <table class="table  my-table"  id="table-1"  style="width:100%;">
                 <thead>
                   <tr>
-                    <th></th>
                     <th scope="col">#</th>
                     <th scope="col">Host</th>
                     <th scope="col">status</th>
@@ -29,8 +28,7 @@
                     {% with num=forloop.counter|add:'1' %}
                     
                   <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
-                      <!-- <th><i class="fas fa-plus-circle" id="expand-icon"></i></th> -->
-                      <th scope="row" >{{forloop.counter}}</th>
+                      <th scope="row" >{{data.host_id}}</th>
                       <th scope="row">
                         <span class="badge badge-secondary " style="font-size: medium;" > {{data.hostname}} Ports {{data.totalports}}  open ports {{data.openPort}} 
                           close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}

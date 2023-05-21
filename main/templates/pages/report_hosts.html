@@ -118,14 +118,26 @@
 
 
 <script>
-
+  $('#search-box').on('keyup', function() {
+    filterTable();
+  });
+function filterTable() {
+  var searchVal = $('#search-box').val().toLowerCase();
+  if(searchVal === '') {
+    $('#table-1 tbody tr').show(); // Show all rows if searchVal is empty
+  } else {
+    $('#myTable tbody tr').each(function() {
+      var text = $(this).text().toLowerCase();
+      var match = text.indexOf(searchVal) > -1;
+      $(this).toggle(match); // Show/hide rows based on match
+    });
+  }
+}
 
 function paginate(){
   $('.pagination li a').click(function(e){
     e.preventDefault()
     page = $(this).attr('href')
-    console.log(page
-    );
     $.ajax({
             url: '/filter_data/',
             data: {
@@ -143,7 +155,7 @@ function paginate(){
  function searchTable($table, query) {
   $table.find('tbody tr').each(function() {
     var found = false;
-    $(this).find('td').each(function() {
+    $(this).find('tr').each(function() {
       var text = $(this).text().toLowerCase();
       if (text.indexOf(query) !== -1) {
         found = true;
@@ -190,6 +202,7 @@ function servicetoggleRow(row) {
 $(document).ready(function () {
 CallModal()
 paginate()
+
 $('#search-box .accordion-header').keyup(function () {
   const searchTerm = $(this).val().toLowerCase();
   $('#my-data').filter(function () {
