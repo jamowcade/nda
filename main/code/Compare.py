@@ -34,6 +34,11 @@ def compare_by_date(request):
     compare_date1 = request.GET.get('FILTERED_DATE1')
     compare_date2 = request.GET.get('FILTERED_DATE2')
     print(compare_date,compare_date2,compare_date1)
+    compare_network = request.GET.get('network')
+    print(compare_network)  
+
+    scan_date_1 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
+    scan_date_2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
 
     if compare_date is not None : 
         network = request.GET.get('network')   
@@ -94,7 +99,9 @@ def compare_by_date(request):
            
             data = {
                 'records':pagePaginator,
-                'scan_date':date_object5,
+                'scan_date1':scan_date_1,
+                'scan_date2':scan_date_2,
+                'network':compare_network,
             }
         
             return render(request,'pages/show_cmpr.html',data)
@@ -111,7 +118,9 @@ def compare_by_date(request):
            
             data = {
                 'records':pagePaginator,
-                'scan_date':date_object9,
+                'scan_date1':scan_date_1,
+                'scan_date2':scan_date_2,
+                'network':compare_network,
             }
 
         return render(request,'pages/show_cmpr.html',data)
