@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Campany,Network,Host,Port
+from main.models import Campany,Network,Host,Port,ScanCase
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 
@@ -7,14 +7,16 @@ from django.db.models import Count
 @login_required(login_url='login')
 def index(request):
     eachPort = []
+
+    # Count Each Table Of Database
     totalCompany = Campany.objects.count()
     totalNetwork = Network.objects.count()
     totalHost = Host.objects.count()
     totalPorts = Port.objects.count()
     
-    ppp = Port.objects.annotate(count=Count('port')).order_by('-count')[:5]
-    for p in ppp:
-        print(p.port)
+    # ppp = Port.objects.annotate(count=Count('port')).order_by('-count')[:5]
+    # for p in ppp:
+    #     print(p.port)
 
     each_port_value = Port.objects.values('port').annotate(count=Count('port')).order_by('-count')[:5][::1]
 
@@ -28,6 +30,10 @@ def index(request):
     openstate = getOpenPorts(totalPorts,openPorts)
     closestate = getClosedPort(totalPorts,closePorts)
     filterstate = getfilterPorts(totalPorts,filterPorts)
+
+
+    # Get Last Top 5 Activity Scan Cases
+    top_scan = ScanCase.objects.all().order_by('-id')[:5][::-1]
 
 
     
@@ -54,6 +60,7 @@ def index(request):
         'closeport':closePorts,
         'filterstate':filterstate,
         'filterport':filterPorts,
+        'top_scan':top_scan,
         }    
     return render(request, 'index.html',context)
 
