@@ -131,8 +131,11 @@
   <!-- Scripts Section -->
   {% include "includes/scripts.html" %}
   
-  <script src="{% static 'assets/scripts/pages/company.js' %}"></script>
+  
   <script>
+
+
+
     $(document).ready(function(){
       $('#company').on('change',function(){
         event.preventDefault();
@@ -249,6 +252,7 @@
         data:{
           'FILTERED_DATE1':formattedDate1,
           'FILTERED_DATE2': formattedDate,
+          "page":'1',
           'network': network,
           
       },
