@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Campany,Network,Host,Port,ScanCase
+from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 
@@ -34,6 +34,7 @@ def index(request):
 
     # Get Last Top 5 Activity Scan Cases
     top_scan = ScanCase.objects.all().order_by('-id')[:5][::-1]
+    user_logs = UserLog.objects.all().order_by('created_at')[:5][::-1]
 
 
     
@@ -61,6 +62,7 @@ def index(request):
         'filterstate':filterstate,
         'filterport':filterPorts,
         'top_scan':top_scan,
+        'user_logs':user_logs,
         }    
     return render(request, 'index.html',context)
 

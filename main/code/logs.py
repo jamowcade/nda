@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 @login_required(login_url='user_login')
 def erorlogs(request):
-    error_logs = ErrorLog.objects.all().order_by('-created_at')
+    error_logs = ErrorLog.objects.all().order_by('created_at')
     context = {
         "error_logs": error_logs
     }
@@ -14,7 +14,7 @@ def erorlogs(request):
 
 @login_required(login_url='user_login')
 def userlogs(request):
-    user_logs = UserLog.objects.all().order_by('-created_at')
+    user_logs = UserLog.objects.all().order_by('created_at')
     context = {
         "user_logs":user_logs
     }
@@ -44,7 +44,7 @@ def my_view(request):
         )
 
     # Get the error logs and user logs from the database
-    error_logs = ErrorLog.objects.filter(user=request.user).order_by('-created_at')
-    user_logs = UserLog.objects.filter(user=request.user).order_by('-created_at')
+    error_logs = ErrorLog.objects.filter(user=request.user).order_by('created_at')
+    user_logs = UserLog.objects.filter(user=request.user).order_by('created_at')
 
     return render(request, 'my_template.html', {'error_logs': error_logs, 'user_logs': user_logs})

@@ -251,26 +251,26 @@
               
               <div class="card">
                 <div class="card-header">
-                  <h4>latest Activity</h4>
+                  <h4>latest User Activity</h4>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-bordered mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Renter</th>
-                          <th>House</th>
-                          <th>Date</th>
+                          <th>User</th>
+                          <th>Message</th>
+                          <th>Time</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {% for Enviroment in topEnviroment %}
+                        {% for data in user_logs %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
-                          <td>{{ Enviroment.renter.name }}</td>
-                          <td>{{ Enviroment.house.district }}-{{ Enviroment.house.houseno }} ({{ Enviroment.house.type }}) </td>
-                          <td>{{ Enviroment.register_date }}</td>
+                          <td>{{data.user.username}}</td>
+                          <td>{{data.message}}</td>
+                          <td>{{data.created_at|timesince}}ago</td>
                         </tr>
                         {% endfor %}
                       </tbody>
