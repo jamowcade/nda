@@ -77,6 +77,11 @@ def addHosts(request):
                     portid= data[host]['ports'][port]['portid']
                     protocol = data[host]['ports'][port]['protocol']
                     state = data[host]['ports'][port]['state']
+                    # try:
+                    #     for key, value in data[host]['ports'][port]['service']:
+                    #         print(key, value)
+                    # except:
+                    #     return JsonResponse("error getttin services", safe=False)
                     service_name =  data[host]['ports'][port]['service']['name']
                     service_method =  data[host]['ports'][port]['service']['method']
                     service_conf =  data[host]['ports'][port]['service']['conf']

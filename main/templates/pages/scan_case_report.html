@@ -104,8 +104,11 @@
         <!-- Ending Setting Bar Sections -->
 
 
-        <div id="accordion">   
+        <div id="accordion"> 
+          
+          
         </div>
+        
       </div>
 
       <!-- Footbar Section -->
@@ -125,8 +128,7 @@
 
   <script>
     $(document).ready(function () {
-  
-      $('.listRecord').hide()
+      $('.listRecord').hide();
       $('#filter-form').submit(function (event) {
         event.preventDefault();
         var filterDate = $('#filter-date').val();
@@ -138,13 +140,17 @@
         console.log(formattedDate);
         $.ajax({
           type: 'GET',
-          url: '/filter_by_date/',
+          url: '/filter_data/',
           beforeSend: function () {
             // Show the loading spinner before the request is sent
             $('#loading-spinner').show();
           },
-          data: { 'filter_date': formattedDate },
+          data: { 
+            'filter_date': formattedDate,
+            'page':'1'
+          },
           success: function (response) {
+            $('#accordion').show()
             $('#accordion').append(response)
             
            

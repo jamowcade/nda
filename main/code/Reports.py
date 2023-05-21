@@ -1,15 +1,9 @@
 from django.shortcuts import render
 from main.models import Campany, Host, Network, Port, ScanCase
 from django.contrib.auth.decorators import login_required, permission_required
-
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 # Create your views here.
-
-def Reports(request):
-
-    return render(request,'pages/Reports.html')
-
-
-@permission_required('main.view_report', raise_exception=True, login_url=None)
 def scan_cases_report(request):
     scan_cases = ScanCase.objects.all()
     context = {
@@ -17,9 +11,11 @@ def scan_cases_report(request):
     }
     return render(request,'pages/scan_case_report.html', context)
 
-@permission_required('main.view_report', raise_exception=True, login_url=None)
-def filter_by_date(request):
+
+
+def filter_data(request):
     filter_date = request.GET.get('filter_date')
+    page = request.GET.get('page')
     hosts = Host.objects.all()
     Listcompany = Campany.objects.all()
     # print(filter_date)
@@ -28,7 +24,7 @@ def filter_by_date(request):
         "records": []
     }
     for host in hosts:
-        host_date = host.host_date
+        host_date = str(host.host_date)
         # print(host_date)
 
         # data_string = host_date.strftime('%Y-%m-%d')
@@ -38,15 +34,28 @@ def filter_by_date(request):
             ports = host.ports.all()
             
             filtered_hosts.append({
-                "host":host.hostname,
-                "ports": ports,
-                "totalports": host.ports.all().count(),
-                "network": host.network.network,
-                "company": host.network.compony_info.owner,
+            'company': host.network.compony_info.owner,
+            'hostname': host.hostname,
+            'status': host.status,
+            "scanDate":filter_date,
+            'hostDate': host.host_date,
+            'ports': ports,
+            "network": host.network.network,
+            "totalports": host.ports.all().count(),
+            'openPort': host.ports.filter(state='open').count(),
+            'closePort': host.ports.filter(state='closed').count(),
+            'filteredPort': host.ports.filter(state='filtered').count(),
 
 
             })
-           
-            data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
-     
-    return render(request, 'pages/display.html',data)
+    paginator = Paginator(filtered_hosts, 10)
+  
+    pagePaginator= paginator.get_page(page)
+    data = {'records': pagePaginator, "network": host.network, 'dataCompany':Listcompany, "scan_date": filter_date}
+    if len(filtered_hosts) > 0:
+        return render(request, 'pages/report_hosts.html',data)
+    else:
+        return JsonResponse("NO Data found", safe=False)
+    
+
+
