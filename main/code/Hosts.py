@@ -38,14 +38,19 @@ def addHosts(request):
     if request.method == 'POST':
         file_data = request.FILES['file'].read().decode('utf-8') # read the uploaded file data
         get_date = request.POST.get('scan_date')
-        scan_case = ScanCase.objects.get(date=get_date)
+        # scan_case = ScanCase.objects.get(date=get_date)
 
         date_obj = datetime.strptime(get_date, "%B %d, %Y")
         scan_date = date_obj.strftime("%Y-%m-%d")
 
         data = json.loads(file_data) # parse the JSON data
-        file_network = data[0]['network'] #get the network in json file
         # check if network not registed before uploading hosts
+        
+        if 'network' not in data:
+            print("fle is ")
+            return JsonResponse({'success': False, 'error': " Empty File Not Uploaded !"})
+
+        file_network = data[0]['network'] #get the network in json file
         try:
             host_network = Network.objects.get(network=file_network) 
         except Exception as e:
@@ -61,7 +66,7 @@ def addHosts(request):
             status =   data[host]['state']
             network = host_network
             
-            is_host = Host.objects.filter(hostname=hostname, host_date=scan_date).all() # check if host exists with the given hostname and scan date.
+            is_host = Host.objects.filter(hostname=hostname, host_date=scan_date, network=network).all() # check if host exists with the given hostname and scan date.
             
             # check if host already registered in the current scan case
             if is_host:
