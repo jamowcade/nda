@@ -147,7 +147,7 @@
                         <div class="card-body">
                           <div class="row">
                             <div class="col-lg-9">
-                              <div id="chart4"></div>
+                              <canvas id="myChart222" height="100"></canvas>
                               <div class="row mb-0">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
@@ -302,6 +302,65 @@
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
     <!-- Scripts -->
+
+    <script>
+      $(document).ready(function(){
+        var ctx = document.getElementById("myChart222").getContext('2d');
+     
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['{% for d in dataChart %} {{d.months}} '],
+    datasets: [{
+      label: 'Hosts',
+      data: ['{{d.hosts}}'],
+      borderWidth: 2,
+      backgroundColor: 'rgba(255,164,38,.9)',
+      borderColor: 'rgba(255,164,38,.9)',
+      borderWidth: 2.5,
+      pointBackgroundColor: '#ffffff',
+      pointRadius: 4
+    }, {
+      label: 'Ports',
+      data: ['{{ports}}{% endfor %}'],
+      borderWidth: 2,
+      backgroundColor: 'rgba(71,65,98,.9)',
+      borderColor: 'transparent',
+      borderWidth: 0,
+      pointBackgroundColor: '#999',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    legend: {
+      display: false
+    },
+    scales: {
+      yAxes: [{
+        gridLines: {
+          drawBorder: false,
+          color: '#f2f2f2',
+        },
+        ticks: {
+          beginAtZero: true,
+          stepSize: 150,
+          fontColor: "#9aa0ac", // Font Color
+        }
+      }],
+      xAxes: [{
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          fontColor: "#9aa0ac", // Font Color
+        }
+      }]
+    },
+  }
+});
+
+      });
+    </script>
 
     
   </body>
