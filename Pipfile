@@ -8,6 +8,7 @@ django = "*"
 mysqlclient = "*"
 psycopg2 = "*"
 django-auto-logout = "*"
+pytz = "*"
 
 [dev-packages]
 
