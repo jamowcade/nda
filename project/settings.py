@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout', #Django auto-logout
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -63,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_auto_logout.context_processors.auto_logout_client', #django auto_logout
             ],
         },
     },
@@ -77,11 +79,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nda2_db',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_nda',
+        'USER': 'osoc',
+        'PASSWORD': 'osoc1osoc2',
+        'HOST': '10.35.1.11',
+        'PORT': '3306',
     }
 }
 
@@ -126,3 +129,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTO_LOGOUT = {
+    'IDLE_TIME': 600,
+    'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+    'MESSAGE': 'The session has expired. Please login again to continue.',
+    }

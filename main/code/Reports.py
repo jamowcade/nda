@@ -12,7 +12,7 @@ def scan_cases_report(request):
     return render(request,'pages/scan_case_report.html', context)
 
 
-
+@login_required(login_url='login')
 def filter_data(request):
     try:
         filter_date = request.GET.get('filter_date')

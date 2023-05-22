@@ -2,8 +2,10 @@ from django.shortcuts import render
 from main.models import Port, Host
 from django.http import JsonResponse
 
-# Create your views here.
+from django.contrib.auth.decorators import login_required, permission_required
 
+# Create your views here.
+@login_required(login_url='login')
 def ports(request):
     host_id = request.GET.get('host_id')
     

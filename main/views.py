@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from main.models import Campany,Network,Host,Port
+from django.db.models.functions import ExtractMonth
+from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 
@@ -7,14 +8,25 @@ from django.db.models import Count
 @login_required(login_url='login')
 def index(request):
     eachPort = []
+    monthList = []
+
+    # Count Each Table Of Database
     totalCompany = Campany.objects.count()
     totalNetwork = Network.objects.count()
     totalHost = Host.objects.count()
     totalPorts = Port.objects.count()
     
-    ppp = Port.objects.annotate(count=Count('port')).order_by('-count')[:5]
-    for p in ppp:
-        print(p.port)
+    dataMonth = Host.objects.annotate(month=ExtractMonth('host_date')).order_by('month')
+    distinct_dates = Host.objects.dates('host_date', 'month')
+    for d in distinct_dates:
+        month_name = d.strftime('%B')
+        print(month_name)
+        print("Month",dataMonth.count())
+        monthList.append({
+            'months':month_name,
+            'hosts':dataMonth.count(),
+        })
+
 
     each_port_value = Port.objects.values('port').annotate(count=Count('port')).order_by('-count')[:5][::1]
 
@@ -30,6 +42,11 @@ def index(request):
     filterstate = getfilterPorts(totalPorts,filterPorts)
 
 
+    # Get Last Top 5 Activity Scan Cases
+    top_scan = ScanCase.objects.all().order_by('-id')[:5][::-1]
+    user_logs = UserLog.objects.all().order_by('created_at')[:5][::-1]
+
+
     
   
     for each in each_port_value:
@@ -40,7 +57,7 @@ def index(request):
               'count':each['count'],
               'percentage':each['percentage'],
          })
-    print(eachPort)
+    # print(eachPort)
    
     context = {
         'company':totalCompany,
@@ -54,6 +71,9 @@ def index(request):
         'closeport':closePorts,
         'filterstate':filterstate,
         'filterport':filterPorts,
+        'top_scan':top_scan,
+        'user_logs':user_logs,
+        'dataChart':monthList
         }    
     return render(request, 'index.html',context)
 

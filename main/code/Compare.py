@@ -23,12 +23,14 @@ def compare(request):
     }
     return render(request,'pages/compare.html', context)
 
+@login_required(login_url='login')
 def get_campany_name(request):
     name = request.GET.get('name')
     network = Network.objects.filter(compony_info= name).values().all()
     data = {'network': network}
     return JsonResponse(list(network), safe=False)
 
+@login_required(login_url='login')
 def compare_by_date(request):
     compare_date = request.GET.get('FILTERED_DATE')
     compare_date1 = request.GET.get('FILTERED_DATE1')
@@ -126,7 +128,7 @@ def compare_by_date(request):
         return render(request,'pages/show_cmpr.html',data)
     
     
-
+@login_required(login_url='login')
 def filter_by_date(request):
     filter_date = request.GET.get('filter_date')
     hosts = Host.objects.all()
@@ -197,7 +199,7 @@ def getALl(all_dff):
         #     print(port.id)
 
     # return all_dff
-
+@login_required(login_url='login')
 @csrf_exempt
 def showdetaile(request):
     id = request.POST.get('id')

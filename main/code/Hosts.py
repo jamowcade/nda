@@ -21,6 +21,7 @@ def host(request,id):
 
     return render(request,'pages/host.html', context)
 
+@login_required(login_url='login')
 def search(request):
     id = request.GET.get('id')
     port = Port.objects.get(id=id)

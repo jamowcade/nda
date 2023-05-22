@@ -6,13 +6,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
+from django.contrib.auth.decorators import login_required, permission_required
+
 from main.models import UserLog
 
 
 
 
 
-
+@login_required(login_url='login')
 def groups(request):
     if request.method == 'POST':
         groupname = request.POST.get('gname')
@@ -27,7 +29,7 @@ def groups(request):
 
     return render(request,'pages/groups.html', context)
 
-
+@login_required(login_url='login')
 def user_groups(request):
     users = User.objects.all()
     groups = Group.objects.all()  
@@ -38,7 +40,7 @@ def user_groups(request):
 
     return render (request, "pages/assign_user_to_groups.html", context)
 
-
+@login_required(login_url='login')
 def assign_user_to_groups(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -63,7 +65,7 @@ def assign_user_to_groups(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error'})
-
+@login_required(login_url='login')
 def get_user_groups(request):
     user_id = request.GET.get('user_id')
     
@@ -72,7 +74,7 @@ def get_user_groups(request):
 
     print(groups)
     return JsonResponse({'groups': groups})
-
+@login_required(login_url='login')
 def groupPermissions(request):
     groups = Group.objects.all()
     content_types = ContentType.objects.all()
@@ -81,7 +83,7 @@ def groupPermissions(request):
          "groups": groups
      }
     return render (request, "accounts/assignPermissionsGroup.html", context)
-
+@login_required(login_url='login')
 # assign permissio to group
 def assign_permissions_to_group(request):
     if request.method == 'POST':
@@ -107,7 +109,7 @@ def assign_permissions_to_group(request):
     else:
         return JsonResponse({'status': 'error'})
 
-   
+@login_required(login_url='login')
 #get permissions in each content type
 def get_permissions(request):
     content_type_id = request.GET.get('content_type_id')
@@ -120,6 +122,8 @@ def get_permissions(request):
     }
     return render(request, 'pages/permissions_table.html', context)
 
+
+@login_required(login_url='login')
 # get permission of each group according to selected group and content type.
 def get_group_permissions(request):
     group_id = request.GET.get('group_id')

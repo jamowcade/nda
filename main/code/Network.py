@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from main.models import Campany,Network, UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 
-
+@login_required(login_url='login')
 # Create your views here.
 @permission_required('main.view_network', raise_exception=True, login_url=None)
 def networkDetails(request,id):
@@ -32,7 +32,7 @@ def networkDetails(request,id):
             message=f"user visisted network Details page",
         )
     return render(request,'pages/networkDetails.html',context)
-
+@login_required(login_url='login')
 @permission_required('main.view_network', raise_exception=True, login_url=None)
 def all_networks(request):
     networks = Network.objects.all()
@@ -47,7 +47,7 @@ def all_networks(request):
     #         message=f"user visisted network listing page",
     #     )
     return render(request, 'pages/networks.html',context)
-
+@login_required(login_url='login')
 def addNetwork(request):
     if request.method == 'POST':
         company = request.POST.get('company')
@@ -65,7 +65,7 @@ def addNetwork(request):
             message=f"{request.user}  added new network ({new_network.network}) for ({company_id.owner})",
         )
     return HttpResponse(success)
-
+@login_required(login_url='login')
 @permission_required('main.change_network', raise_exception=True, login_url=None)
 def updateNetwork(request):
     if request.method == 'POST':

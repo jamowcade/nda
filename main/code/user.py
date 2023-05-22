@@ -33,7 +33,7 @@ def login_user(request):
         
     return render(request, 'accounts/login2.html')
 
-
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -66,7 +66,7 @@ def users(request):
     }
     return render(request,'accounts/staffs.html', context)
 
-
+@login_required(login_url='login')
 def create_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -88,7 +88,7 @@ def create_user(request):
              )
             return redirect('users')
         
-
+@login_required(login_url='login')
 def permissions(request):
 
     content_types = ContentType.objects.all()
@@ -96,7 +96,7 @@ def permissions(request):
         "content_types":content_types
     }
     return render (request, "pages/user_permissions.html", context)
-
+@login_required(login_url='login')
 @csrf_exempt
 def get_user_info(request):
     search_value = request.POST.get('search_value')
@@ -110,7 +110,7 @@ def get_user_info(request):
         })
 
     return JsonResponse(user_list, safe=False)
-
+@login_required(login_url='login')
 def get_permissions_user(request):
     content_type_id = request.GET.get('content_type_id')
     content_type = ContentType.objects.get(id=content_type_id)
@@ -121,7 +121,7 @@ def get_permissions_user(request):
         "permissions":permissions
     }
     return render(request, 'pages/user_permissions_table.html', context)
-
+@login_required(login_url='login')
 # get user permissions according to selected user and content type.
 def get_user_permissions(request):
     user_id = request.GET.get('user_id')
@@ -134,7 +134,7 @@ def get_user_permissions(request):
     print(permissions_list)
     return JsonResponse({'permissions': permissions_list})
 
-
+@login_required(login_url='login')
 
 # assigns permission to user
 def assign_permissions_to_user(request):
@@ -158,3 +158,45 @@ def assign_permissions_to_user(request):
     
     else:
         return JsonResponse({'status': 'error'})
+    
+
+
+@login_required(login_url='login')
+def myprofile(request):
+    
+    return render (request, "accounts/myprofile.html")
+
+
+
+
+@login_required(login_url='login')
+def changepassword(request):
+    
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        password = request.POST.get('password')
+        
+
+        userupdatePassword = User.objects.get(id=id)
+        
+        userupdatePassword.set_password(password)
+        userupdatePassword.save()
+
+        
+        if userupdatePassword:
+            info = f"{userupdatePassword.first_name} {userupdatePassword.last_name}'s Successfully Changed Password"
+            response = {
+                'success': True,
+                'message': info
+            }
+            msg = f"User Has Been Successfully Changed {userupdatePassword.first_name} {userupdatePassword.last_name}'s Password"
+            UserLog(user=request.user,message=msg,level="INFO").save()
+            return JsonResponse(response)
+        else:
+            messages.error(request,f"{userupdatePassword.username}'s Not Changed Password")
+            msg = f"User Has Not Successfully Changed {userupdatePassword.first_name} {userupdatePassword.last_name}'s Password"
+            UserLog(user=request.user,message=msg).save()
+            return redirect(myprofile)
+    else:
+
+        return redirect(myprofile)

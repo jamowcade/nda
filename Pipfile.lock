@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "17ca1e42924bc46af6a35ec4a5653672bd86d19171987531a5d5876438ac55ea"
+            "sha256": "e4eb8c76a686f12d4a377d05ed9cac65577a8fc95537d0c61f5e00ed189ebf74"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -31,6 +31,14 @@
             ],
             "index": "pypi",
             "version": "==4.2.1"
+        },
+        "django-auto-logout": {
+            "hashes": [
+                "sha256:0a5f7b88b78fdcc14d7359654d61f1ad264d0028b7fdbd2cb64479ab05ddbb10",
+                "sha256:cf5622d60ae42c9e799ab32948b98ce007be570ec34e718e5c47340793dd76f9"
+            ],
+            "index": "pypi",
+            "version": "==0.5.1"
         },
         "mysqlclient": {
             "hashes": [
@@ -63,6 +71,14 @@
             ],
             "index": "pypi",
             "version": "==2.9.6"
+        },
+        "pytz": {
+            "hashes": [
+                "sha256:1d8ce29db189191fb55338ee6d0387d82ab59f3d00eac103412d64e0ebd0c588",
+                "sha256:a151b3abb88eda1d4e34a9814df37de2a80e301e68ba0fd856fb9b46bfbbbffb"
+            ],
+            "index": "pypi",
+            "version": "==2023.3"
         },
         "sqlparse": {
             "hashes": [
