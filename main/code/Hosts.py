@@ -47,8 +47,8 @@ def addHosts(request):
 
             data = json.loads(file_data) # parse the JSON data
             # check if network not registed before uploading hosts
-            
-            if 'network' not in data:
+            #check if the is empty
+            if 'network' not in data[0]:
                 print("fle is ")
                 return JsonResponse({'success': False, 'error': " Empty File Not Uploaded !"})
 
