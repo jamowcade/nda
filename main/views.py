@@ -44,7 +44,7 @@ def index(request):
 
     # Get Last Top 5 Activity Scan Cases
     top_scan = ScanCase.objects.all().order_by('-id')[:5][::-1]
-    user_logs = UserLog.objects.all().order_by('created_at')[:5][::-1]
+    user_logs = UserLog.objects.all().order_by('-created_at')[:5][::1]
 
 
     
