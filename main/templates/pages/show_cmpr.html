@@ -7,13 +7,15 @@
  <div class="container card-body">
   <div class="form-row">
     <!--TABLE 1 -->
-    <h1 style="color: aquamarine;" id="tbh_1">Here Is Different Result</h1>
+    <h1 style="color: aquamarine;" id="tbh_1" >{% if not records %}No Difference {% else %}Here Is Different Result {{records.hostDate}} {% endif %}</h1>
       <div class="form-group col-md-12 ">
         <div id="accordion3">
 
           
           <div class="table-responsive">
-                        
+            {% if not records %}
+            
+            {% else %}     
 
             <table class="table  my-table"  id="table-1"  style="width:100%;">
                 <thead>
@@ -24,6 +26,7 @@
                   </tr>
                 </thead>
                 <tbody id="tbody_data">
+               
                     {% for data in records %}
                     {% with num=forloop.counter|add:'1' %}
                     
@@ -31,7 +34,7 @@
                       <th scope="row" >{{data.host_id}}</th>
                       <th scope="row">
                         <span class="badge badge-secondary " style="font-size: medium;" > {{data.hostname}} Ports {{data.totalports}}  open ports {{data.openPort}} 
-                          close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}
+                          close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}-- Scan case date {{data.hostDate}}
                           
                         </span>
                         </th>
@@ -107,9 +110,11 @@
                     </tr>
                     {% endwith %}
                     {% endfor %}
+                    
                 </tbody>
             
               </table>
+              {% endif %}
 
           </div>
 
@@ -147,6 +152,7 @@
 <script>
    $(document).ready(function(){
     paginate()
+   
 
    })
   function paginate(){

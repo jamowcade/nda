@@ -151,9 +151,10 @@
         },
           success : function(data){
             // console.log(data);
+            // $('$accordation')
            var network_dr = $('#network').empty()
            network_dr.empty()
-          
+           $('#accordion3').empty()
             $.each(data, function(index, element) {
               const option = document.createElement("option");
               option.text = element.network;
@@ -182,6 +183,7 @@
       });
 
       $('#network').on("change", function(){
+       
         var text = $('#network option:selected').text();
         $('#ntwork').val(text)
         
@@ -202,11 +204,11 @@
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + date.getDate()).slice(-2);
       var formattedDate = year + '-' + month + '-' + day;
-      $('#accordion').empty()
+      $('#accordion3').empty()
       console.log(formattedDate);
       $.ajax({
         type:'GET',
-        url:'/compare_by_date/',
+        url:'',
         data:{
           'FILTERED_DATE': formattedDate,
           'network': network,
@@ -214,7 +216,7 @@
       },
         success: function(data) {
 
-          $('#accordion').append(" Total Networks ", data.all_networks, " | ","Total Ports : ",data.all_ports, " | "," Total Hosts ", data.all_hosts);
+          // $('#accordion').append(" Total Networks ", data.all_networks, " | ","Total Ports : ",data.all_ports, " | "," Total Hosts ", data.all_hosts);
         }
 
       })
@@ -257,6 +259,8 @@
           
       },
         success: function(data) {
+          $('#tbh_1').show()
+          $('#accordion3').empty()
            $('#accordion3').append(data);
         },
       })
