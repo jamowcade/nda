@@ -78,27 +78,28 @@ def addHosts(request):
                     continue
                 else:
                     new_host = Host(hostname=hostname, status = status, network=network, host_date=scan_date)
-                    new_host.save()
+                   
                     for port in range(len(data[host]['ports'])):
+                        all_services =  data[host]['ports'][port]['service']
+                        print(all_services)
                         portid= data[host]['ports'][port]['portid']
                         protocol = data[host]['ports'][port]['protocol']
                         state = data[host]['ports'][port]['state']
-                        # try:
-                        #     for key, value in data[host]['ports'][port]['service']:
-                        #         print(key, value)
-                        # except:
-                        #     return JsonResponse("error getttin services", safe=False)
-                        service_name =  data[host]['ports'][port]['service']['name']
-                        service_version =  data[host]['ports'][port]['service']['version']
-                        service_ostype =  data[host]['ports'][port]['service']['ostype']
-                        service_devicetype =  data[host]['ports'][port]['service']['devicetype']
-                        service_product =  data[host]['ports'][port]['service']['product']
-                        service = f"name: {service_name}, version: {service_version}, Product: {service_product}, Ostype: {service_ostype},deviceType:{service_devicetype}"
+
+                        try:
+                            for key,value in data[host]['ports'][port]['service'].items():
+                                print(key,value)
+
+                        except:
+                            return JsonResponse("error getttin services", safe=False)
+                        service = all_services
                         # for service in range(1):
                         #     service_name
                         reason = data[host]['ports'][port]['state']
                         port = Port(port=portid, state = state, protocol=protocol, host=new_host, service=service, reason=reason)
+                        new_host.save()
                         port.save()
+                 
          
             return JsonResponse({'success': True, "message": f"All hosts Uploaded to network {network.compony_info.owner} - {file_network}", })
             UserLog.objects.create(
@@ -110,9 +111,9 @@ def addHosts(request):
   
     except Exception as e:
                     tb = traceback.format_exc()
-                    print(f"An error occurred: {e}\n\n{tb}")
+                    message = f"An error occurred: while uploading file {e}"
                     ErrorLog.objects.create(
                     user=request.user,
-                    message=f"An error occurred: while uploading file {e}"
+                    message= message
                     )
-                    return JsonResponse({'success': False, 'error': f'network {file_network} file is not uploading, please contact the admins'})
+                    return JsonResponse({'success': False, 'error': f'Erro Uploading the file {e}'})
