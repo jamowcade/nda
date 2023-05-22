@@ -5,8 +5,8 @@ from django.contrib.auth.models import AbstractUser, User
 
 
 class Campany(models.Model):
-    title = models.CharField(max_length=50)
-    owner = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
+    owner = models.CharField(max_length=100)
     timestamp = models.DateField(auto_now_add=True)
     asn = models.CharField(max_length=100)
 
@@ -39,8 +39,8 @@ class Network(models.Model):
 
 
 class Host(models.Model):
-    hostname = models.CharField(max_length=50)
-    status = models.CharField(max_length=50)
+    hostname = models.CharField(max_length=500)
+    status = models.CharField(max_length=500)
     host_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     network = models.ForeignKey(Network, on_delete=models.CASCADE, related_name='hosts')
     reason = models.CharField(max_length=50, null=True)
@@ -56,7 +56,7 @@ class Port(models.Model):
     state = models.CharField(max_length=50,null=True)
     protocol = models.CharField(max_length=50,null=True)
     reason = models.CharField(max_length=50, null=True)
-    service = models.CharField(max_length=50,null=True)
+    service = models.CharField(max_length=500,null=True)
     rpc_info = models.CharField(max_length=50,null=True)
     version = models.CharField(max_length=50,null=True)
     host = models.ForeignKey(Host, on_delete=models.CASCADE,related_name='ports')
@@ -64,7 +64,7 @@ class Port(models.Model):
 
 class ScanCase(models.Model):
     scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
 
     class Meta:

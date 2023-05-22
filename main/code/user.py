@@ -190,7 +190,7 @@ def changepassword(request):
                 'message': info
             }
             msg = f"User Has Been Successfully Changed {userupdatePassword.first_name} {userupdatePassword.last_name}'s Password"
-            UserLog(user=request.user,message=msg,level="INFO").save()
+            UserLog(user=request.user,message=msg).save()
             return JsonResponse(response)
         else:
             messages.error(request,f"{userupdatePassword.username}'s Not Changed Password")
