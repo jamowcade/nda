@@ -90,7 +90,7 @@ def compare_by_date(request):
             date_object5 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
             print(date_object5)
             all_dff = dff.union(dff1)
-            a =  getALl(all_dff)
+            a =  getALl(dff)
             
             print(a)
             paginator = Paginator(a, 10)
@@ -110,7 +110,7 @@ def compare_by_date(request):
             date_object9 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
             print(date_object9)
             all_dff = dff.union(dff1)   
-            a =  getALl(all_dff)
+            a =  getALl(dff1)
             print(a)
             paginator = Paginator(a, 10)
             page_number = request.GET.get('page')
@@ -149,7 +149,7 @@ def filter_by_date(request):
                 "company": host.network.compony_info.owner,
             })
            
-            data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany}
+            data = {'records': filtered_hosts, "network": host.network, 'dataCompany':Listcompany,}
 
     return JsonResponse(data)
 
