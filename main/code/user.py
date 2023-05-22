@@ -158,3 +158,45 @@ def assign_permissions_to_user(request):
     
     else:
         return JsonResponse({'status': 'error'})
+    
+
+
+@login_required(login_url='login')
+def myprofile(request):
+    
+    return render (request, "accounts/myprofile.html")
+
+
+
+
+@login_required(login_url='login')
+def changepassword(request):
+    
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        password = request.POST.get('password')
+        
+
+        userupdatePassword = User.objects.get(id=id)
+        
+        userupdatePassword.set_password(password)
+        userupdatePassword.save()
+
+        
+        if userupdatePassword:
+            info = f"{userupdatePassword.first_name} {userupdatePassword.last_name}'s Successfully Changed Password"
+            response = {
+                'success': True,
+                'message': info
+            }
+            msg = f"User Has Been Successfully Changed {userupdatePassword.first_name} {userupdatePassword.last_name}'s Password"
+            UserLog(user=request.user,message=msg,level="INFO").save()
+            return JsonResponse(response)
+        else:
+            messages.error(request,f"{userupdatePassword.username}'s Not Changed Password")
+            msg = f"User Has Not Successfully Changed {userupdatePassword.first_name} {userupdatePassword.last_name}'s Password"
+            UserLog(user=request.user,message=msg).save()
+            return redirect(myprofile)
+    else:
+
+        return redirect(myprofile)

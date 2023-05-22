@@ -19,9 +19,9 @@
             class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
         <div class="dropdown-menu dropdown-menu-right pullDown">
           <div style="color: aquamarine;" class="dropdown-title"> <span style="color: aquamarine;">{{request.user}}</span></div>
-          <a style="color: aquamarine;" href="profile.html" class="dropdown-item has-icon"> <i class="far
-                                    fa-user"></i> Profile
-          </a> <a style="color: aquamarine;" href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+          <a href="{% url 'myprofile' %}" style="color: aquamarine;" class="dropdown-item has-icon"> <i class="far
+            fa-user"></i> Profile
+</a>  <a style="color: aquamarine;" href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
             Activities
           </a> <a style="color: aquamarine;" href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
             Settings

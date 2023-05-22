@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+  <!-- Header Section -->
+  {% load static %} {% include "includes/head.html" %}
+  <!-- End Header Section -->
+  <style>
+    .row {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      /* padding-left: 10px; */
+      padding-right: 10px;
+    }
+
+    /* .bg-white {
+      color: black !important;
+    } */
+  </style>
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
+
+    <div id="app">
+      <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+
+        <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}
+        <!-- End Side Bar Section -->
+        <!-- Main Content -->
+        <div class="main-content">
+          {% if user.is_authenticated %}
+          <div class="w-100  rounded mt-3" style="color: aquamarine;"> 
+            
+            <div
+              class="w-100 d-flex align-items-center justify-content-center pt-3"
+            >
+              <img
+                alt="image"
+                src="{% static 'assets/img/nisa.png' %}"
+                class="rounded-circle"
+                width="100"
+                height="auto"
+              />
+            </div>
+            <div class="row w-100 mt-3 case-holder">
+              <h4 class=" pl-4">User INFO</h4><br>
+
+              <br><br><div class="w-100 row pb-2">
+                <div class="col  row">
+                  <div class="col-3"><b>Name: </b></div>
+                  <div class="col" style="color: aqua;">{{user.first_name}} {{user.last_name}}</div>
+                </div>
+                <div class="col  row">
+                  <div class="col-3"><b>Email:</b></div>
+                  <div class="col"style="color: aqua;">{{user.email}}</div>
+                </div>
+                <div class="col  row">
+                  <div class="col-3 "><b>Status:</b></div>
+                  {% with active=user.is_active %}
+                  {% if active%}
+                  <span style="color: green;"> 
+                    <span class="badge badge-success">
+
+                        <b>Active</b>
+                    </span>
+                </span>
+                  {% else %}
+                  <span style="color: red;"> 
+                    <span class="badge badge-danger">
+
+                        <b>De-activate</b>
+                    </span>
+                </span>
+                  {% endif %}
+                  {% endwith %}
+                </div>
+              </div>
+              <br><br>
+              <br><div class="w-100 row pt-2">
+                <div class="col  row">
+                  <div class="col-3"><b>Username: </b></div>
+                  <div class="col"style="color: aqua;">{{user.username}}</div>
+                </div>
+                <div class="col  row">
+                  <div class="col-3"><b>Role:</b></div>
+                  {% with role=user.is_superuser %}
+                  {% if role%}
+                    <span style="color: aqua;">Super User</span>
+                  {% endif %}
+                  {% endwith %}
+                </div>
+                <div class="col  row">
+                  <div class="col-3 "><b>Joined: </b></div>
+                  <div class="col"style="color: aqua;">{{user.date_joined}}</div>
+                </div>
+              </div>
+              <br><br><br>
+              <div class="w-100 row pt-2 pb-2">
+                <div class="col  row">
+                  <div class="col-3"><b>Last Login</b>:</div>
+                  <div class="col"style="color: aqua;"> {{user.last_login|timesince}} ago</div>
+                </div>
+                <div class="col  row">
+                  <div class="col-3"></div>
+                  <div class="col"></div>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
+        </div>
+        <center>
+
+            <div class="card-body">
+                <div class="btn btn-warning changepass" data-id="{{user.id}}">Change Password</div>
+            </div>
+        </center>
+        {% endif %}
+
+
+
+          <!-- Setting Bar Sections -->
+          {% include "includes/settingbar.html" %}
+          <!-- Ending Setting Bar Sections -->
+        </div>
+
+        <!-- Footbar Section -->
+        {% include "includes/footer.html" %}
+        <!-- EndFootbar Section -->
+      </div>
+    </div>
+    
+
+        
+        
+    
+         <!-- Update Modal -->
+         <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="changepassword">
+                    Change Password For {{user.first_name}} {{user.last_name}}
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" enctype="multipart/form-data" id="updateForm">
+                    {% csrf_token %}
+  
+                    <div class="form-group">
+  
+                      <div class="section-title mt-0">Password</div>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <!-- <div class="input-group-text"><i data-feather="user"></i></div> -->
+                        </div>
+                        
+                        <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required><br>
+                        <input type="text" class="form-control" name="upid" id="upid" placeholder="" hidden><br>
+                        
+                      </div>
+                    
+                    
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        data-dismiss="modal"
+                        class="btn btn-secondary"
+                        
+                      >
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary" id="updateButton">
+                        Update
+                      </button>
+                    </div>
+                    </div>
+                    
+                  </form>
+                </div>
+            </div>
+
+        </div>
+          <!-- End Modal -->
+    
+    {% include "includes/scripts.html" %}
+    <!-- General JS Scripts -->
+    <script>
+      $(document).ready(function(){
+        changePassword()
+
+      });
+      function changePassword(){
+        $('.changepass').click(function(){
+            $id = $(this).data('id');
+            // alert($id)
+            $('#changeModal').modal('show');
+            $('#upid').val($id)
+
+            $('#updateForm').submit(function(e){
+                e.preventDefault();
+               
+                $password = $('#password').val();
+                
+
+                $.ajax({
+                    url: '/changepassword/',
+                    type: 'POST',
+                    data: {
+                        'id': $id,
+                        'password': $password,
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function(response){
+                        if(response.success){
+                            swal({
+                            title: "Success !",
+                            text: response.message,
+                            icon: "success",
+                            timer: 4000, // time in milliseconds
+                            timerProgressBar: true,
+                            showConfirmButton: false
+                        })
+                        .then(function(){
+                            $('#changeModal').modal('hide');
+                            // readHouse()
+                            location.reload();
+                        })
+
+                        }
+                        
+                    },
+                    error: function(data){
+                        console.log('error: ' + $error )
+                    }
+                })
+            })
+        });
+      }
+    </script>
+
+    <!-- Scripts Section -->
+    <!-- End Scripts Section -->
+  </body>
+  {{ redirect_to_login_immediately }}
+  <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

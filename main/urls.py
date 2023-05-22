@@ -11,6 +11,8 @@ urlpatterns = [
     path('forgot/', user.forgot, name='forgot'),
     path('logout/', user.logout_user, name='logout'),
     path('users/', user.users, name='users'),
+    path("myprofile/",user.myprofile, name="myprofile"),
+     path("changepassword/",user.changepassword, name="changepassword"),
 
     #region Environment
 

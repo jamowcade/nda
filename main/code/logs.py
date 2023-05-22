@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 
 
-@login_required(login_url='user_login')
+@login_required(login_url='login')
 def erorlogs(request):
     error_logs = ErrorLog.objects.all().order_by('created_at')
     context = {
@@ -12,7 +12,7 @@ def erorlogs(request):
     return render (request, "pages/logs/erorlogs.html", context)
 
 
-@login_required(login_url='user_login')
+@login_required(login_url='login')
 def userlogs(request):
     user_logs = UserLog.objects.all().order_by('created_at')
     context = {
