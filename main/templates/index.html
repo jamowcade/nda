@@ -147,6 +147,7 @@
                         <div class="card-body">
                           <div class="row">
                             <div class="col-lg-9">
+                              <!-- <div id="chart4"></div> -->
                               <canvas id="aaaaa" height="100"></canvas>
                               <div class="row mb-0">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -187,7 +188,7 @@
                             </div>
                             <div class="col-lg-3">
                               <center>
-                                <div class="col-7 col-xl-7 mb-3">Top 5 Hight Level Ports</div>
+                                <div class="col-7 col-xl-7 mb-3">Top Maximum Ports</div>
                               </center>
                               <div class="row mt-5">
                                 {% for value in each_port_value %}
@@ -197,10 +198,6 @@
                                   <sup class="col-green">+{{value.percentage}}%</sup>
                                 </div>
                                 {% endfor %}
-
-
-
-
                               </div>
                             </div>
                           </div>
@@ -211,9 +208,169 @@
                 </div>
               </div>
             </div>
-
-
             
+
+    
+
+
+            <div class="row">
+              <div class="col-12 col-sm-12 col-lg-6">
+                <!-- Top Ports -->
+                
+                <div class="card">
+                  <div class="card-header">
+                    <h4 style="color: aquamarine;">Top 5 Maximum Network</h4>
+                  </div>
+                  <div class="card-body">
+
+                    {% for value in topCompany %}
+                    <div class="mb-4">
+                      <div class="text-small float-right font-weight-bold text-muted" >
+                        <span style="color: aqua; font-size: medium;">
+                          {{value.count}} Networks
+                        </span>
+                      </div>
+                      <div class="font-weight-bold">
+                        <span style="color: aquamarine; font-size: medium;">
+                          {{value.company}}
+                         
+                        </span>
+                      </div>
+                      <div class="progress" data-height="5" data-toggle="tooltip" title="{{value.percentage}}%">
+                        
+                        {% if value.percentage == 100 %}
+                        <div class="progress-bar bg-success" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 50 and value.percentage >= 30 %}
+                          <div class="progress-bar bg-warning" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 30 and value.percentage >= 20 %}
+                          <div class="progress-bar bg-purple" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 20 and value.percentage >= 15 %}
+                          <div class="progress-bar bg-info" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% else %}
+                          <div class="progress-bar bg-danger" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+
+
+                      </div>
+                    </div>
+                    {% endfor %}
+
+
+       
+                  </div>
+                </div>
+
+             
+
+
+               
+
+              
+                <!-- Top Ports -->
+              </div>
+              
+              <div class="col-12 col-sm-12 col-lg-6">
+  
+                <!-- Top Companies -->
+
+
+                <div class="card">
+                  <div class="card-header">
+                    <h4 style="color: aquamarine;">Top 5 Maximum Ports</h4>
+                  </div>
+                  <div class="card-body">
+
+                    {% for value in topHost %}
+                    <div class="mb-4">
+                      <div class="text-small float-right font-weight-bold text-muted" >
+                        <span style="color: aqua; font-size: medium;">
+                          {{value.count}} Ports
+                        </span>
+                      </div>
+                      <div class="font-weight-bold">
+                        <span style="color: aquamarine; font-size: medium;">
+                          {{value.company}}-
+                          {{value.network}}-
+                          {{value.host}}
+                        </span>
+                      </div>
+                      <div class="progress" data-height="5" data-toggle="tooltip" title="{{value.percentage}}%">
+                        
+                        {% if value.percentage == 100 %}
+                        <div class="progress-bar bg-blue" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 50 and value.percentage >= 30 %}
+                          <div class="progress-bar bg-warning" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 30 and value.percentage >= 20 %}
+                          <div class="progress-bar bg-purple" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% elif value.percentage <= 20 and value.percentage >= 15 %}
+                          <div class="progress-bar bg-info" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                          {% else %}
+                          <div class="progress-bar bg-danger" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+
+
+                      </div>
+                    </div>
+                    {% endfor %}
+
+
+       
+                  </div>
+                </div>
+
+
+<!--                 
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Top Ports</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table " id="save-stage" style="width:100%; color: aqua; font-size: medium;">
+                        <thead>
+                          <tr>
+                            <th style="color: aquamarine;">#</th>
+                            <th style="color: aquamarine;">Ports</th>
+                            <th style="color: aquamarine;">Total</th>
+                            <th style="color: aquamarine;">Percentage</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in each_port_value %}
+                          <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>Port {{data.ports}}</td>
+                            <td>{{data.count}}</td>
+                            <td>{{data.percentage}}%</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                  </div>
+                </div> -->
+
+
+
+
+
+                <!-- Top Companies -->
+  
+              </div>
+
+            </div>
+    
             
           <div class="row">
             <div class="col-md-6 col-lg-12 col-xl-6">
@@ -302,64 +459,76 @@
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
     <!-- Scripts -->
-
+    
     <script>
       $(document).ready(function(){
+        // chart2();
+        // chart1();
+        // chart7();
         var ctx = document.getElementById("aaaaa").getContext('2d');
      
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['{% for d in dataChart %} {{d.months}} '],
-    datasets: [{
-      label: 'Hosts',
-      data: ['{{d.hosts}}'],
-      borderWidth: 2,
-      backgroundColor: 'rgba(255,164,38,.9)',
-      borderColor: 'rgba(255,164,38,.9)',
-      borderWidth: 2.5,
-      pointBackgroundColor: '#ffffff',
-      pointRadius: 4
-    }, {
-      label: 'Ports',
-      data: ['{{ports}}{% endfor %}'],
-      borderWidth: 2,
-      backgroundColor: 'rgba(71,65,98,.9)',
-      borderColor: 'transparent',
-      borderWidth: 0,
-      pointBackgroundColor: '#999',
-      pointRadius: 4
-    }]
-  },
-  options: {
-    legend: {
-      display: false
-    },
-    scales: {
-      yAxes: [{
-        gridLines: {
-          drawBorder: false,
-          color: '#f2f2f2',
-        },
-        ticks: {
-          beginAtZero: true,
-          stepSize: 1000,
-          fontColor: "#9aa0ac", // Font Color
-        }
-      }],
-      xAxes: [{
-        gridLines: {
-          display: false
-        },
-        ticks: {
-          fontColor: "#9aa0ac", // Font Color
-        }
-      }]
-    },
-  }
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+          
+            labels: ['{% for d in dataChart %}{{d.months}} '],
+            datasets: [{
+              label: 'Hosts',
+              data: ['{{d.hosts}}'],
+              borderWidth: 2,
+              backgroundColor: 'rgba(255,164,38,.9)',
+              borderColor: 'rgba(255,164,38,.9)',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#ffffff',
+              pointRadius: 4
+            }, {
+              label: 'Ports',
+              data: ['{{ports}}{% endfor %}'],
+              borderWidth: 2,
+              backgroundColor: 'rgba(71,65,98,.9)',
+              borderColor: 'transparent',
+              borderWidth: 0,
+              pointBackgroundColor: '#999',
+              pointRadius: 4
+            }]
+          },
+          options: {
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                gridLines: {
+                  drawBorder: false,
+                  color: '#f2f2f2',
+                },
+                ticks: {
+                  beginAtZero: true,
+                  stepSize: 1000,
+                  fontColor: "#9aa0ac", // Font Color
+                }
+              }],
+              xAxes: [{
+                gridLines: {
+                  display: false
+                },
+                ticks: {
+                  fontColor: "#9aa0ac", // Font Color
+                }
+              }]
+            },
+          }
+
+        });
+
+        
+        // New Chart
+        // var ctx1 = document.getElementById("testChar1").getContext('2d');
+        // test()
+
 });
 
-      });
+
     </script>
 
     
