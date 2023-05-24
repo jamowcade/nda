@@ -69,6 +69,7 @@ def filter_data(request):
                            ip = search.split(":")
 
                            if ip[1] in host.hostname:
+                                
                                 filtered_hosts.append({
                                 'hostname': host.hostname,
                                 'company': host.network.compony_info.owner,
@@ -87,42 +88,44 @@ def filter_data(request):
                                 
                       elif "state" in search.lower():
                            
-                           state = search.split(":")
-                           get_state = host.ports.filter(state=state[1]).all()
-                           filtered_hosts.append({
-                                'hostname': host.hostname,
-                                'company': host.network.compony_info.owner,
-                                "scanDate":filter_date,
-                                'status': host.status,
-                                "scanDate":filter_date,
-                                'hostDate': host.host_date,
-                                'ports': get_state,
-                                "network": host.network.network,
-                                "totalports": host.ports.all().count(),
-                                'openPort': host.ports.filter(state='open').count(),
-                                'closePort': host.ports.filter(state='closed').count(),
-                                'filteredPort': host.ports.filter(state='filtered').count(),
+                            state = search.split(":")
+                            if host.ports.filter(state=state[1]).count() > 0 :
+                                get_state = host.ports.filter(state=state[1]).all()
+                                filtered_hosts.append({
+                                        'hostname': host.hostname,
+                                        'company': host.network.compony_info.owner,
+                                        "scanDate":filter_date,
+                                        'status': host.status,
+                                        "scanDate":filter_date,
+                                        'hostDate': host.host_date,
+                                        'ports': get_state,
+                                        "network": host.network.network,
+                                        "totalports": host.ports.all().count(),
+                                        'openPort': host.ports.filter(state='open').count(),
+                                        'closePort': host.ports.filter(state='closed').count(),
+                                        'filteredPort': host.ports.filter(state='filtered').count(),
 
-                            })
+                                    })
                            
                       elif "port" in search.lower():
                            port = search.split(":")
-                           get_port = host.ports.filter(port=port[1]).all()
-                           filtered_hosts.append({
-                                'hostname': host.hostname,
-                                'company': host.network.compony_info.owner,
-                                "scanDate":filter_date,
-                                'status': host.status,
-                                "scanDate":filter_date,
-                                'hostDate': host.host_date,
-                                'ports': get_port,
-                                "network": host.network.network,
-                                "totalports": host.ports.all().count(),
-                                'openPort': host.ports.filter(state='open').count(),
-                                'closePort': host.ports.filter(state='closed').count(),
-                                'filteredPort': host.ports.filter(state='filtered').count(),
+                           if host.ports.filter(port=port[1]).count() > 0 :
+                            get_port = host.ports.filter(port=port[1]).all()
+                            filtered_hosts.append({
+                                    'hostname': host.hostname,
+                                    'company': host.network.compony_info.owner,
+                                    "scanDate":filter_date,
+                                    'status': host.status,
+                                    "scanDate":filter_date,
+                                    'hostDate': host.host_date,
+                                    'ports': get_port,
+                                    "network": host.network.network,
+                                    "totalports": host.ports.all().count(),
+                                    'openPort': host.ports.filter(state='open').count(),
+                                    'closePort': host.ports.filter(state='closed').count(),
+                                    'filteredPort': host.ports.filter(state='filtered').count(),
 
-                            })
+                                })
 
                      
        
