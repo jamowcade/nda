@@ -1,11 +1,29 @@
 
 
+<div class="row">
 
-<div class="form-group col-md-12 ">
-    <label>Filter by Keyword</label>
-    <input type="text" class="form-control" id="search-box" placeholder="Search...">
+  <center>
+      
+    <span style="color: aqua;">Search By Port Numer , Host Ip and Port State</span>
+  </center>
+    <div class="form-group col-md-8 ">
+    
+    <!-- <form  class="form-inline"> -->
+      
+      
+      <input type="text" class="form-control" id="search-box" placeholder="Search...">
+      
+      <!-- </form> -->
+    </div>
+
+    <div class="form-group col-md-4">
+
+      
+      <button type="button" class="btn btn-success" id="search-btn">Search</button>
+    </div>
+    
   </div>
-  <div class="table-responsive">
+    <div class="table-responsive">
                         
 
     <table class="table table-bordered my-table"  id="table-1"  style="width:100%;">
@@ -118,21 +136,7 @@
 
 
 <script>
-  $('#search-box').on('keyup', function() {
-    filterTable();
-  });
-function filterTable() {
-  var searchVal = $('#search-box').val().toLowerCase();
-  if(searchVal === '') {
-    $('#table-1 tbody tr').show(); // Show all rows if searchVal is empty
-  } else {
-    $('#myTable tbody tr').each(function() {
-      var text = $(this).text().toLowerCase();
-      var match = text.indexOf(searchVal) > -1;
-      $(this).toggle(match); // Show/hide rows based on match
-    });
-  }
-}
+
 
 function paginate(){
   $('.pagination li a').click(function(e){
@@ -143,6 +147,8 @@ function paginate(){
             data: {
               "page":page,
               "filter_date":"{{scan_date}}",
+              'search':"{{search}}"
+
             },
             success: function(response) {
                 $('#accordion').empty()
@@ -198,6 +204,30 @@ function servicetoggleRow(row) {
     }
   }
 
+
+
+$('#search-btn').click(function () {
+  $search = $('#search-box').val();
+  
+  page = $(this).attr('href')
+    $.ajax({
+            url: '/filter_data/',
+            data: {
+              "page":page,
+              "filter_date":"{{scan_date}}",
+              'search':$search
+              
+            },
+            success: function(response) {
+              
+                $(this).text("refresh")
+                $('#accordion').empty()
+                $('#accordion').append(response)
+            }
+        });
+  
+
+})
 
 $(document).ready(function () {
 CallModal()
