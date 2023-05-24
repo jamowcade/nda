@@ -26,7 +26,7 @@
     <div class="table-responsive">
                         
 
-    <table class="table table-bordered my-table"  id="table-1"  style="width:100%;">
+    <table class="table table-bordered my-table"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
         <thead>
           <tr>
            
@@ -42,8 +42,16 @@
           <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
               <th scope="row" >{{forloop.counter}}</th>
               <th scope="row">
-                <span class="badge badge-secondary " style="font-size: medium;" > {{data.hostname}} Ports {{data.totalports}}  open ports {{data.openPort}} 
-                  close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}
+                <span  style="font-size: medium;" > {{data.hostname}} - 
+                </span>
+                  <span style="font-size: medium; text-transform: uppercase;">
+
+                    Messages - 
+                    
+                   <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
+                   <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
+                   <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
+                   <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span>
                   
                 </span>
                 </th>
@@ -63,21 +71,20 @@
                 {% for port in data.ports %}
                 {% with num=forloop.counter|add:'1' %}
                 <div class="row">
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-3" style="color: aquamarine;">
                        
-                    <span style="cursor: pointer; text-align: center;" >
+                    <span style="cursor: pointer; text-align: center; color: aqua;" >
                          <b> Port {{forloop.counter}} </b>
                     </span><br>
                     <span>Port      : {{port.port}}</span><br>
                     {% if port.state == 'filtered' %}
-                    <span>State     : <span style="color: orange;"> {{port.state}} </span></span><br>
+                    <span>State     : <span style="color: orange;"> <b>{{port.state}}</b> </span></span><br>
                     {% elif port.state == 'open' %}
-                    <span>State     : <span style="color: green;"> {{port.state}} </span></span><br>
+                    <span>State     : <span style="color: green;"> <b>{{port.state}}</b> </span></span><br>
                     {% elif port.state == 'closed' %}
-                    <span>State     : <span style="color: red;"> {{port.state}} </span></span><br>
+                    <span>State     : <span style="color: red;"> <b>{{port.state}}</b>  </span></span><br>
                     {% endif %}
-                    <span>Protocol  : {{port.protocol}}</span><br>
-                    <span>Date      : {{port.time}}</span><br><br>
+                    <span>Protocol  : {{port.protocol}}</span><br><br>
                 </div>
                 
                 <div class="col-12 col-md-6 col-lg-9">
@@ -85,7 +92,7 @@
                 
                 <span style="cursor: pointer; text-align: center;">
                     services
-                    "{{port.service}}",
+                    {{port.service}}
             
              
                 </div>

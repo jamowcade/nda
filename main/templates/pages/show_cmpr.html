@@ -12,111 +12,99 @@
         <div id="accordion3">
 
           
-          <div class="table-responsive">
-            {% if not records %}
+            <div class="table-responsive">
+                        
+
+    <table class="table table-bordered my-table"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
+        <thead>
+          <tr>
+           
+            <th scope="col">#</th>
+            <th scope="col">Host</th>
+            <th scope="col">status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody_data">
+            {% for data in records %}
+            {% with num=forloop.counter|add:'1' %}
             
-            {% else %}     
+          <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
+              <th scope="row" >{{forloop.counter}}</th>
+              <th scope="row">
+                <span  style="font-size: medium;" > {{data.hostname}} - 
+                </span>
+                  <span style="font-size: medium; text-transform: uppercase;">
 
-            <table class="table  my-table"  id="table-1"  style="width:100%;">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Host</th>
-                    <th scope="col">status</th>
-                  </tr>
-                </thead>
-                <tbody id="tbody_data">
-               
-                    {% for data in records %}
-                    {% with num=forloop.counter|add:'1' %}
+                    Messages - 
                     
-                  <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
-                      <th scope="row" >{{data.host_id}}</th>
-                      <th scope="row">
-                        <span class="badge badge-secondary " style="font-size: medium;" > {{data.hostname}} Ports {{data.totalports}}  open ports {{data.openPort}} 
-                          close ports {{data.closePort}}  and filtered ports {{data.filteredPort}}-- Scan case date {{data.hostDate}}
-                          
-                        </span>
-                        </th>
-                      <th scope="row">{{data.status}}</th>
-                  </tr>
-                  <tr id="{{num}}" style="display:none;">
-                    <td></td>
-                    <td>
-                      <center>
+                   <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
+                   <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
+                   <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
+                   <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span> - 
+                   <span style="color: white;">Scan Date: {{data.hostDate}}</b> </span>
+                  
+                </span>
+                </th>
+              <th scope="row">{{data.status}}</th>
+          </tr>
+          <tr id="{{num}}" style="display:none;">
+            <td></td>
+            <td>
+              <center>
 
-                        <span style="font-size: medium;">
-                          <b> Company : {{data.company}}  {{data.network}} </b>
-                        </span><br><br>
-                      </center>
+                <span style="font-size: medium;">
+                  <b> Company : {{data.company}} network: {{data.network}} </b>
+                </span><br><br>
+              </center>
 
 
-                        {% for port in data.port %}
-                        {% with num=forloop.counter|add:'1' %}
-                        <div class="row">
-                        <div class="col-12 col-md-6 col-lg-3">
-                               
-                            <span style="cursor: pointer; text-align: center;" >
-                                 <b> Port {{forloop.counter}} </b>
-                            </span><br>
-                            <span>Port      : {{port.port}}</span><br>
-                            {% if port.state == 'filtered' %}
-                            <span>State     : <span style="color: orange;"> {{port.state}} </span></span><br>
-                            {% elif port.state == 'open' %}
-                            <span>State     : <span style="color: green;"> {{port.state}} </span></span><br>
-                            {% elif port.state == 'closed' %}
-                            <span>State     : <span style="color: red;"> {{port.state}} </span></span><br>
-                            {% endif %}
-                            <span>Protocol  : {{port.protocol}}</span><br>
-                            <span>Date      : {{port.time}}</span><br><br>
-                        </div>
-                        
-                        <div class="col-12 col-md-6 col-lg-9">
+                {% for port in data.port %}
+                {% with num=forloop.counter|add:'1' %}
+                <div class="row">
+                <div class="col-12 col-md-6 col-lg-3" style="color: aquamarine;">
+                       
+                    <span style="cursor: pointer; text-align: center; color: aqua;" >
+                         <b> Port {{forloop.counter}} </b>
+                    </span><br>
+                    <span>Port      : {{port.port}}</span><br>
+                    {% if port.state == 'filtered' %}
+                    <span>State     : <span style="color: orange;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'open' %}
+                    <span>State     : <span style="color: green;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'closed' %}
+                    <span>State     : <span style="color: red;"> <b>{{port.state}}</b>  </span></span><br>
+                    {% endif %}
+                    <span>Protocol  : {{port.protocol}}</span><br><br>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-9">
 
-                        
-                        <span style="cursor: pointer; text-align: center;">
-                            services
-                            "name": "ssh",
-                            "product": "OpenSSH",
-                            "version": "7.2p2 Ubuntu 4ubuntu2.10",
-                            "extrainfo": "Ubuntu Linux; protocol 2.0",
-                            "ostype": "Linux",
-                            "method": "probed",
-                            "conf": "10"
-                        </span>
-                        <span>
-                            "name": "ssh",
-                            "product": "OpenSSH",
-                            "version": "7.2p2 Ubuntu 4ubuntu2.10",
-                            "extrainfo": "Ubuntu Linux; protocol 2.0",
-                            "ostype": "Linux",
-                            "method": "probed",
-                            "conf": "10"
-
-                        </span>
-                        
-                        </div>
+                
+                <span style="cursor: pointer; text-align: center;">
+                    services
+                    {{port.service}}
+            
+             
+                </div>
 
 
 
-                        
-                        </div>
+                
+                </div>
 
-                            {% endwith %}
-                            {% endfor %}
-                            
-                        </td>
-                     
-                    </tr>
                     {% endwith %}
                     {% endfor %}
                     
-                </tbody>
-            
-              </table>
-              {% endif %}
+                </td>
+             
+            </tr>
+            {% endwith %}
+            {% endfor %}
+        </tbody>
+    
+      </table>
 
-          </div>
+  </div>
 
           <div class="pagination" style="justify-content: center; justify-items: center;">
 

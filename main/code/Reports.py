@@ -53,6 +53,7 @@ def filter_data(request):
                     "scanDate":filter_date,
                     'hostDate': host.host_date,
                     'ports': ports,
+                    'service':[port.service for port in ports],
                     "network": host.network.network,
                     "totalports": host.ports.all().count(),
                     'openPort': host.ports.filter(state='open').count(),
