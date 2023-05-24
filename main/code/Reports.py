@@ -53,6 +53,7 @@ def filter_data(request):
     
         pagePaginator= paginator.get_page(page)
         data = {'records': pagePaginator, "network": host.network, 'dataCompany':Listcompany, "scan_date": filter_date}
+        print(data)
         if len(filtered_hosts) > 0:
             return render(request, 'pages/report_hosts.html',data)
         else:

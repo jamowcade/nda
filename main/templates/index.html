@@ -2,8 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <!-- index.html  21 Nov 2019 03:44:50 GMT -->
 
+  <!-- index.html  21 Nov 2019 03:44:50 GMT -->
+<head>
+  <title>tes</title>
+    
+<style>
+  .body{
+    background-color: red;
+  }
+</style>
+</head>
   <!-- Head Section -->
   {% include "includes/head.html" %}
   <!-- End Head Section -->
@@ -219,7 +228,7 @@
                 
                 <div class="card">
                   <div class="card-header">
-                    <h4 style="color: aquamarine;">Top 5 Maximum Network</h4>
+                    <h4 style="color: aquamarine;">Top 5 Company Networks</h4>
                   </div>
                   <div class="card-body">
 
@@ -281,7 +290,7 @@
 
                 <div class="card">
                   <div class="card-header">
-                    <h4 style="color: aquamarine;">Top 5 Maximum Ports</h4>
+                    <h4 style="color: aquamarine;">Top 5 Network Ports</h4>
                   </div>
                   <div class="card-body">
 
@@ -294,9 +303,8 @@
                       </div>
                       <div class="font-weight-bold">
                         <span style="color: aquamarine; font-size: medium;">
-                          {{value.company}}-
-                          {{value.network}}-
-                          {{value.host}}
+                          {{value.company}} -
+                          {{value.network}}
                         </span>
                       </div>
                       <div class="progress" data-height="5" data-toggle="tooltip" title="{{value.percentage}}%">
@@ -378,15 +386,15 @@
               
               <div class="card">
                 <div class="card-header">
-                  <h4>latest Activity</h4>
+                  <h4 style="color: aquamarine;">latest Scan</h4>
                 </div>
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered mb-0">
-                      <thead>
+                  <div class="table-responsive" >
+                    <table class="table table-bordered mb-0" style="color: aqua;">
+                      <thead style="color: aqua;">
                         <tr>
-                          <th>#</th>
-                          <th>Description</th>
+                          <th style="color: aquamarine;">#</th>
+                          <th style="color: aquamarine;">Description</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -408,17 +416,17 @@
               
               <div class="card">
                 <div class="card-header">
-                  <h4>latest User Activity</h4>
+                  <h4 style="color: aquamarine;">latest User Activity</h4>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table table-bordered mb-0">
-                      <thead>
+                    <table class="table table-bordered mb-0" style="color: aqua;">
+                      <thead style="color: aqua;">
                         <tr>
-                          <th>#</th>
-                          <th>User</th>
-                          <th>Message</th>
-                          <th>Time</th>
+                          <th style="color: aquamarine;">#</th>
+                          <th style="color: aquamarine;">User</th>
+                          <th style="color: aquamarine;">Message</th>
+                          <th style="color: aquamarine;">Time</th>
                         </tr>
                       </thead>
                       <tbody>

@@ -3,9 +3,12 @@
 <html lang="en">
 
 
+
 <!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
 <!-- Header Section -->
 {% include "includes/head.html" %}
+
+
 <!-- End Header Section -->
 
   <body class="dark dark-sidebar theme-black">
@@ -37,13 +40,14 @@
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newEnviroment">
+                    <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newEnviroment">
                         <i data-feather="file-plus"></i>Upload File
-                    </button>
+                    </button> -->
 
                     <div class="table-responsive">
                       <table class="table" id="save-stage" style="width:100%; color: aqua;">
                         <thead>
+                          
                           <tr>
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">Host Name</th>
@@ -102,12 +106,12 @@
 
 
          <!-- ports model -->
-         <div class="modal fade" id="displayPorts" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
+         <div class="modal fade" id="displayPorts" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5); ">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content" style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
                 <h5 class="modal-title" id="modal_title">Ports</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>

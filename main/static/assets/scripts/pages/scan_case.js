@@ -1,5 +1,8 @@
 
 $(document).ready(function() {
+
+  $('.progress').hide();
+  
     scan_case_fileUpload();
    
 });

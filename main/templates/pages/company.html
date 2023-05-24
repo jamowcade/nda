@@ -38,14 +38,15 @@
                    
                   <div class="card-body">
                     {%if perms.main.add_campany%}
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newCompany">
-                        <i data-feather="user-plus"></i>
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newCompany">Add Company
+                        <i data-feather="plus"></i>
                     </button>
                     {%endif%}
+                    <br><div></div><br>
 
                     <div class="table-responsive">
-                      <table class="table" id="save-stage" style="width:100%; color: aqua;">
-                        <thead >
+                      <table class="table " id="tableExport" style="width:100%; color: aqua;">
+                        <thead>
                           <tr>
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">ASN</th>
@@ -117,11 +118,11 @@
 
         <!-- Modal -->
         <div class="modal fade" id="newCompany" tabindex="-1" role="dialog" aria-labelledby="companyRegister" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+              <div class="modal-content" style="background-color: #333;">
+                <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
                   <h5 class="modal-title" id="companyRegister">Registeration Company</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -130,14 +131,14 @@
 
                   <form method="POST" id="registerForm">
                     <div class="form-group">
-                      <label>Company Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Company name" required>
+                      <label style="color: aquamarine;">Company Name</label>
+                      <input type="text" class="form-control" id="name" placeholder="Company name" required >
 
-                      <label>Description</label>
-                      <input type="text" class="form-control" id="description" placeholder="Company description" required>
+                      <label style="color: aquamarine;">Description</label>
+                      <input type="text" class="form-control" id="description" placeholder="Company description" required >
 
-                      <label>ASN</label>
-                      <input type="text" class="form-control" id="asn" placeholder="Company ASN" required>
+                      <label style="color: aquamarine;">ASN</label>
+                      <input type="text" class="form-control" id="asn" placeholder="Company ASN" required  >
                     </div>
                  
                     <div class="modal-footer">
@@ -149,10 +150,6 @@
                   </form>
 
                 </div>
-                <!-- <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div> -->
               </div>
             </div>
           </div>
@@ -161,11 +158,11 @@
 
          <!-- Modal -->
          <div class="modal fade" id="updateCompany" tabindex="-1" role="dialog" aria-labelledby="companyUpdate" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
+          <div class="modal-dialog" role="document"style="background-color: #333; color: #fff;">
+            <div class="modal-content" style="background-color: #333;">
+              <div class="modal-header"style="border-bottom: 1px solid #444; background-color: #333;">
                 <h5 class="modal-title" id="companyUpdate">Update Company {{ company.id }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -174,13 +171,13 @@
 
                 <form method="POST" id="UpdateForm">
                   <div class="form-group">
-                    <label>Company Name</label>
+                    <label style="color: aquamarine;">Company Name</label>
                     <input type="text" class="form-control" id="uname" placeholder="Company name" required>
 
-                    <label>Description</label>
+                    <label style="color: aquamarine;">Description</label>
                     <input type="text" class="form-control" id="udescription" placeholder="Company description" required>
 
-                    <label>ASN</label>
+                    <label style="color: aquamarine;">ASN</label>
                     <input type="text" class="form-control" id="uasn" placeholder="Company ASN" required>
                   </div>
                   <div class="modal-footer">

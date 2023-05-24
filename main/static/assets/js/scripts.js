@@ -108,6 +108,7 @@ $(function () {
       $(".main-sidebar .sidebar-menu > li > a").removeAttr("title");
     } else {
       body.addClass("sidebar-mini");
+      
       body.removeClass("sidebar-show");
       sidebar_nicescroll.remove();
       sidebar_nicescroll = null;
