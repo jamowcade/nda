@@ -25,8 +25,8 @@ def index(request):
     distinct_dates = Host.objects.dates('host_date', 'month')
     for d in distinct_dates:
         month_name = d.strftime('%B')
-        print(month_name)
-        print("Month",dataMonth.count())
+        # print(month_name)
+        # print("Month",dataMonth.count())
         monthList.append({
             'months':month_name,
             'hosts':dataMonth.count(),
@@ -93,7 +93,7 @@ def index(request):
         count_host = single_network_id['count']
         get_each_host_id = Host.objects.filter(id=host_id).all()
         for each_host in get_each_host_id:
-            print(each_host)
+            # print(each_host)
             network = each_host.network.network 
             company = each_host.network.compony_info.owner
             topNetworkList.append({
@@ -103,7 +103,7 @@ def index(request):
 
             })
 
-    print("------>>>> ",topNetworkList)
+    # print("------>>>> ",topNetworkList)
     
 
     
