@@ -250,6 +250,8 @@
       var formattedDate = year + '-' + month + '-' + day;
       $('#accordion2').empty()
       console.log(formattedDate);
+      console.log("Data1",formattedDate1);
+      
       $.ajax({
         type:'GET',
         url:'/compare_by_date/',
