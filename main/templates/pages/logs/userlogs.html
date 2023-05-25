@@ -36,24 +36,25 @@
                       <div class="table-responsive">
                         <table
                           class="table"
-                          id="save-stage"
-                          style="width: 100%"
+                          id="tableExport"
+                          style="width: 100%;color: aqua;"
+                          
                         >
                           <thead>
                             <tr>
-                              <th>#</th>
-                              <th>user</th>
-                              <th>message</th>
-                              <th>Date</th>
+                              <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">#</th>
+                              <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">user</th>
+                              <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">message</th>
+                              <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Date</th>
                             </tr>
                           </thead>
                           <tbody>
                             {% for log in user_logs %}
                             <tr>
-                              <td>{{ forloop.counter  }}</td>
-                              <td>{{log.user.username}}</td>
-                              <td>{{ log.message }}</td>
-                              <td>{{ log.created_at }}</td>
+                              <td style="font-size: medium;">{{ forloop.counter  }}</td>
+                              <td style="font-size: medium;">{{log.user.username}}</td>
+                              <td style="font-size: medium; text-transform: capitalize;">{{ log.message }}</td>
+                              <td style="font-size: medium;">{{ log.created_at|timesince }}</td>
                               {% endfor %}
                             </tr> 
                           </tbody> 
