@@ -90,11 +90,11 @@ def compare_by_date(request):
 
         if len(dff) != 0:
             date_object5 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
-            print(date_object5)
+            # print(date_object5)
             all_dff = dff.union(dff1)
             a =  getALl(dff)
             
-            print(a)
+            # print(a)
             paginator = Paginator(a, 10)
             page_number = request.GET.get('page')
             pagePaginator= paginator.get_page(page_number)
@@ -113,7 +113,7 @@ def compare_by_date(request):
             print(date_object9)
             all_dff = dff.union(dff1)   
             a =  getALl(dff1)
-            print(a)
+            # print(a)
             paginator = Paginator(a, 10)
             page_number = request.GET.get('page')
             pagePaginator= paginator.get_page(page_number)
@@ -206,6 +206,6 @@ def showdetaile(request):
     print(id)
     port = Port.objects.filter(host=id).all()
    
-    print(" =====> ",port)
+    # print(" =====> ",port)
     dataport ={"port": list(port.values())}
     return JsonResponse(dataport)
