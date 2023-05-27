@@ -15,9 +15,9 @@ $(document).ready(function() {
 function scan_case_fileUpload(){
   $('.file-upload').click(function(){
         
-    var date = $(this).data('date');
+    var scan_case_id = $(this).data('id');
     $('#newfileUpload').modal('show')
-    $('#scan_case_date').val(date)
+    $('#scan_case_id').val(scan_case_id)
 
     $('#fileUploadForm').submit(function(e) {
       e.preventDefault(); // prevent the default form submission

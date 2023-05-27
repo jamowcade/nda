@@ -147,6 +147,42 @@ def filter_data(request):
                     return JsonResponse({'success': False, 'error': f'and error occured'})
     
    
-    
 
+
+def scan_case_report(request):
+    try:
+        scan_case_id = request.GET.get('scan_case')
+        page = request.GET.get('page')
+        search = request.GET.get('search', None)
+        scan_case = ScanCase.objects.get(id=scan_case_id)
+        if search is None or search == '':
+            scan_case_hosts = scan_case.hosts.all()
+           
+        else:
+              if "ip" in search:
+                        ip = search.split(":")
+                        scan_case_hosts = scan_case.hosts.filter(hostname = ip[1]).all()
+              elif "state" in search.lower():
+                        state = search.split(":")
+                        ports = Port.objects.filter(state=state[1] ).all()
+                        
+                        scan_case1 = scan_case.hosts.filter(ports__state  = state[1]).all().count()
+                        if scan_case1 > 0:
+                         scan_case_hosts = scan_case.hosts.filter(ports__state  = state[1]).all().distinct()
+                         print(scan_case_hosts)
+
+        paginator = Paginator(scan_case_hosts, 50)
+        pagePaginator= paginator.get_page(page)
+        data = {'hosts': pagePaginator,"scan_case": scan_case.id, "search":search}
+            # print(data)
+        if len(scan_case_hosts) > 0:
+                return render(request, 'pages/report_hosts.html',data)
+        else:
+            return JsonResponse("NO Data found", safe=False)
+    except Exception as e:
+                    ErrorLog.objects.create(
+                    user=request.user,
+                    message=f"An error occurred: {e}"
+                    )
+                    return JsonResponse({'success': False, 'error': f'and error occured'})
 
