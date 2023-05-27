@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tx$s6fhzih7l#k$^2oh*3sxfujky48aj07p7hsk1nz+n(y-ti-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.35.1.3']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    "debug_toolbar"
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +78,23 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",
+#     # ...
+# ]
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'nda_dab',
+#         'USER': 'postgres',
+#         'PASSWORD': '4939',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+        
+#     }
+# }
 
 DATABASES = {
     'default': {
