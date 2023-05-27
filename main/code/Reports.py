@@ -149,6 +149,7 @@ def filter_data(request):
    
 
 
+<<<<<<< HEAD
 def scan_case_report(request):
     try:
         scan_case_id = request.GET.get('scan_case')
@@ -186,3 +187,20 @@ def scan_case_report(request):
                     )
                     return JsonResponse({'success': False, 'error': f'and error occured'})
 
+=======
+
+def search_date(request):
+        scan_case_id = request.GET.get('scan_case')
+        page = request.GET.get('page')
+        search = request.GET.get('search')
+        Listcompany = Campany.objects.all()
+        hosts = Host.objects.all()
+        scan_case = ScanCase.objects.get(id=scan_case_id)
+        scan_hosts = scan_case.hosts.all()
+        print(scan_hosts)
+
+        
+
+                
+      
+>>>>>>> f4f47c479954c30b3c4fcac5e1b4ed5e52dfa2d5
