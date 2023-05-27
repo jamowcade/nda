@@ -150,3 +150,18 @@ def filter_data(request):
     
 
 
+
+def search_date(request):
+        scan_case_id = request.GET.get('scan_case')
+        page = request.GET.get('page')
+        search = request.GET.get('search')
+        Listcompany = Campany.objects.all()
+        hosts = Host.objects.all()
+        scan_case = ScanCase.objects.get(id=scan_case_id)
+        scan_hosts = scan_case.hosts.all()
+        print(scan_hosts)
+
+        
+
+                
+      
