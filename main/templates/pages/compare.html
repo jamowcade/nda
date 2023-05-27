@@ -38,7 +38,7 @@
                         </div>
                         <div class="col col-md-4">
                             <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" name="network" id="network" aria-label="Select 2">
-                                <option selected disabled>Select network</option>
+                                <option selected >Select network</option>
                                
                               </select>
                         </div>
@@ -157,6 +157,7 @@
            $('#accordion3').empty()
             $.each(data, function(index, element) {
               const option = document.createElement("option");
+              option.text = "choise network"
               option.text = element.network;
               option.value = element.id
               $('#ntwork').val(element.network)
@@ -185,6 +186,7 @@
       $('#network').on("change", function(){
        
         var text = $('#network option:selected').text();
+        console.log(text);
         $('#ntwork').val(text)
         
       })
@@ -248,6 +250,8 @@
       var formattedDate = year + '-' + month + '-' + day;
       $('#accordion2').empty()
       console.log(formattedDate);
+      console.log("Data1",formattedDate1);
+      
       $.ajax({
         type:'GET',
         url:'/compare_by_date/',

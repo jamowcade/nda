@@ -37,13 +37,11 @@
                   <!-- Button trigger modal -->
                    
                   <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newRenter">
-                        <i data-feather="user-plus"></i>
-                    </button>
+
 
                     <div class="table-responsive">
                
-                      <table class="table " id="save-stage" style="width:100%; color: aqua;">
+                      <table class="table " id="tableExport" style="width:100%; color: aqua;">
                         <thead>
                           <tr>
                             <th style="color: aquamarine;">#</th>
@@ -164,11 +162,11 @@
 
          <!-- Update Modal -->
          <div class="modal fade" id="updateNetwork" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="userRegister">Update Renter {{ Renter.id }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content"  style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="userRegister">Update Network {{ Renter.id }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -183,17 +181,17 @@
                      
                     </select><br>
 
-                    <label for="network">Network</label>
+                    <label for="network" style="color: aquamarine;">Network</label>
                     <input type="text" class="form-control" id="unetwork" required><br>
   
-                    <label for="state">State</label>
+                    <label for="state" style="color: aquamarine;">State</label>
                     <select id="ustate" class="form-control" required>
                       <option value="">State </option>
                       <option value="O">Up</option>
                       <option value="C">Down</option>
                     </select><br>
 
-                    <label for="description">Description</label>
+                    <label for="description" style="color: aquamarine;">Description</label>
                     <textarea class="form-control" id="udescription" required cols="30" rows="10"></textarea>
                     <!-- <input type="text" class="form-control" id="description" required maxlength="200000" name="description"> -->
 
