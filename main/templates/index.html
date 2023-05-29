@@ -377,22 +377,24 @@
               
               <div class="card">
                 <div class="card-header">
-                  <h4 style="color: aquamarine;">latest Scan</h4>
+                  <h4 style="color: aquamarine;">Top Last Scan</h4>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive" >
-                    <table class="table table-bordered mb-0" style="color: aqua;">
+                    <table class="table table-bordered mb-0" style="color: aqua;text-transform: uppercase; font-size: large;">
                       <thead style="color: aqua;">
                         <tr>
                           <th style="color: aquamarine;">#</th>
                           <th style="color: aquamarine;">Description</th>
+                          <th style="color: aquamarine;">Hosts</th>
                         </tr>
                       </thead>
                       <tbody>
                         {% for data in top_scan %}
                         <tr>
                           <td>{{forloop.counter}}</td>
-                          <td>{{data.name}}</td>
+                          <td>{{data.scan}}</td>
+                          <td>{{data.count}} Hosts</td>
                         </tr>
                         {% endfor %}
                       </tbody>

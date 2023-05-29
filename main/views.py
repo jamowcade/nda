@@ -1,5 +1,6 @@
+import json
 from django.shortcuts import render
-from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear
+from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear,TruncDay
 from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
@@ -15,6 +16,7 @@ def index(request):
     countListMonth = []
     countByYearName = []
     countByYearCount = []
+    top5scanCases = []
 
     # Count Each Table Of Database
     totalCompany = Campany.objects.count()
@@ -22,7 +24,7 @@ def index(request):
     totalHost = Host.objects.count()
     totalPorts = Port.objects.count()
 
-
+    # Geting Hosts Added Each Month
     host_by_month = Host.objects.annotate(month=TruncMonth('host_date')).values('month').annotate(count=Count('id'))
     for dateHost in host_by_month:
         changeNameMonth = dateHost['month'].strftime('%B'),
@@ -35,8 +37,9 @@ def index(request):
         countListMonth.append({
             'count':dateHost['count']
         })
+
+    # Getiing Host added Each Year    
     host_by_year  = Host.objects.annotate(year=TruncYear('host_date')).values('year').annotate(count=Count('id'))
-    
     for hostYear in host_by_year:
         changetoYear = hostYear['year'].year
         countByYearName.append({
@@ -65,7 +68,8 @@ def index(request):
                 
 
             })
-    # print(sum_com)
+    
+
 
 
     # Geting Ports State By Filtering "Open","Closed" & "Filtered"
@@ -80,11 +84,21 @@ def index(request):
 
 
     # Get Last Top 5 Activity Scan Cases
-    top_scan = ScanCase.objects.all().order_by('-id')[:5][::-1]
+    top_date_scan = Host.objects.annotate(day=TruncDay('host_date')).values('day').annotate(count=Count('id')).order_by('-count')[:5]
+    for group in top_date_scan:
+        date_scan = group['day'].strftime('%Y-%m-%d')
+        get_scan_date = ScanCase.objects.filter(scan_date=date_scan).all()
+        for scan in get_scan_date:
+            top5scanCases.append({
+                'scan':scan.name,
+                'scan_date':date_scan,
+                'count':group['count']
+            })
+        
     user_logs = UserLog.objects.all().order_by('-created_at')[:5][::1]
 
 
-    # Get top 5 hight Ports and add them to List
+    # Get top 10 hight Ports and add them to List
     
     each_port_value = Port.objects.values('port').annotate(count=Count('port')).order_by('-count')[:10][::1]
   
@@ -143,21 +157,21 @@ def index(request):
 
 
             })
-    # print(topHost)
-            # print(each_port.host.network.compony_info.owner)
+    portSerivce = Port.objects.all()[:5]
+    # for port in portSerivce:
+    #     s = port.service.replace("'",'"')
+    #     service = json.load(s)
+    #     print(type(service))
+        
+        # a = f'"{"("+port.service+")"}"'
 
-
-
-    # print(same_host)
-
-
-
-        # print(single_host_id)
-
+        # # b= json.loads(a)
+        # print (a)
+       
+        # # for key, value in b.iteritems():
+        # #   print(key, ':', value)
+        # print(service)
     
-
-    print(countByYearName)
-    print(countByYearCount)
     context = {
         'company':totalCompany,
         'network':totalNetwork,
@@ -170,7 +184,7 @@ def index(request):
         'closeport':closePorts,
         'filterstate':filterstate,
         'filterport':filterPorts,
-        'top_scan':top_scan,
+        'top_scan':top5scanCases,
         'user_logs':user_logs,
         'chartDataByMonth':monthList,
         'chartCountByMonth':countListMonth,
