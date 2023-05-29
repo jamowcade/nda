@@ -21,6 +21,13 @@
       
       <button type="button" class="btn btn-success" id="search-btn">Search</button>
     </div>
+    <div id="loading-spinner2" style="display:none">
+      <i class="fa fa-spinner fa-spin"></i> Loading...
+    </div>
+    <div id="result" style="color: wheat;">
+      Total Hosts Found: {{total_hosts}}
+      <span id="response-time"></span>
+    </div>
     
   </div>
     <div class="table-responsive">
@@ -30,32 +37,32 @@
         <thead>
           <tr>
            
-            <th scope="col">#</th>
-            <th scope="col">Host</th>
-            <th scope="col">status</th>
+            <th style="color: aquamarine;" scope="col">#</th>
+            <th style="color: aquamarine;" scope="col">Host</th>
+            <th style="color: aquamarine;" scope="col">status</th>
           </tr>
         </thead>
         <tbody id="tbody_data">
-            {% for data in records %}
+            {% for host in hosts %}
             {% with num=forloop.counter|add:'1' %}
             
           <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
               <th scope="row" >{{forloop.counter}}</th>
               <th scope="row">
-                <span  style="font-size: medium;" > {{data.hostname}} - 
+                <span  style="font-size: medium;" > {{host.hostname}} - 
                 </span>
                   <span style="font-size: medium; text-transform: uppercase;">
 
                     Messages - 
                     
-                   <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
-                   <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
-                   <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
-                   <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span>
+                   <span style="color: aquamarine;">Total Ports: <b>{{host.totalPorts}}</b> </span> -   
+                   <span style="color: green;">Open ports {{host.openPorts}}</b> </span> - 
+                   <span style="color: red;">close ports: {{host.closedPorts}}</b> </span> - 
+                   <span style="color: orange;">filtered ports: {{host.filteredPorts}}</b> </span>
                   
                 </span>
                 </th>
-              <th scope="row">{{data.status}}</th>
+              <th scope="row">{{host.status}}</th>
           </tr>
           <tr id="{{num}}" style="display:none;">
             <td></td>
@@ -63,12 +70,12 @@
               <center>
 
                 <span style="font-size: medium;">
-                  <b> Company : {{data.company}} network: {{data.network}} </b>
+                  <b> Company : {{host.network.compony_info}} network: {{host.network}} </b>
                 </span><br><br>
               </center>
 
 
-                {% for port in data.ports %}
+                {% for port in host.ports.all %}
                 {% with num=forloop.counter|add:'1' %}
                 <div class="row">
                 <div class="col-12 col-md-6 col-lg-3" style="color: aquamarine;">
@@ -121,21 +128,21 @@
     <nav aria-label="Page navigation example">
 
         <ul class="pagination">
-            {% if records.has_previous %}
+            {% if hosts.has_previous %}
           <li class="page-item"><a class="page-link" href="1"> <b> &laquo; </b></a></li>
-          <li class="page-item"><a class="page-link" href="{{ records.previous_page_number }}"> <b> &lsaquo; </b></a></li><br>
+          <li class="page-item"><a class="page-link" href="{{ hosts.previous_page_number }}"> <b> &lsaquo; </b></a></li><br>
           {% endif %}
  
         
-          {% if records.number == num %}
+          {% if hosts.number == num %}
           <li class="page-item active"><span class="page-link">{{ num }}</span></li>
           {% endif %}
       
-          <li class="page-item"> <span class="badge"> Page {{ records.number }} of {{ records.paginator.num_pages }} </span></li>
+          <li class="page-item"> <span class="badge"> Page {{ hosts.number }} of {{ hosts.paginator.num_pages }} </span></li>
           
-          {% if records.has_next %}
-          <li class="page-item"><a id="next"  class="page-link" href="{{ records.next_page_number }}"> <b> &rsaquo; </b></a></li>
-          <li class="page-item"><a class="page-link" href="{{ records.paginator.num_pages }}"> <b> &raquo; </b></a></li>
+          {% if hosts.has_next %}
+          <li class="page-item"><a id="next"  class="page-link" href="{{ hosts.next_page_number }}"> <b> &rsaquo; </b></a></li>
+          <li class="page-item"><a class="page-link" href="{{ hosts.paginator.num_pages }}"> <b> &raquo; </b></a></li>
           {% endif %}
         </ul>
       </nav>
@@ -149,17 +156,18 @@ function paginate(){
   $('.pagination li a').click(function(e){
     e.preventDefault()
     page = $(this).attr('href')
+    var id = $('#filter-date').val();
     $.ajax({
-            url: '/filter_data/',
+            url: '/scan_case_report/',
             data: {
               "page":page,
-              "filter_date":"{{scan_date}}",
+              "scan_case":"{{scan_case}}",
               'search':"{{search}}"
 
             },
             success: function(response) {
                 $('#accordion').empty()
-                $('#accordion').append(response)
+                $('#accordion').append(response.html)
             }
         });
   })
@@ -217,19 +225,34 @@ $('#search-btn').click(function () {
   $search = $('#search-box').val();
   
   page = $(this).attr('href')
+  var id = $('#filter-date').val();
+  $('#search-btn').text('searching')
+  $('#loading-spinner2').show()
     $.ajax({
-            url: '/filter_data/',
+            url: '/scan_case_report/',
             data: {
               "page":page,
-              "filter_date":"{{scan_date}}",
+              "scan_case":id,
               'search':$search
               
             },
             success: function(response) {
-              
-                $(this).text("refresh")
-                $('#accordion').empty()
-                $('#accordion').append(response)
+                $('#search-btn').text("search")
+                $('#loading-spinner2').hide()
+                if(response.success){
+                  $('#result').show()
+                  $('#result').text(response.message)
+                  $('#accordion').empty()
+                  $('#accordion').append(response.html)
+                }
+                else {
+                  $('#result').show()
+                  $('#result').text(response.message)
+                }
+              if(response.invalid){
+                $('#result').show()
+                $('#result').text(response.message)
+              }
             }
         });
   
@@ -314,5 +337,5 @@ getTable();
 })
 
 </script>
-{{ redirect_to_login_immediately }}
+
 </html>

@@ -52,10 +52,11 @@
                       <div class="form-group mx-sm-3">
                         <select id="filter-date" class="form-control" required>
                           {% for scan in scan_cases %}
-                          <option selected value="{{scan.scan_date}}">{{scan.name}}</option>
+                          <option selected value="{{scan.id}}">{{scan.name}}</option>
                           {% endfor %}
                         </select>
                       </div>
+              
                       <button class="btn btn-info btn-sm" type="submit">Search</button>
 
 
@@ -131,27 +132,28 @@
       $('.listRecord').hide();
       $('#filter-form').submit(function (event) {
         event.preventDefault();
-        var filterDate = $('#filter-date').val();
-        var date = new Date(filterDate);
-        var year = date.getFullYear().toString();
-        var month = ('0' + (date.getMonth() + 1)).slice(-2);
-        var day = ('0' + date.getDate()).slice(-2);
-        var formattedDate = year + '-' + month + '-' + day;
-        console.log(formattedDate);
+        var id = $('#filter-date').val();
+        // var date = new Date(filterDate);
+        // var year = date.getFullYear().toString();
+        // var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        // var day = ('0' + date.getDate()).slice(-2);
+        // var formattedDate = year + '-' + month + '-' + day;
+        // console.log(id);
         $.ajax({
           type: 'GET',
-          url: '/filter_data/',
+          url: '/scan_case_report/',
           beforeSend: function () {
             // Show the loading spinner before the request is sent
             $('#loading-spinner').show();
           },
           data: { 
-            'filter_date': formattedDate,
+            'scan_case':id,
             'page':'1'
           },
           success: function (response) {
             $('#accordion').show()
-            $('#accordion').append(response)
+            $('#accordion').append(response.html)
+            $('#response-time').text()
             
            
           },
@@ -179,7 +181,7 @@
   <!-- End Scripts Section -->
 </body>
 
-{{ redirect_to_login_immediately }}
+
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 
 </html>

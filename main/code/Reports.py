@@ -145,8 +145,87 @@ def filter_data(request):
                     message=f"An error occurred: {e}"
                     )
                     return JsonResponse({'success': False, 'error': f'and error occured'})
-    
-   
-    
+@login_required(login_url="login")
+def scan_case_report(request):
+    # try:
+        scan_case_id = request.GET.get('scan_case')
+        page = request.GET.get('page')
+        search = request.GET.get('search', '')
+        scan_case = ScanCase.objects.get(id=scan_case_id)
+        print("search:", search)
+        print("page:", page)
+        scan_case_hosts = ""
+        print("scan case:", scan_case_id)
+        if search is None or search == '':
+            scan_case_hosts = scan_case.hosts.all()
+            hosts = paginateHosts(scan_case_hosts, page)
+            total_hosts = len( scan_case_hosts)
+            if total_hosts > 0:
+                    data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
+                    html = render(request, 'pages/report_hosts.html',data)
+                    return JsonResponse({"success":True, "message":f"data found matching {scan_case.name }", "html":str(html.content, encoding='utf8')}, safe=False)
+            else:
+                return JsonResponse({"success":False, "message":f"No data found matching {ip[1]}"}, safe=False)
+
+        else:
+              
+              if "ip" in search and ":" in search:
+                        ip = search.split(":")
+                        scan_case_hosts = scan_case.hosts.filter(hostname = ip[1]).all()
+                        host = paginateHosts(scan_case_hosts, page)
+                        total_hosts = len(scan_case_hosts)
+                        if total_hosts > 0:
+                            data = {'hosts': host,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
+                            html = render(request, 'pages/report_hosts.html',data)
+                            return JsonResponse({"success":True, "message":f"data found matching  {ip[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
+                        else:
+                            return JsonResponse({"success":False, "message":f"No data found matching ip: {ip[1]}"}, safe=False)
+              elif "state" in search.lower() and ":" in search:
+                        state = search.split(":")
+                        ports = Port.objects.filter(state=state[1] ).all()
+                        scan_case_hosts= scan_case.hosts.filter(ports__state  = state[1]).all().distinct()
+                        hosts = paginateHosts(scan_case_hosts, page)
+                        total_hosts = len(scan_case_hosts)
+                        if total_hosts > 0:
+                            data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
+                            html = render(request, 'pages/report_hosts.html',data)
+                            return JsonResponse({"success":True, "message":f"data found matching  {state[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
+                        else:
+                            return JsonResponse({"success":False, "message":f"No data found matching state: {state[1]}! stats can be,(open, closed, filtered)"}, safe=False)
+              elif "port" in search.lower() and ":" in search:
+                        port = search.split(":")
+                        scan_case_hosts = scan_case.hosts.filter(ports__port  = port[1]).all().distinct()
+                        hosts = paginateHosts(scan_case_hosts, page)
+                        total_hosts = len(scan_case_hosts)
+                        if total_hosts > 0:
+                            data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
+                            html = render(request, 'pages/report_hosts.html',data)
+                            return JsonResponse({"success":True, "message":f"data found matching  {port[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
+                        else:
+                            return JsonResponse({"success":False, "message":f" No data found matching Port: {port[1]}! Enter valid port number"}, safe=False)
+              else:
+                  return JsonResponse({"invalid":False, "message":f"Ivalid search query! please use keywords (ip, state, port and separate with colon) e.g: ip:67.33.8.9, port:90, state:open"}, safe=False)
+
+        paginator = Paginator(scan_case_hosts, 50)
+
+        pagePaginator= paginator.get_page(page)
+        total_hosts = len(scan_case_hosts)
+        data = {'hosts': pagePaginator,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
+            # print(data)
+        if len(scan_case_hosts) > 0:
+                return render(request, 'pages/report_hosts.html',data)
+        else:
+            return JsonResponse("NO Data found", safe=False)
+    # except Exception as e:
+    #                 ErrorLog.objects.create(
+    #                 user=request.user,
+    #                 message=f"An error occurred: {e}"
+    #                 )
+    #                 return JsonResponse({'success': False, 'error': f'and error occured'})
 
 
+def paginateHosts(hosts, page):
+        paginator = Paginator(hosts, 50)
+        pagePaginator= paginator.get_page(page)
+        return pagePaginator
+        

@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 # Create your views here.
 
+
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def compare(request):
     name = request.GET.get('name')
@@ -42,91 +43,65 @@ def compare_by_date(request):
     scan_date_1 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
     scan_date_2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
 
-    if compare_date is not None : 
-        network = request.GET.get('network')   
-        company = request.GET.get('company')
-        network_id  = Network.objects.get(id=network)
-        date_object = datetime.strptime(compare_date, "%Y-%m-%d").date()
-        all_host = Host.objects.filter(host_date=date_object,network= network_id).all().count()
-        all_network = Host.objects.filter(host_date=date_object,network= network_id).values('network').all().distinct().count()
-        all_ports = Host.objects.filter(host_date=date_object,network= network_id).values('ports').all().distinct().count()
+    network = request.GET.get('network')   
+    company = request.GET.get('company')
+    network_id  = Network.objects.get(id=network)
+    date_object = datetime.strptime(compare_date1, "%Y-%m-%d").date()
+    date_object2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
+   
+    
+    
+    all_host1 = Host.objects.select_related('network').filter(host_date=date_object,network= network_id).all()
+    all_host2 = Host.objects.select_related('network').filter(host_date=date_object2,network= network_id).all()
+    
+
+    all_h2 =[]
+    all_h1 =[]
+    
+    for all_hst2 in all_host2:
+        all_h2.append(all_hst2.hostname)
+
+    for all_hst1 in all_host1:
+        all_h1.append(all_hst1.hostname)
+    
+    dff = set(all_h1) - set(all_h2)
+    dff1 = set(all_h2) - set(all_h1)
+
+    if len(dff) != 0:
+       
+        a =  getALl(dff)
+       
+        paginator = Paginator(a, 10)
+        page_number = request.GET.get('page')
+        pagePaginator= paginator.get_page(page_number)
+        
         data = {
-            "all_hosts":all_host,
-            "all_networks":all_network,
-            "all_ports":all_ports
+            'records':pagePaginator,
+            'scan_date1':scan_date_1,
+            'scan_date2':scan_date_2,
+            'network':compare_network,
         }
-        global all_host1 
-        
-        return JsonResponse(data, safe=False)
-    else:
-  
-        network = request.GET.get('network')   
-        company = request.GET.get('company')
-        network_id  = Network.objects.get(id=network)
-        date_object = datetime.strptime(compare_date1, "%Y-%m-%d").date()
-        date_object2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
-        all_host = Host.objects.filter(host_date=date_object2,network= network_id).all().count()
-        all_network = Host.objects.filter(host_date=date_object2,network= network_id).values('network').all().distinct().count()
-        all_ports = Host.objects.filter(host_date=date_object2,network= network_id).values('ports').all().distinct().count()
-        
-        global all_host2 
-        all_host1 = Host.objects.filter(host_date=date_object,network= network_id).all()
-        all_host2 = Host.objects.filter(host_date=date_object2,network= network_id).all()
-        
-
-        all_h2 =[]
-        all_h1 =[]
-        
-        for all_hst2 in all_host2:
-            all_h2.append(all_hst2.hostname)
-
-        for all_hst1 in all_host1:
-            all_h1.append(all_hst1.hostname)
-        # dff = set(all_host1) - set(all_host2)
-
-
-        dff = set(all_h1) - set(all_h2)
-        dff1 = set(all_h2) - set(all_h1)
-
-        if len(dff) != 0:
-            date_object5 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
-            # print(date_object5)
-            all_dff = dff.union(dff1)
-            a =  getALl(dff)
-            
-            # print(a)
-            paginator = Paginator(a, 10)
-            page_number = request.GET.get('page')
-            pagePaginator= paginator.get_page(page_number)
-           
-            data = {
-                'records':pagePaginator,
-                'scan_date1':scan_date_1,
-                'scan_date2':scan_date_2,
-                'network':compare_network,
-            }
-        
-            return render(request,'pages/show_cmpr.html',data)
-        
-        else:
-            date_object9 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
-            print(date_object9)
-            all_dff = dff.union(dff1)   
-            a =  getALl(dff1)
-            # print(a)
-            paginator = Paginator(a, 10)
-            page_number = request.GET.get('page')
-            pagePaginator= paginator.get_page(page_number)
-           
-            data = {
-                'records':pagePaginator,
-                'scan_date1':scan_date_1,
-                'scan_date2':scan_date_2,
-                'network':compare_network,
-            }
-
+    
         return render(request,'pages/show_cmpr.html',data)
     
+    else:
+       
+        
+        a =  getALl(dff1)
+        
+        paginator = Paginator(a, 10)
+        page_number = request.GET.get('page')
+        pagePaginator= paginator.get_page(page_number)
+        
+        data = {
+            'records':pagePaginator,
+            'scan_date1':scan_date_1,
+            'scan_date2':scan_date_2,
+            'network':compare_network,
+        }
+
+    return render(request,'pages/show_cmpr.html',data)
+
     
 @login_required(login_url='login')
 def filter_by_date(request):

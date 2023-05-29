@@ -4,12 +4,24 @@ from datetime import datetime
 from django.contrib.auth.models import AbstractUser, User
 
 
+
+class ScanCase(models.Model):
+    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
+    name = models.CharField(max_length=500)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        permissions = [
+            ("can_compare_scancase", "Can compare Scancase"),
+        ]
+
+    
+
 class Campany(models.Model):
     title = models.CharField(max_length=100)
     owner = models.CharField(max_length=100)
     timestamp = models.DateField(auto_now_add=True)
     asn = models.CharField(max_length=100)
-
 
     def __str__(self):
         return self.owner
@@ -34,7 +46,7 @@ class Network(models.Model):
     
     def __str__(self):
         return self.network
-
+ 
 
 
 
@@ -43,11 +55,33 @@ class Host(models.Model):
     status = models.CharField(max_length=500)
     host_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
     network = models.ForeignKey(Network, on_delete=models.CASCADE, related_name='hosts')
+    scan_case = models.ForeignKey(ScanCase, on_delete=models.CASCADE, related_name='hosts', null=True)
     reason = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.hostname
     
+    def closedPorts(self):
+        closed_ports = self.ports.filter(state="closed").all().count()
+        return closed_ports
+
+    def openPorts(self):
+        open_ports = self.ports.filter(state="open").all().count()
+        return open_ports
+
+    def filteredPorts(self):
+        filtered_ports = self.ports.filter(state="filtered").all().count()
+        return filtered_ports
+
+    
+
+    def totalPorts(self):
+        totalPorts = self.ports.all().count()
+        return totalPorts
+    
+    def getPorts(self, state):
+        ports = self.ports.filter(state=state).all()
+        return ports
 
 
 
@@ -62,17 +96,6 @@ class Port(models.Model):
     host = models.ForeignKey(Host, on_delete=models.CASCADE,related_name='ports')
                     
 
-class ScanCase(models.Model):
-    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
-    name = models.CharField(max_length=500)
-    description = models.TextField(blank=True)
-
-    class Meta:
-        permissions = [
-            ("can_compare_scancase", "Can compare Scancase"),
-        ]
-
-    
 
 class ErrorLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

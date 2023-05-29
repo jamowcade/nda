@@ -56,6 +56,7 @@ urlpatterns = [
     path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
 
     path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'),
+    path('scan_case_report/', Reports.scan_case_report, name='scan_case_report'),
     path('newCompany/', company.createCompany, name='add_company'),
     path('editCompany/', company.editCompany, name='edit_company'),
 

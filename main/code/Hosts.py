@@ -39,11 +39,11 @@ def addHosts(request):
     try:
         if request.method == 'POST':
             file_data = request.FILES['file'].read().decode('utf-8') # read the uploaded file data
-            get_date = request.POST.get('scan_date')
-            # scan_case = ScanCase.objects.get(date=get_date)
+            scan_case_id = request.POST.get('scan_case')
+            scan_case = ScanCase.objects.get(id=scan_case_id)
 
-            date_obj = datetime.strptime(get_date, "%B %d, %Y")
-            scan_date = date_obj.strftime("%Y-%m-%d")
+            # date_obj = datetime.strptime(get_date, "%B %d, %Y")
+            # scan_date = date_obj.strftime("%Y-%m-%d")
 
             data = json.loads(file_data) # parse the JSON data
             # check if network not registed before uploading hosts
@@ -68,19 +68,19 @@ def addHosts(request):
                 status =   data[host]['state']
                 network = host_network
                 
-                is_host = Host.objects.filter(hostname=hostname, host_date=scan_date, network=network).all() # check if host exists with the given hostname and scan date.
+                is_host = Host.objects.filter(hostname=hostname, host_date=scan_case.scan_date, network=network).all() # check if host exists with the given hostname and scan date.
                 
                 # check if host already registered in the current scan case
                 if is_host:
                     ErrorLog.objects.create(
                     user=request.user,
-                    message=f'This file already uploaded for network - ({file_network}) at {scan_date}. Please upload another file'
+                    message=f'This file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file'
                     )
                     return JsonResponse({'success': False, 'error': 
-                    f'sorry! this file already uploaded for network - ({file_network}) at {scan_date}. Please upload another file or change'})
+                    f'sorry! this file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file or change'})
                     continue
                 else:
-                    new_host = Host(hostname=hostname, status = status, network=network, host_date=scan_date)
+                    new_host = Host(hostname=hostname, status = status, network=network, host_date=scan_case.scan_date, scan_case=scan_case)
                    
                     for port in range(len(data[host]['ports'])):
                         all_services =  data[host]['ports'][port]['service']

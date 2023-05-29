@@ -69,7 +69,7 @@
                               type="button" class="btn btn-success btn-sm file-upload" 
                               data-toggle="modal" 
                               
-                              data-date="{{ scan.scan_date }}"
+                              data-id="{{ scan.id }}"
                               >
                                 <i data-feather="file-plus"></i>
                                 Upload File
@@ -81,7 +81,7 @@
                               type="button" class="btn btn-info btn-sm file-upload disabled" 
                               data-toggle="modal" 
                               
-                              data-date="{{ scan.scan_date }}"
+                              data-id="{{ scan.id }}"
                               >
                                 <i data-feather="file-plus"></i>
                                 Upload File
@@ -156,7 +156,7 @@
                 <form id="fileUploadForm" method="POST">
                   <div class="form-group">
                     <label hidden for="upload_date">Scan Case Date</label>
-                    <input type="text" hidden class="form-control" id="scan_case_date" name="scan_date" required>
+                    <input type="text" hidden  class="form-control" id="scan_case_id" name="scan_case" required>
                   </div>
                   <div class="custom-file mb-3">
                     <input type="file"  id="customFile" accept=".json" name="file" required>
@@ -238,6 +238,6 @@
   <!-- End Scripts Section -->
 </body>
 
-{{ redirect_to_login_immediately }}
+
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 </html>
