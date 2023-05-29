@@ -145,7 +145,10 @@ def filter_data(request):
                     message=f"An error occurred: {e}"
                     )
                     return JsonResponse({'success': False, 'error': f'and error occured'})
-@login_required(login_url="login")
+    
+   
+
+
 def scan_case_report(request):
     # try:
         scan_case_id = request.GET.get('scan_case')
