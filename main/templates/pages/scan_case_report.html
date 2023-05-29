@@ -133,6 +133,7 @@
       $('#filter-form').submit(function (event) {
         event.preventDefault();
         var id = $('#filter-date').val();
+        var startTime = new Date().getTime();
         // var date = new Date(filterDate);
         // var year = date.getFullYear().toString();
         // var month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -151,16 +152,17 @@
             'page':'1'
           },
           success: function (response) {
+            var endTime = new Date().getTime();
+            var responseTime = (endTime - startTime) / 1000;
+           
             $('#accordion').show()
             $('#accordion').append(response.html)
-            $('#response-time').text()
+            $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+            $('#loading-spinner').hide()
             
            
           },
-          complete: function () {
-            $('#loading-spinner').hide();
-          }
-
+      
 
         });
         $('#accordion').html('')

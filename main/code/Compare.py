@@ -49,12 +49,9 @@ def compare_by_date(request):
     date_object = datetime.strptime(compare_date1, "%Y-%m-%d").date()
     date_object2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
    
-    
-    
     all_host1 = Host.objects.select_related('network').filter(host_date=date_object,network= network_id).all()
     all_host2 = Host.objects.select_related('network').filter(host_date=date_object2,network= network_id).all()
     
-
     all_h2 =[]
     all_h1 =[]
     
@@ -86,7 +83,6 @@ def compare_by_date(request):
     
     else:
        
-        
         a =  getALl(dff1)
         
         paginator = Paginator(a, 10)
