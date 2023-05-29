@@ -228,30 +228,38 @@ $('#search-btn').click(function () {
   var id = $('#filter-date').val();
   $('#search-btn').text('searching')
   $('#loading-spinner2').show()
+  var startTime = new Date().getTime();
     $.ajax({
             url: '/scan_case_report/',
             data: {
               "page":page,
               "scan_case":id,
               'search':$search
-              
             },
             success: function(response) {
-                $('#search-btn').text("search")
-                $('#loading-spinner2').hide()
+              var endTime = new Date().getTime();
+              var responseTime = (endTime - startTime) / 1000;
+             
+              
+                $('#search-btn').text("search");
+                $('#loading-spinner2').hide();
                 if(response.success){
-                  $('#result').show()
-                  $('#result').text(response.message)
-                  $('#accordion').empty()
-                  $('#accordion').append(response.html)
+                  $('#result').show();
+                  $('#result').text(response.message);
+                  $('#accordion').empty();
+                  $('#accordion').append(response.html);
+                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+               
                 }
                 else {
                   $('#result').show()
-                  $('#result').text(response.message)
+                  $('#result').text(response.message);
+                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
                 }
               if(response.invalid){
-                $('#result').show()
-                $('#result').text(response.message)
+                $('#result').show();
+                $('#result').text(response.message);
+                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
               }
             }
         });
