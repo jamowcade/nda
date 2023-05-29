@@ -9,6 +9,7 @@ mysqlclient = "*"
 psycopg2 = "*"
 django-auto-logout = "*"
 pytz = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

@@ -132,56 +132,49 @@
                         <div class="card-header">
                           <h4>Host and Ports Chart</h4>
                           <div class="card-header-action">
-                            <div class="dropdown">
-                              <!-- <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a> -->
-                              <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
-                                <a href="#" class="dropdown-item has-icon"><i class="far fa-edit"></i> Edit</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i>
-                                  Delete</a>
-                              </div>
-                            </div>
-                            <!-- <a href="#" class="btn btn-primary">View All</a> -->
+                            <!-- <a href="#" class="btn btn-success btn active" sty>Week</a> -->
+                            <a href="#" id="monthbtn" class="btn btn-success btn">Month</a>
+                            <a href="#" id="yearbtn" class="btn btn-success">Year</a>
                           </div>
                         </div>
                         <div class="card-body">
                           <div class="row">
                             <div class="col-lg-9">
                               <!-- <div id="chart4"></div> -->
-                              <canvas id="aaaaa" height="100"></canvas>
+                              <canvas id="ChartYear" height="100"></canvas>
+                              <canvas id="ChartMonth" height="100"></canvas>
                               <div class="row mb-0">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="col-green">+{{openstate}}%</span>
+                                      <span class="text-big col-orange">+{{openstate}}%</span>
                                       <h5 class="m-b-0">
-                                        <span class="text-big">{{openport}}</span>
+                                        <span class="text-big" style="color: aqua;">{{openport}}</span>
                                       </h5>
-                                      <p class="text-muted font-14 m-b-0"style="color: aqua;">Open Ports</p>
+                                      <p class="font-14 m-b-0" style="color: aquamarine;">Open Ports</p>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="col-green">+{{closestate}}%</span>
+                                      <span class="text-big col-orange">+{{closestate}}%</span>
                                       
                                       <h5 class="m-b-0">
-                                        <span class="text-big">{{closeport}}</span>
+                                        <span class="text-big" style="color: aqua;">{{closeport}}</span>
                                       </h5>
-                                      <p class="text-muted font-14 m-b-0"style="color: aqua;">Close Ports</p>
+                                      <p class="font-14 m-b-0" style="color: aquamarine;">Close Ports</p>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="col-green">+{{filterstate}}%</span>
+                                      <span class="text-big col-orange">+{{filterstate}}%</span>
                                       <h5 class="mb-0 m-b-0">
-                                        <span class="text-big">{{filterport}}</span>
+                                        <span class="text-big" style="color: aqua;">{{filterport}}</span>
                                       </h5>
-                                      <p class="text-muted font-14 m-b-0"style="color: aqua;">Filter Ports</p>
+                                      <p class="font-14 m-b-0" style="color: aquamarine;">Filter Ports</p>
                                     </div>
                                   </div>
                                 </div>
@@ -189,9 +182,15 @@
                             </div>
                             <div class="col-lg-3">
                               <center>
-                                <div class="col-7 col-xl-7 mb-3">Top Maximum Ports</div>
+                                <div class="col-7 col-xl-7 mb-3" 
+                                style="color: aquamarine; 
+                                text-transform: uppercase; 
+                                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                                font-weight: bold;">
+                                Top Maximum Ports
+                              </div>
                               </center>
-                              <div class="row mt-5">
+                              <div class="row mt-5" style="color: aqua;font-size: large;">
                                 {% for value in each_port_value %}
                                 <div class="col-7 col-xl-7 mb-3"> {{forloop.counter}}- Port : {{value.ports}}</div>
                                 <div class="col-5 col-xl-5 mb-3">
@@ -459,79 +458,121 @@
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
     <!-- Scripts -->
-    
+
+
     <script>
-      $(document).ready(function(){
-        // chart2();
-        // chart1();
-        // chart7();
-        var ctx = document.getElementById("aaaaa").getContext('2d');
-     
-        var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-          
-            labels: ['{% for d in dataChart %}{{d.months}} '],
-            datasets: [{
-              label: 'Hosts',
-              data: ['{{d.hosts}}'],
-              borderWidth: 2,
-              backgroundColor: 'rgba(255,164,38,.9)',
-              borderColor: 'rgba(255,164,38,.9)',
-              borderWidth: 2.5,
-              pointBackgroundColor: '#ffffff',
-              pointRadius: 4
-            }, {
-              label: 'Ports',
-              data: ['{{ports}}{% endfor %}'],
-              borderWidth: 2,
-              backgroundColor: 'rgba(71,65,98,.9)',
-              borderColor: 'transparent',
-              borderWidth: 0,
-              pointBackgroundColor: '#999',
-              pointRadius: 4
-            }]
-          },
-          options: {
-            legend: {
-              display: false
-            },
-            scales: {
-              yAxes: [{
-                gridLines: {
-                  drawBorder: false,
-                  color: '#f2f2f2',
-                },
-                ticks: {
-                  beginAtZero: true,
-                  stepSize: 1000,
-                  fontColor: "#9aa0ac", // Font Color
-                }
-              }],
-              xAxes: [{
-                gridLines: {
-                  display: false
-                },
-                ticks: {
-                  fontColor: "#9aa0ac", // Font Color
-                }
-              }]
-            },
-          }
 
-        });
+      $('#ChartYear').hide();
 
-        
-        // New Chart
-        // var ctx1 = document.getElementById("testChar1").getContext('2d');
-        // test()
+      $('#monthbtn').click(function(){
+        $('#ChartYear').hide();
+        $('#ChartMonth').show();
+      })
+      
+      $('#yearbtn').click(function(){
+        $('#ChartMonth').hide();
+        $('#ChartYear').show();
+      })
 
+
+
+
+
+
+
+      var ctx = document.getElementById("ChartMonth").getContext('2d');
+var myChart = new Chart(ctx, {
+	type: 'bar',
+	data: {
+		labels: [{% for data in chartDataByMonth %} '{{data.month}}',{% endfor %}],
+		datasets: [{
+			label: 'Host',
+			data: [{% for count in chartCountByMonth %} {{count.count}},{% endfor %} ],
+			borderWidth: 2,
+			backgroundColor: '#00ffff',
+			borderColor: '#00ffff',
+			borderWidth: 2.5,
+			pointBackgroundColor: '#ffffff',
+			pointRadius: 4
+		}],
+	},
+	options: {
+		legend: {
+			display: false
+		},
+		scales: {
+			yAxes: [{
+				gridLines: {
+					drawBorder: false,
+					color: '#7fffd4',
+				},
+				ticks: {
+					beginAtZero: true,
+					stepSize: 1000,
+					fontColor: "#00ffff", // Font Color
+				}
+			}],
+			xAxes: [{
+				ticks: {
+					display: false
+				},
+				gridLines: {
+					display: false
+				}
+			}]
+		},
+	}
 });
 
 
-    </script>
 
-    
+// Chart Year
+
+var ctx = document.getElementById("ChartYear").getContext('2d');
+var myChart = new Chart(ctx, {
+	type: 'bar',
+	data: {
+		labels: [{% for data in chartDataByYear %} '{{data.year}}',{% endfor %}],
+		datasets: [{
+			label: 'Host',
+			data: [{% for count in chartCountByYear %} {{count.count}},{% endfor %} ],
+			borderWidth: 2,
+			backgroundColor: '#00ffff',
+			borderColor: '#00ffff',
+			borderWidth: 2.5,
+			pointBackgroundColor: '#ffffff',
+			pointRadius: 4
+		}],
+	},
+	options: {
+		legend: {
+			display: false
+		},
+		scales: {
+			yAxes: [{
+				gridLines: {
+					drawBorder: false,
+					color: '#7fffd4',
+				},
+				ticks: {
+					beginAtZero: true,
+					stepSize: 1000,
+					fontColor: "#00ffff", // Font Color
+				}
+			}],
+			xAxes: [{
+				ticks: {
+					display: false
+				},
+				gridLines: {
+					display: false
+				}
+			}]
+		},
+	}
+});
+    </script>
+ 
   </body>
 
 

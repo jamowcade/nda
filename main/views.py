@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models.functions import ExtractMonth
+from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear
 from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
@@ -12,26 +12,39 @@ def index(request):
     topCompanyList = []
     topNetworkList = []
     topHost = []
+    countListMonth = []
+    countByYearName = []
+    countByYearCount = []
 
     # Count Each Table Of Database
     totalCompany = Campany.objects.count()
     totalNetwork = Network.objects.count()
     totalHost = Host.objects.count()
     totalPorts = Port.objects.count()
-    
 
-    # Change Date to Month Name and Adde Them To a List
-    dataMonth = Host.objects.annotate(month=ExtractMonth('host_date')).order_by('month')
-    distinct_dates = Host.objects.dates('host_date', 'month')
-    for d in distinct_dates:
-        month_name = d.strftime('%B')
-        # print(month_name)
-        # print("Month",dataMonth.count())
+
+    host_by_month = Host.objects.annotate(month=TruncMonth('host_date')).values('month').annotate(count=Count('id'))
+    for dateHost in host_by_month:
+        changeNameMonth = dateHost['month'].strftime('%B'),
+       
+        month = changeNameMonth[0]
+        
         monthList.append({
-            'months':month_name,
-            'hosts':dataMonth.count(),
+            'month':month
         })
-
+        countListMonth.append({
+            'count':dateHost['count']
+        })
+    host_by_year  = Host.objects.annotate(year=TruncYear('host_date')).values('year').annotate(count=Count('id'))
+    
+    for hostYear in host_by_year:
+        changetoYear = hostYear['year'].year
+        countByYearName.append({
+            'year':changetoYear
+        })
+        countByYearCount.append({
+            'count':hostYear['count']
+        })
 
 
     #Get Top Company In Networks and them to the list
@@ -143,9 +156,8 @@ def index(request):
 
     
 
-
-
-   
+    print(countByYearName)
+    print(countByYearCount)
     context = {
         'company':totalCompany,
         'network':totalNetwork,
@@ -160,7 +172,10 @@ def index(request):
         'filterport':filterPorts,
         'top_scan':top_scan,
         'user_logs':user_logs,
-        'dataChart':monthList,
+        'chartDataByMonth':monthList,
+        'chartCountByMonth':countListMonth,
+        'chartDataByYear':countByYearName,
+        'chartCountByYear':countByYearCount,
         'topCompany':topCompanyList,
         'topHost':topHost
         }    
