@@ -33,10 +33,10 @@
          
         
           <option value="">Number per page</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
+          <option value="10" {% if page_number == 10 %} selected {% endif %} >10</option>
+          <option value="25" {% if page_number == 25 %} selected {% endif %}>25</option>
+          <option value="50" {% if page_number == 50 %} selected {% endif %}>50</option>
+          <option value="100" {% if page_number == 100 %} selected {% endif %}>100</option>
 
          
         </select>
@@ -48,9 +48,10 @@
       <i class="fa fa-spinner fa-spin"></i> Loading...
     </div>
     <div id="result" style="color: wheat;">
-      {{total_hosts}} Returned in :
+    {{total_hosts}} Results in
       <span id="response-time"></span>
     </div>
+    <br><br><hr>
     
   </div>
     <div class="table-responsive">
@@ -196,7 +197,7 @@ function paginate(){
               var responseTime = (endTime - startTime) / 1000;
                 $('#accordion').empty()
                 $('#accordion').append(response.html)
-                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
             }
         });
   })
@@ -230,7 +231,7 @@ function number_per_page(){
               $('#loading-spinner2').hide()
                 $('#accordion').empty()
                 $('#accordion').append(response.html)
-                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
             }
         });
   });
@@ -314,18 +315,18 @@ $('#search-btn').click(function () {
                   $('#result').text(response.message);
                   $('#accordion').empty();
                   $('#accordion').append(response.html);
-                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                  $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
                
                 }
                 else {
                   $('#result').show()
                   $('#result').text(response.message);
-                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                  $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
                 }
               if(response.invalid){
                 $('#result').show();
                 $('#result').text(response.message);
-                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
               }
             }
         });
