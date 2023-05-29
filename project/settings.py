@@ -25,11 +25,7 @@ SECRET_KEY = 'django-insecure-tx$s6fhzih7l#k$^2oh*3sxfujky48aj07p7hsk1nz+n(y-ti-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['10.35.1.4']
-=======
 ALLOWED_HOSTS = []
->>>>>>> f4f47c479954c30b3c4fcac5e1b4ed5e52dfa2d5
 
 
 # Application definition
@@ -82,11 +78,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# INTERNAL_IPS = [
-#     # ...
-#     "127.0.0.1",
-#     # ...
-# ]
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 # DATABASES = {
 #     'default': {

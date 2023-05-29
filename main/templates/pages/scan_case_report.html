@@ -138,7 +138,7 @@
         // var month = ('0' + (date.getMonth() + 1)).slice(-2);
         // var day = ('0' + date.getDate()).slice(-2);
         // var formattedDate = year + '-' + month + '-' + day;
-        console.log(id);
+        // console.log(id);
         $.ajax({
           type: 'GET',
           url: '/scan_case_report/',
@@ -152,7 +152,8 @@
           },
           success: function (response) {
             $('#accordion').show()
-            $('#accordion').append(response)
+            $('#accordion').append(response.html)
+            $('#response-time').text()
             
            
           },
@@ -180,7 +181,7 @@
   <!-- End Scripts Section -->
 </body>
 
-{{ redirect_to_login_immediately }}
+
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 
 </html>
