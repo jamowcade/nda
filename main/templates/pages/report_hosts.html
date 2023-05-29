@@ -16,16 +16,39 @@
       <!-- </form> -->
     </div>
 
-    <div class="form-group col-md-4">
+    <div class="col-md-2">
 
       
       <button type="button" class="btn btn-success" id="search-btn">Search</button>
+      
     </div>
+    <div>
+      
+    </div>
+
+    <div class="col col-2">
+  <div class="dropdown">
+ 
+      <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" id="page_numbers" name="page_number" aria-label="Select 2">
+         
+        
+          <option value="">Number per page</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+
+         
+        </select>
+</div>
+  </div>
+
+
     <div id="loading-spinner2" style="display:none">
       <i class="fa fa-spinner fa-spin"></i> Loading...
     </div>
     <div id="result" style="color: wheat;">
-      Total Hosts Found: {{total_hosts}}
+      {{total_hosts}} Returned in :
       <span id="response-time"></span>
     </div>
     
@@ -156,21 +179,64 @@ function paginate(){
   $('.pagination li a').click(function(e){
     e.preventDefault()
     page = $(this).attr('href')
+    var page_number = "{{page_number}}"
     var id = $('#filter-date').val();
+    var startTime = new Date().getTime();
     $.ajax({
             url: '/scan_case_report/',
             data: {
               "page":page,
               "scan_case":"{{scan_case}}",
-              'search':"{{search}}"
+              'search':"{{search}}",
+              'page_number':page_number
 
             },
             success: function(response) {
+              var endTime = new Date().getTime();
+              var responseTime = (endTime - startTime) / 1000;
                 $('#accordion').empty()
                 $('#accordion').append(response.html)
+                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
             }
         });
   })
+}
+
+function number_per_page(){
+  $('#page_numbers').on('change',function(e){
+   e.preventDefault()
+    var page_number = $(this).val()
+    var current_page = "{{current_page}}"
+    var scan_case = "{{scan_case}}"
+    var search = "{{search}}"
+    console.log("number per page",page_number);
+    console.log("current_page", + current_page);
+    console.log("scan case id", scan_case);
+    console.log("search :",search);
+    $('#loading-spinner2').show()
+    var startTime = new Date().getTime();
+    $.ajax({
+            url: '/scan_case_report/',
+            data: {
+              "page":current_page,
+              "scan_case":"{{scan_case}}",
+              'search': search,
+              'page_number':page_number
+
+            },
+            success: function(response) {
+              var endTime = new Date().getTime();
+              var responseTime = (endTime - startTime) / 1000;
+              $('#loading-spinner2').hide()
+                $('#accordion').empty()
+                $('#accordion').append(response.html)
+                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+            }
+        });
+  });
+
+
+
 }
 
  function searchTable($table, query) {
@@ -270,6 +336,7 @@ $('#search-btn').click(function () {
 $(document).ready(function () {
 CallModal()
 paginate()
+number_per_page();
 
 $('#search-box .accordion-header').keyup(function () {
   const searchTerm = $(this).val().toLowerCase();
