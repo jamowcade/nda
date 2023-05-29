@@ -24,6 +24,10 @@
     <div id="loading-spinner2" style="display:none">
       <i class="fa fa-spinner fa-spin"></i> Loading...
     </div>
+    <div id="result" style="color: wheat;">
+      Total Hosts Found: {{total_hosts}}
+      <span id="response-time"></span>
+    </div>
     
   </div>
     <div class="table-responsive">
@@ -33,9 +37,9 @@
         <thead>
           <tr>
            
-            <th scope="col">#</th>
-            <th scope="col">Host</th>
-            <th scope="col">status</th>
+            <th style="color: aquamarine;" scope="col">#</th>
+            <th style="color: aquamarine;" scope="col">Host</th>
+            <th style="color: aquamarine;" scope="col">status</th>
           </tr>
         </thead>
         <tbody id="tbody_data">
@@ -58,7 +62,7 @@
                   
                 </span>
                 </th>
-              <th scope="row">{{data.status}}</th>
+              <th scope="row">{{host.status}}</th>
           </tr>
           <tr id="{{num}}" style="display:none;">
             <td></td>
@@ -157,13 +161,13 @@ function paginate(){
             url: '/scan_case_report/',
             data: {
               "page":page,
-              "scan_case":id,
+              "scan_case":"{{scan_case}}",
               'search':"{{search}}"
 
             },
             success: function(response) {
                 $('#accordion').empty()
-                $('#accordion').append(response)
+                $('#accordion').append(response.html)
             }
         });
   })
@@ -224,20 +228,39 @@ $('#search-btn').click(function () {
   var id = $('#filter-date').val();
   $('#search-btn').text('searching')
   $('#loading-spinner2').show()
+  var startTime = new Date().getTime();
     $.ajax({
             url: '/scan_case_report/',
             data: {
               "page":page,
               "scan_case":id,
               'search':$search
-              
             },
             success: function(response) {
+              var endTime = new Date().getTime();
+              var responseTime = (endTime - startTime) / 1000;
+             
               
-                $('#search-btn').text("search")
-                $('#loading-spinner2').hide()
-                $('#accordion').empty()
-                $('#accordion').append(response)
+                $('#search-btn').text("search");
+                $('#loading-spinner2').hide();
+                if(response.success){
+                  $('#result').show();
+                  $('#result').text(response.message);
+                  $('#accordion').empty();
+                  $('#accordion').append(response.html);
+                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+               
+                }
+                else {
+                  $('#result').show()
+                  $('#result').text(response.message);
+                  $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+                }
+              if(response.invalid){
+                $('#result').show();
+                $('#result').text(response.message);
+                $('#response-time').text('Response time: ' + responseTime.toFixed(2) + ' s');
+              }
             }
         });
   
@@ -322,5 +345,5 @@ getTable();
 })
 
 </script>
-{{ redirect_to_login_immediately }}
+
 </html>

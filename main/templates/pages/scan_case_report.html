@@ -133,12 +133,13 @@
       $('#filter-form').submit(function (event) {
         event.preventDefault();
         var id = $('#filter-date').val();
+        var startTime = new Date().getTime();
         // var date = new Date(filterDate);
         // var year = date.getFullYear().toString();
         // var month = ('0' + (date.getMonth() + 1)).slice(-2);
         // var day = ('0' + date.getDate()).slice(-2);
         // var formattedDate = year + '-' + month + '-' + day;
-        console.log(id);
+        // console.log(id);
         $.ajax({
           type: 'GET',
           url: '/scan_case_report/',
@@ -151,13 +152,18 @@
             'page':'1'
           },
           success: function (response) {
+            var endTime = new Date().getTime();
+            var responseTime2 = (endTime - startTime) / 1000;
+           
             $('#accordion').show()
-            $('#accordion').append(response)
+            $('#accordion').append(response.html)
+            $('#response-time').text('Response time: ' + responseTime2.toFixed(2) + ' s');
+            $('#loading-spinner').hide()
             
            
           },
           complete: function () {
-            $('#loading-spinner').hide();
+            $('#loading-spinner').hide(responseTime);
           }
 
 
@@ -180,7 +186,7 @@
   <!-- End Scripts Section -->
 </body>
 
-{{ redirect_to_login_immediately }}
+
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 
 </html>

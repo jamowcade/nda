@@ -78,6 +78,10 @@ class Host(models.Model):
     def totalPorts(self):
         totalPorts = self.ports.all().count()
         return totalPorts
+    
+    def getPorts(self, state):
+        ports = self.ports.filter(state=state).all()
+        return ports
 
 
 
