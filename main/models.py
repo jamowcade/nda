@@ -90,10 +90,15 @@ class Port(models.Model):
     state = models.CharField(max_length=50,null=True)
     protocol = models.CharField(max_length=50,null=True)
     reason = models.CharField(max_length=50, null=True)
-    service = models.CharField(max_length=500,null=True)
+    # service = models.JSONField(null=True)
     rpc_info = models.CharField(max_length=50,null=True)
     version = models.CharField(max_length=50,null=True)
     host = models.ForeignKey(Host, on_delete=models.CASCADE,related_name='ports')
+
+class Service(models.Model):
+    key = models.CharField(max_length=150,null=True)
+    value = models.CharField(max_length=500,null=True)
+    port = models.ForeignKey(Port, on_delete=models.CASCADE,related_name='services')
                     
 
 

@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from main.models import Campany, ErrorLog, Host, Network, Port, UserLog, ScanCase
+from main.models import Campany, ErrorLog, Host, Network, Port, UserLog, ScanCase,Service
 from django.contrib.auth.decorators import login_required, permission_required
 
 
@@ -37,6 +37,7 @@ def search(request):
 @permission_required('main.add_host', raise_exception=True, login_url=None)
 def addHosts(request):
     try:
+        serviceList = []
         if request.method == 'POST':
             file_data = request.FILES['file'].read().decode('utf-8') # read the uploaded file data
             scan_case_id = request.POST.get('scan_case')
@@ -84,24 +85,37 @@ def addHosts(request):
                    
                     for port in range(len(data[host]['ports'])):
                         all_services =  data[host]['ports'][port]['service']
-                        print(all_services)
+                        # print(all_services)
                         portid= data[host]['ports'][port]['portid']
                         protocol = data[host]['ports'][port]['protocol']
                         state = data[host]['ports'][port]['state']
+                        reason = data[host]['ports'][port]['state']
+                        new_port = Port(port=portid, state = state, protocol=protocol, host=new_host, reason=reason)
+                        new_host.save()
+                        new_port.save()
+                        for key,value in all_services.items():
+                             new_key = key
+                             new_value = value
+                             service = Service(key=new_key, value=new_value, port=new_port)
+                             service.save()
+                            
+                            #  print(f'key {new_key} : value {new_value} and port {new_port}')
 
-                        try:
-                            for key,value in data[host]['ports'][port]['service'].items():
-                                print(key,value)
+                        # try:
+                        #     #  print(list(all_services.items()))
+                        #     for key,value in all_services.items():
+                        #        a = portid
+                            # print(all_services.keys())
 
-                        except:
-                            return JsonResponse("error getttin services", safe=False)
-                        service = all_services
+                        # except:
+                        #     return JsonResponse("error getttin services", safe=False)
+                        # print('myService List is : ',serviceList)
                         # for service in range(1):
                         #     service_name
-                        reason = data[host]['ports'][port]['state']
-                        port = Port(port=portid, state = state, protocol=protocol, host=new_host, service=service, reason=reason)
-                        new_host.save()
-                        port.save()
+                        # for key,value in all_services.items():
+                        #        service = Service(key=key,value=value,port=port)
+                  
+                        
                  
          
             return JsonResponse({'success': True, "message": f"All hosts Uploaded to network {network.compony_info.owner} - {file_network}", })

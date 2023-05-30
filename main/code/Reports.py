@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from main.models import Campany, ErrorLog, Host, Network, Port, ScanCase
+from main.models import Campany, ErrorLog, Host, Network, Port, ScanCase,Service
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 # Create your views here.
+
+
+@login_required(login_url='login')
 def scan_cases_report(request):
     scan_cases = ScanCase.objects.all()
     context = {
@@ -53,7 +56,7 @@ def filter_data(request):
                     "scanDate":filter_date,
                     'hostDate': host.host_date,
                     'ports': ports,
-                    'service':[port.service for port in ports],
+                    'service':ports.services.all(),
                     "network": host.network.network,
                     "totalports": host.ports.all().count(),
                     'openPort': host.ports.filter(state='open').count(),
@@ -149,6 +152,7 @@ def filter_data(request):
    
 
 
+@login_required(login_url='login')
 def scan_case_report(request):
     # try:
         scan_case_id = request.GET.get('scan_case')
@@ -201,6 +205,24 @@ def scan_case_report(request):
                             return JsonResponse({"success":True, "message":f"data found matching  {state[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
                         else:
                             return JsonResponse({"success":False, "message":f"No data found matching state: {state[1]}! stats can be,(open, closed, filtered)"}, safe=False)
+              elif "service" in search.lower() and ":" in search:
+                        services = search.split(":")
+                        get_ser = Port.objects.filter(services__value=services[1]).all()
+                        scan_case_hosts = scan_case.hosts.filter(ports__in =get_ser).all().distinct()
+                        hosts = paginateHosts(scan_case_hosts, page, page_number)
+                        total_hosts = len(scan_case_hosts)
+                        returned_hosts = len(hosts)
+                        if total_hosts > 0:
+                            data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
+                            html = render(request, 'pages/report_hosts.html',data)
+                            return JsonResponse({"success":True, "message":f"data found matching  {services[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
+                        else:
+                            return JsonResponse({"success":False, "message":f"No data found matching Services: {services[1]}!"}, safe=False)
+                        print(scan_case_hosts)
+                        # for host in scan_case.hosts.all():
+                        #       for port in host.ports.all():
+                        #             for service in port.services.filter(key=services[1]).all():
+                        #                   print(service.key,service.value,host.hostname,host.network.network,port.port)
               elif "port" in search.lower() and ":" in search:
                         port = search.split(":")
                         scan_case_hosts = scan_case.hosts.filter(ports__port  = port[1]).all().distinct()

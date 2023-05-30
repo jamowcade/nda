@@ -120,10 +120,17 @@
                 
                 <div class="col-12 col-md-6 col-lg-9">
 
+                  {% for ppt in port.services.all %}
                 
                 <span style="cursor: pointer; text-align: center;">
-                    services
-                    {{port.service}}
+                  <span>{{ppt.key}}   :    </span>
+                  <span style="text-transform: none;">{{ppt.value}}</span><br>
+                  
+                </span>
+                {% endfor %}
+                <hr>
+                    
+                    
             
              
                 </div>
