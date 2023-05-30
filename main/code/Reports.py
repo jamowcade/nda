@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from main.models import Campany, ErrorLog, Host, Network, Port, ScanCase,Service
 from django.contrib.auth.decorators import login_required, permission_required
@@ -207,7 +208,7 @@ def scan_case_report(request):
                             return JsonResponse({"success":False, "message":f"No data found matching state: {state[1]}! stats can be,(open, closed, filtered)"}, safe=False)
               elif "service" in search.lower() and ":" in search:
                         services = search.split(":")
-                        get_ser = Port.objects.filter(services__value=services[1]).all()
+                        get_ser = Port.objects.filter(Q(services__key=services[1]) | Q(services__value=services[1]))
                         scan_case_hosts = scan_case.hosts.filter(ports__in =get_ser).all().distinct()
                         hosts = paginateHosts(scan_case_hosts, page, page_number)
                         total_hosts = len(scan_case_hosts)
