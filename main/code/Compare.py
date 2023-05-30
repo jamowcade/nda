@@ -36,41 +36,39 @@ def compare_by_date(request):
     compare_date = request.GET.get('FILTERED_DATE')
     compare_date1 = request.GET.get('FILTERED_DATE1')
     compare_date2 = request.GET.get('FILTERED_DATE2')
-    print(compare_date,compare_date2,compare_date1)
+   
     compare_network = request.GET.get('network')
-    print(compare_network)  
+
 
     scan_date_1 = datetime.strptime(compare_date1, "%Y-%m-%d").date()
     scan_date_2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
 
     network = request.GET.get('network')   
     company = request.GET.get('company')
+
     network_id  = Network.objects.get(id=network)
     date_object = datetime.strptime(compare_date1, "%Y-%m-%d").date()
     date_object2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
    
-    
-    
-    all_host1 = Host.objects.select_related('network').filter(host_date=date_object,network= network_id).all()
-    all_host2 = Host.objects.select_related('network').filter(host_date=date_object2,network= network_id).all()
-    
+    all_host1 = Host.objects.filter(host_date=date_object,network= network_id).all()
+    all_host2 = Host.objects.filter(host_date=date_object2,network= network_id).all()
 
     all_h2 =[]
     all_h1 =[]
     
+    for all_hst1 in all_host1:
+        all_h1.append(all_hst1.hostname)
     for all_hst2 in all_host2:
         all_h2.append(all_hst2.hostname)
 
-    for all_hst1 in all_host1:
-        all_h1.append(all_hst1.hostname)
-    
+
     dff = set(all_h1) - set(all_h2)
     dff1 = set(all_h2) - set(all_h1)
 
     if len(dff) != 0:
        
         a =  getALl(dff)
-       
+
         paginator = Paginator(a, 10)
         page_number = request.GET.get('page')
         pagePaginator= paginator.get_page(page_number)
@@ -88,18 +86,16 @@ def compare_by_date(request):
        
         
         a =  getALl(dff1)
-        
+
         paginator = Paginator(a, 10)
         page_number = request.GET.get('page')
-        pagePaginator= paginator.get_page(page_number)
-        
+        pagePaginator= paginator.get_page(page_number)        
         data = {
             'records':pagePaginator,
             'scan_date1':scan_date_1,
             'scan_date2':scan_date_2,
             'network':compare_network,
         }
-
     return render(request,'pages/show_cmpr.html',data)
 
     
@@ -149,7 +145,7 @@ def getALl(all_dff):
     for host in all_dff:
        get_host_id = Host.objects.filter(hostname=host).all()
        for host_id in get_host_id:
-        print(f"id {host_id.id} Hostname = {host_id.hostname}")
+        # print(f"id {host_id.id} Hostname = {host_id.hostname}")
         ports = host_id.ports.all()
            # print(f"port {port.host.id} Port = {port.port} State {port.state} Procol {port.protocol}\n")
         port_with_host.append({
@@ -168,6 +164,7 @@ def getALl(all_dff):
             'filteredPort': host_id.ports.filter(state='filtered').count(),
             
         })
+        # print(host_id.host_date, host_id.scan_case.id)
     return port_with_host
        
         # for port in host_port_id:
