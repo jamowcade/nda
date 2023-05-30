@@ -153,11 +153,11 @@
           },
           success: function (response) {
             var endTime = new Date().getTime();
-            var responseTime2 = (endTime - startTime) / 1000;
+            var responseTime = (endTime - startTime) / 1000;
            
             $('#accordion').show()
             $('#accordion').append(response.html)
-            $('#response-time').text('Response time: ' + responseTime2.toFixed(2) + ' s');
+            $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
             $('#loading-spinner').hide()
             
            

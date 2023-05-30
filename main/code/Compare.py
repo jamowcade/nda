@@ -84,7 +84,6 @@ def compare_by_date(request):
     
     else:
        
-        
         a =  getALl(dff1)
 
         paginator = Paginator(a, 10)
