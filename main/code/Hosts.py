@@ -42,17 +42,14 @@ def addHosts(request):
             file_data = request.FILES['file'].read().decode('utf-8') # read the uploaded file data
             scan_case_id = request.POST.get('scan_case')
             scan_case = ScanCase.objects.get(id=scan_case_id)
-
             # date_obj = datetime.strptime(get_date, "%B %d, %Y")
             # scan_date = date_obj.strftime("%Y-%m-%d")
-
             data = json.loads(file_data) # parse the JSON data
             # check if network not registed before uploading hosts
             #check if the is empty
             if 'network' not in data[0]:
                 print("fle is ")
                 return JsonResponse({'success': False, 'error': " Empty File Not Uploaded !"})
-
             file_network = data[0]['network'] #get the network in json file
             try:
                 host_network = Network.objects.get(network=file_network) 
@@ -62,27 +59,24 @@ def addHosts(request):
                     message=f"An error occurred: f'network {file_network} is not registered now!'"
                     )
                     return JsonResponse({'success': False, 'error': f'network {file_network} is not registered now!'})
-            
             # retrieve data from json file and save to model
             for host in range(len(data)-1):
                 hostname = data[host]['ip']
                 status =   data[host]['state']
                 network = host_network
-                
-                is_host = Host.objects.filter(hostname=hostname, host_date=scan_case.scan_date, network=network).all() # check if host exists with the given hostname and scan date.
-                
+                is_host = Host.objects.filter(hostname=hostname, scan_case_id=scan_case_id, network=network).all() # check if host exists with the given hostname and scan date.
                 # check if host already registered in the current scan case
                 if is_host:
-                    ErrorLog.objects.create(
-                    user=request.user,
-                    message=f'This file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file'
-                    )
-                    return JsonResponse({'success': False, 'error': 
-                    f'sorry! this file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file or change'})
+                    # ErrorLog.objects.create(
+                    # user=request.user,
+                    # message=f'This file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file'
+                    # )
+                    # return JsonResponse({'success': False, 'error': 
+                    # f'sorry! this file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file or change'})
                     continue
                 else:
                     new_host = Host(hostname=hostname, status = status, network=network, host_date=scan_case.scan_date, scan_case=scan_case)
-                   
+                    new_host.save()
                     for port in range(len(data[host]['ports'])):
                         all_services =  data[host]['ports'][port]['service']
                         # print(all_services)
@@ -91,33 +85,12 @@ def addHosts(request):
                         state = data[host]['ports'][port]['state']
                         reason = data[host]['ports'][port]['state']
                         new_port = Port(port=portid, state = state, protocol=protocol, host=new_host, reason=reason)
-                        new_host.save()
                         new_port.save()
                         for key,value in all_services.items():
                              new_key = key
                              new_value = value
                              service = Service(key=new_key, value=new_value, port=new_port)
                              service.save()
-                            
-                            #  print(f'key {new_key} : value {new_value} and port {new_port}')
-
-                        # try:
-                        #     #  print(list(all_services.items()))
-                        #     for key,value in all_services.items():
-                        #        a = portid
-                            # print(all_services.keys())
-
-                        # except:
-                        #     return JsonResponse("error getttin services", safe=False)
-                        # print('myService List is : ',serviceList)
-                        # for service in range(1):
-                        #     service_name
-                        # for key,value in all_services.items():
-                        #        service = Service(key=key,value=value,port=port)
-                  
-                        
-                 
-         
             return JsonResponse({'success': True, "message": f"All hosts Uploaded to network {network.compony_info.owner} - {file_network}", })
             UserLog.objects.create(
                     user=request.user,
@@ -125,7 +98,6 @@ def addHosts(request):
                     )
         else:
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
-  
     except Exception as e:
                     tb = traceback.format_exc()
                     message = f"An error occurred: while uploading file {e}"
