@@ -49,26 +49,101 @@ def compare_by_date(request):
     network_id  = Network.objects.get(id=network)
     date_object = datetime.strptime(compare_date1, "%Y-%m-%d").date()
     date_object2 = datetime.strptime(compare_date2, "%Y-%m-%d").date()
-   
-    all_host1 = Host.objects.filter(host_date=date_object,network= network_id).all()
-    all_host2 = Host.objects.filter(host_date=date_object2,network= network_id).all()
 
-    all_h2 =[]
-    all_h1 =[]
+    scan_case_one = ScanCase.objects.get(scan_date=date_object)
+    scan_case_two = ScanCase.objects.get(scan_date=date_object2)
+   
+    all_host1 = Host.objects.filter(host_date=date_object,network= network_id).all() #get all hosts by network and host_date1
+    all_host2 = Host.objects.filter(host_date=date_object2,network= network_id).all() #get all hosts by network and host_date2
+    # ports = all_host1.ports.all()
+    # print("host 1",all_host1)
+    # print("host 2",all_host2)
     
+   
+
+    all_h2 =[]# new list holds all hosts with scan_date
+    all_h1 =[] # new list holds all hosts with scan_date
+    port1 =[]
+    port2 =[]
+   
+ 
+    # all_h1 =[]
+    
+    #itrate over host
     for all_hst1 in all_host1:
         all_h1.append(all_hst1.hostname)
+        ports = all_hst1.ports.all()
+
+       
     for all_hst2 in all_host2:
         all_h2.append(all_hst2.hostname)
+          
+    # print(all_h1)
+    # print(all_h2)
 
+    set_dif = set(all_h1).symmetric_difference(set(all_h2)) # get the difference
+    dff = list(set_dif)
 
-    dff = set(all_h1) - set(all_h2)
-    dff1 = set(all_h2) - set(all_h1)
+    
+    comman= set(all_h1).intersection(all_h2) #get the comman elements 
+    common_hosts = []
+    for host in comman:
+        host1 = scan_case_one.hosts.get(hostname=host,network= network_id)#get the host 
+        hosts1_ports = host1.ports.all().count()
+        host2 = scan_case_two.hosts.get(hostname=host,network= network_id)#get the host 
+        hosts2_ports = host2.ports.all().count()
+        print(host,hosts1_ports, hosts2_ports,"there no differnce in ports")
+        host1_services = 0
+        host2_services = 0
+        # for port1 in host1.ports.all():
+        #     host1_services = port1.services.all().count()
+        # for port2 in host2.ports.all():
+        #     host2_services = port2.services.all().count()
+        if hosts1_ports != hosts2_ports:
+            for port1 in host1.ports.all():
+                host1_services = port1.services.all().count()
+            for port2 in host2.ports.all():
+                 host2_services = port2.services.all().count()
+        if hosts1_ports != hosts2_ports:
+            
+            print(host,"total ports host 1",hosts1_ports,"total ports host 2", hosts2_ports, "total services 1", host1_services, "total services 1", host2_services,"there differnce in ports")
 
+    
+    
     if len(dff) != 0:
-       
         a =  getALl(dff)
+       
+        paginator = Paginator(a, 10)
+        page_number = request.GET.get('page')
+        pagePaginator= paginator.get_page(page_number)
+        
+        data = {
+            'records':pagePaginator,
+            'scan_date1':scan_date_1,
+            'scan_date2':scan_date_2,
+            'network':compare_network,
+        }
+        return render(request,'pages/show_cmpr.html',data)
 
+    # elif len(comman) > 0:
+    #     a =  getALl(dff)
+       
+    #     paginator = Paginator(a, 10)
+    #     page_number = request.GET.get('page')
+    #     pagePaginator= paginator.get_page(page_number)
+        
+    #     data = {
+    #         'records':pagePaginator,
+    #         'comm_hosts':pagePaginator,
+    #         'scan_date1':scan_date_1,
+    #         'scan_date2':scan_date_2,
+    #         'network':compare_network,
+    #     }
+    
+        return render(request,'pages/show_cmpr.html',data)
+    else:
+        a =  getALl(dff)
+       
         paginator = Paginator(a, 10)
         page_number = request.GET.get('page')
         pagePaginator= paginator.get_page(page_number)
@@ -81,22 +156,11 @@ def compare_by_date(request):
         }
     
         return render(request,'pages/show_cmpr.html',data)
+
+
     
-    else:
        
-        a =  getALl(dff1)
-
-        paginator = Paginator(a, 10)
-        page_number = request.GET.get('page')
-        pagePaginator= paginator.get_page(page_number)        
-        data = {
-            'records':pagePaginator,
-            'scan_date1':scan_date_1,
-            'scan_date2':scan_date_2,
-            'network':compare_network,
-        }
-    return render(request,'pages/show_cmpr.html',data)
-
+        
     
 @login_required(login_url='login')
 def filter_by_date(request):
@@ -140,13 +204,14 @@ def get_Hosts(request):
         return JsonResponse(data)
 
 def getALl(all_dff):
+
     port_with_host = []
-    for host in all_dff:
+    for host in all_dff: #make enumerate all
+    #    print(host[1::2])
        get_host_id = Host.objects.filter(hostname=host).all()
        for host_id in get_host_id:
-        # print(f"id {host_id.id} Hostname = {host_id.hostname}")
+        
         ports = host_id.ports.all()
-           # print(f"port {port.host.id} Port = {port.port} State {port.state} Procol {port.protocol}\n")
         port_with_host.append({
             'host_id':host_id.id,
             'hostname': host_id.hostname,
@@ -163,13 +228,9 @@ def getALl(all_dff):
             'filteredPort': host_id.ports.filter(state='filtered').count(),
             
         })
-        # print(host_id.host_date, host_id.scan_case.id)
+       
     return port_with_host
        
-        # for port in host_port_id:
-        #     print(port.id)
-
-    # return all_dff
 @login_required(login_url='login')
 @csrf_exempt
 def showdetaile(request):

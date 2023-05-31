@@ -4,7 +4,7 @@
       </div>
       <div id="accordion">
 
-        {% for data in records %}
+        {% for data in comm_hosts %}
         {% with num=forloop.counter|add:'1' %}
         <div class="accordion" id="my-data">
           <div class="accordion-header" role="button" data-toggle="collapse" id="tbshow" data-target='#clo{{num}}'
@@ -48,11 +48,46 @@
             </div>
 
             
+
+            
           </div>
         </div>
         {% endwith %}
         {% endfor %}
 
+
+        <div class="table-responsive">
+          <table class="table "  id="tableExport"  style="width:100%; color: aqua">
+            <thead>
+              <tr>
+                <th style="color: aquamarine;">ID</th>
+                <th style="color: aquamarine;">Port Number</th>
+                <th style="color: aquamarine;">State</th>
+                <th style="color: aquamarine;">protocol</th>
+                <th style="color: aquamarine;">Service</th>
+                <th style="color: aquamarine;">RPCinfo</th>
+                <th style="color: aquamarine;">version</th>
+              </tr>
+            </thead>
+            <tbody id="tbody_data">
+
+              {% for port in data.ports%}
+              <tr>
+                <td>{{port.id}}</td>
+
+                <td>{{port.port}}</td>
+                <td>{{ port.state }}</td>
+                <td>{{port.protocol}}</td>
+                <td>
+                  <a id="ser" href="" data-toggle="modal" data-service="{{port.service}}" data-id={{port.id}} data-target="#newCompany">Service</a>
+                </td>
+                <td>{{port.protocol}}</td>
+                <td>{{port.protocol}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
       </div>
 

@@ -7,15 +7,21 @@
  <div class="container card-body">
   <div class="form-row">
     <!--TABLE 1 -->
-    <h1 style="color: aquamarine;" id="tbh_1" >{% if not records %}No Difference {% else %}Here Is Different Result {{records.hostDate}} {% endif %}</h1>
-      <div class="form-group col-md-12 ">
+    <div>
+
+      <button class="btn btn-info " id="bt">comman</button>
+      <button class="btn btn-info " id="bt_2">Go Back</button>
+    </div>
+    <br />
+    <div class="form-group col-md-12 ">
+        <h1 style="color: aquamarine;" id="tbh_1" >{% if not records %}No Difference {% else %}Here Is Different Result {{records.hostDate}} {% endif %}</h1>
         <div id="accordion3">
 
           
             <div class="table-responsive">
                         
 
-    <table class="table table-bordered my-table"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
+    <table class="table table-bordered my-table tbl1"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
         <thead>
           <tr>
            
@@ -106,7 +112,7 @@
 
   </div>
 
-          <div class="pagination" style="justify-content: center; justify-items: center;">
+          <div class="pagination  pagination_1" style="justify-content: center; justify-items: center;">
 
             <nav aria-label="Page navigation example">
 
@@ -134,15 +140,173 @@
       </div>
       
 
+<!--------------------comman-------------------------------->
+    <h1 style="color: aquamarine;" id="tbh_2" >{% if not records %}No Difference {% else %}Here Is Different Result {{records.hostDate}} {% endif %}</h1>
+      <div class="form-group col-md-12 ">
+        <div id="accordion3">
+
+          
+            <div class="table-responsive">
+                        
+
+    <table class="table table-bordered my-table tbl2"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
+        <thead>
+          <tr>
+           
+            <th scope="col">#</th>
+            <th scope="col">Host</th>
+            <th scope="col">status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody_data">
+            {% for data in records %}
+            {% with num=forloop.counter|add:'1' %}
+            
+          <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
+              <th scope="row" >{{forloop.counter}}</th>
+              <th scope="row">
+                <span  style="font-size: medium;" > {{data.hostname}} - 
+                </span>
+                  <span style="font-size: medium; text-transform: uppercase;">
+
+                    Messages - 
+                    
+                   <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
+                   <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
+                   <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
+                   <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span> - 
+                   <span style="color: white;">Scan Date: {{data.hostDate}}</b> </span>
+                  
+                </span>
+                </th>
+              <th scope="row">{{data.status}}</th>
+          </tr>
+          <tr id="{{num}}" style="display:none;">
+            <td></td>
+            <td>
+              <center>
+
+                <span style="font-size: medium;">
+                  <b> Company : {{data.company}} network: {{data.network}} </b>
+                </span><br><br>
+              </center>
+
+
+                {% for port in data.port %}
+                {% with num=forloop.counter|add:'1' %}
+                <div class="row">
+                <div class="col-12 col-md-6 col-lg-3" style="color: aquamarine;">
+                       
+                    <span style="cursor: pointer; text-align: center; color: aqua;" >
+                         <b> Port {{forloop.counter}} </b>
+                    </span><br>
+                    <span>Port      : {{port.port}}</span><br>
+                    {% if port.state == 'filtered' %}
+                    <span>State     : <span style="color: orange;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'open' %}
+                    <span>State     : <span style="color: green;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'closed' %}
+                    <span>State     : <span style="color: red;"> <b>{{port.state}}</b>  </span></span><br>
+                    {% endif %}
+                    <span>Protocol  : {{port.protocol}}</span><br><br>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-9">
+
+                
+                <span style="cursor: pointer; text-align: center;">
+                    services
+                    {{port.service}}
+            
+             
+                </div>
+
+
+
+                
+                </div>
+
+                    {% endwith %}
+                    {% endfor %}
+                    
+                </td>
+             
+            </tr>
+            {% endwith %}
+            {% endfor %}
+        </tbody>
+    
+      </table>
+
+  </div>
+
+          <div class="pagination pagination_2" style="justify-content: center; justify-items: center;">
+
+            <nav aria-label="Page navigation example">
+
+                <ul class="pagination">
+                    {% if records.has_previous %}
+                  <li class="page-item"><a class="page-link" href="1"> <b> &laquo; </b></a></li>
+                  <li class="page-item"><a class="page-link" href="{{ records.previous_page_number }}"> <b> &lsaquo; </b></a></li><br>
+                  {% endif %}
+
+                  <li class="page-item"> <span class="badge"> Page {{ records.number }} of {{ records.paginator.num_pages }} </span></li>
+                  
+                  {% if records.has_next %}
+                  <li class="page-item"><a class="page-link" href="{{ records.next_page_number }}"> <b> &rsaquo; </b></a></li>
+                  <li class="page-item"><a class="page-link" href="{{ records.paginator.num_pages }}"> <b> &raquo; </b></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+        </div>
+
+          
+        <!-------TABLE 2 FOR PORTS-->
+      
+        </div>
+       
+      </div> 
+      
+
 </div>
 
 {% include "includes/scripts.html" %}
 <script>
    $(document).ready(function(){
     paginate()
-   
+    $('.tbl2').hide();
+    $('#tbh_2').hide();
+    $('.pagination_2').hide();
+    $('#bt_2').hide();
+
+
+    $('#bt').click(function(){
+      $('.tbl1').hide();
+      $('.tbl2').show();
+      $('#tbh_1').hide()
+      $('#tbh_2').show()
+      $('.pagination_1').hide();
+      $('.pagination_2').show();
+      $(this).hide();
+      $('#bt_2').show();
+
+    });
+
+    $('#bt_2').click(function(){
+
+      $('.tbl1').show();
+      $('.tbl2').hide();
+      $('#tbh_1').show()
+      $('#tbh_2').hide()
+      $('.pagination_1').show();
+      $('.pagination_2').hide();
+      $(this).hide();
+      $('#bt').show();
+      
 
    })
+
+  })
   function paginate(){
   $('.pagination li a').click(function(e){
     e.preventDefault()
