@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nda_db',
+        'NAME': 'db_nda',
         'USER': 'osoc',
         'PASSWORD': 'osoc1osoc2',
         'HOST': '10.35.1.11',
