@@ -4,6 +4,7 @@ from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear,TruncDa
 from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
+from collections import defaultdict
 
 # Create your views here.
 @login_required(login_url='login')
@@ -172,6 +173,21 @@ def index(request):
         # #   print(key, ':', value)
         # print(service)
     
+    # get_all_host = Host.objects.all().order_by('scan_case')
+
+    # scan_casel = defaultdict(list)
+
+    # for geting in get_all_host:
+    #     scan_casel[geting.scan_case].append(geting)
+    # get_diff = {}
+    # prev_diff={}
+    # for date,scan_list in scan_casel.items():
+    #     diff={}
+    #     for scan in scan_list:
+    #         prev_diff_status = prev_diff.get((scan.scan_case.id, date), False)
+            # print(prev_diff_status)
+            # if scan.scan_case != prev_diff_status:
+
     context = {
         'company':totalCompany,
         'network':totalNetwork,

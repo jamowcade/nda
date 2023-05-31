@@ -449,13 +449,102 @@
           <!-- Setting Bar Sections -->
           {% include "includes/settingbar.html" %}
           <!-- Ending Setting Bar Sections -->
+
+           <!-- Modal -->
+         <div class="modal fade" id="updateCompany" tabindex="-1" role="dialog" aria-labelledby="companyUpdate" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document"style="background-color: #333; color: #fff;">
+            <div class="modal-content" style="background-color: #333;">
+              <div class="modal-header"style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="companyUpdate">Update Company {{ company.id }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                success
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+
+      <!-- End Modal -->
+
+       <!-- Update Modal -->
+       <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content" style="background-color: #333;">
+            <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+              <h5 class="modal-title" id="changepassword" style="color: #fff;">
+                Change Password For {{user.first_name}} {{user.last_name}}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close" style="color: #fff;"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" enctype="multipart/form-data" id="updateForm">
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                  <div class="section-title mt-0">Password</div>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <!-- <div class="input-group-text"><i data-feather="user"></i></div> -->
+                    </div>
+                    
+                    <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required><br>
+                    <input type="text" class="form-control" name="upid" id="upid" placeholder="" hidden><br>
+                    
+                  </div>
+                
+                
+                </div>
+                <div class="modal-footer">
+                  <button
+                    data-dismiss="modal"
+                    class="btn btn-secondary"
+                    
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary" id="updateButton">
+                    Update
+                  </button>
+                </div>
+                </div>
+                
+              </form>
+            </div>
+        </div>
+
+       </div>
+      <!-- End Modal -->
+
+      
         </div>
         {%endif%}
-        <h3>Welcome</h3>
+        <!-- <h3>Welcome</h3> -->
 
        
       </div>
     </div>
+
+
+      <!-- Update Modal -->
+ 
+      <!-- End Modal -->
 
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
@@ -463,6 +552,15 @@
 
 
     <script>
+
+      // $('#changeModal').modal('show')
+      // Define a variable to store the inactivity timeout
+
+
+
+
+
+
 
       $('#ChartYear').hide();
 
