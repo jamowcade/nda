@@ -169,23 +169,26 @@
             {% for data in comman_ports %}
             {% with num=forloop.counter|add:'1' %}
             
+            
           <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
               <th scope="row" >{{forloop.counter}}</th>
               <th scope="row">
+              
                 <span  style="font-size: medium;" > {{data.hostname}} - 
                 </span>
-                  <span style="font-size: medium; text-transform: uppercase;">
-
-                    Messages - 
-                    
-                   <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
-                   <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
-                   <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
-                   <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span> - 
-                   <span style="color: white;">Scan Date: {{data.hostDate}}</b> </span>
+      
+                <span style="font-size: medium; text-transform: uppercase;">
+                  
+                  Messages - 
+                  
+                  <span style="color: aquamarine;">Total Ports: <b>{{data.totalports}}</b> </span> -   
+                  <span style="color: green;">Open ports {{data.openPort}}</b> </span> - 
+                  <span style="color: red;">close ports: {{data.closePort}}</b> </span> - 
+                  <span style="color: orange;">filtered ports: {{data.filteredPort}}</b> </span> - 
+                  <span style="color: white;">Scan Date: {{data.hostDate}}</b> </span>
                   
                 </span>
-                </th>
+              </th>
               <th scope="row">{{data.status}}</th>
           </tr>
           <tr id="{{num}}" style="display:none;">
@@ -244,7 +247,6 @@
                     {% endfor %}
                     
                 </td>
-             
             </tr>
             {% endwith %}
             {% endfor %}
