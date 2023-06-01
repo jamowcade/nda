@@ -115,7 +115,8 @@
                     {% elif port.state == 'closed' %}
                     <span>State     : <span style="color: red;"> <b>{{port.state}}</b>  </span></span><br>
                     {% endif %}
-                    <span>Protocol  : {{port.protocol}}</span><br><br>
+                    <span>Protocol  : {{port.protocol}}</span><br>
+                    <span>Reason  : {{port.reason}}</span><br><br>
                 </div>
                 
                 <div class="col-12 col-md-6 col-lg-9">

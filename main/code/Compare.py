@@ -10,7 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 # Create your views here.
 
-list_ids = []
+list_ids = [0,1]
+@login_required(login_url='login')
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def compare(request):
     name = request.GET.get('name')
@@ -36,7 +37,7 @@ def compare_by_date(request):
     
     scan_case_id1 = request.GET.get('FILTERED_DATE1')
     scan_case_id2 = request.GET.get('FILTERED_DATE2')
-    print("------->",scan_case_id1, scan_case_id2)
+  
     compare_network = request.GET.get('network')
 
 
@@ -50,8 +51,8 @@ def compare_by_date(request):
     scan_case_one = ScanCase.objects.get(id = scan_case_id1)
     scan_case_two = ScanCase.objects.get(id = scan_case_id2)
     
-    list_ids.append(scan_case_id1)
-    list_ids.append(scan_case_id2)
+    list_ids[0] = scan_case_id1
+    list_ids[1] = scan_case_id2
    
     all_host1 = Host.objects.filter(scan_case_id = scan_case_id1,network= network_id).all() #get all hosts by network and host_date1
     all_host2 = Host.objects.filter(scan_case_id = scan_case_id2,network= network_id).all() #get all hosts by network and host_date2
