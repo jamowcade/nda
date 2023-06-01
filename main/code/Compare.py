@@ -222,6 +222,7 @@ def getALl(all_dff,network):
     port_with_host = []
     for host in all_dff: #make enumerate all
        ids = list_ids
+       print('-->> ',ids)
        
     #    print(host[1::2])
        get_host_id = Host.objects.filter(hostname=host,scan_case_id__in = ids).all()
