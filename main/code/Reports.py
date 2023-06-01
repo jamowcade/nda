@@ -22,6 +22,8 @@ def filter_data(request):
         
         search = request.GET.get('search', None)
         
+        scancase1 = ScanCase.objects.get(id=1)
+
         search_list = []
         singleHost = []
         filter_date = request.GET.get('filter_date')
