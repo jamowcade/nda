@@ -15,6 +15,7 @@ from main.models import UserLog
 
 
 @login_required(login_url='login')
+
 def groups(request):
     if request.method == 'POST':
         groupname = request.POST.get('gname')

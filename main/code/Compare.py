@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 # Create your views here.
 
-list_ids = [0,1]
+list_ids = [0,0]
 @login_required(login_url='login')
 @permission_required('main.compare_scancase', raise_exception=True, login_url=None)
 def compare(request):
@@ -33,6 +33,7 @@ def get_campany_name(request):
     return JsonResponse(list(network), safe=False)
 
 @login_required(login_url='login')
+@permission_required('main.view_network', login_url='/login/', raise_exception=False)
 def compare_by_date(request):
     
     scan_case_id1 = request.GET.get('FILTERED_DATE1')
@@ -84,11 +85,11 @@ def compare_by_date(request):
 
     
     comman= set(all_h1).intersection(all_h2) #get the comman elements 
-    common_hosts = []
+   
     list_hosts1_ports = []
     list_hosts2_ports = []
     last_ports = []
-    # print(comman)
+  
     for host in comman:
         host1 = scan_case_one.hosts.get(hostname=host,network= network_id)#get the host 
         hosts1_ports = host1.ports.all()
@@ -106,13 +107,10 @@ def compare_by_date(request):
 
         if len(port_dff) > 0:
             last_ports.append(host1.hostname)
-            # list_ids.append(host1.scan_case_id)
-            # list_ids.append(host2.scan_case_id)
+           
 
-            # last_ports.append((host2.hostname, host2.scan_case_id))
-                
     result = getALl(last_ports,network_id)
-    print(last_ports)
+   
     if result:
         paginator = Paginator(result, 10)
         page_number = request.GET.get('page')
@@ -141,22 +139,7 @@ def compare_by_date(request):
         }
         return render(request,'pages/show_cmpr.html',data)
 
-    # elif len(comman) > 0:
-    #     a =  getALl(dff)
-       
-    #     paginator = Paginator(a, 10)
-    #     page_number = request.GET.get('page')
-    #     pagePaginator= paginator.get_page(page_number)
-        
-    #     data = {
-    #         'records':pagePaginator,
-    #         'comm_hosts':pagePaginator,
-    #         'scan_date1':scan_date_1,
-    #         'scan_date2':scan_date_2,
-    #         'network':compare_network,
-    #     }
-    
-        return render(request,'pages/show_cmpr.html',data)
+   
     else:
         a =  getALl(dff,network_id)
        

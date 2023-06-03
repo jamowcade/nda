@@ -48,6 +48,7 @@ def all_networks(request):
     #     )
     return render(request, 'pages/networks.html',context)
 @login_required(login_url='login')
+@permission_required('main.add_network', login_url='/login/', raise_exception=False)
 def addNetwork(request):
     if request.method == 'POST':
         company = request.POST.get('company')
