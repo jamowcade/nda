@@ -46,6 +46,7 @@ def register(request):
 def forgot(request):
     return render(request,'accounts/forget.html')
 
+@permission_required('main.add_user', login_url='/login/', raise_exception=False)
 def users(request):
     if request.method == 'POST':
         username = request.POST['email']
@@ -67,6 +68,7 @@ def users(request):
     return render(request,'accounts/staffs.html', context)
 
 @login_required(login_url='login')
+@permission_required('main.add_user', login_url='/login/', raise_exception=False)
 def create_user(request):
     if request.method == 'POST':
         username = request.POST['username']

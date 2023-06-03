@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 
 @login_required(login_url='login')
+@permission_required('main.view_network', login_url='/login/', raise_exception=False)
 def scan_cases_report(request):
     scan_cases = ScanCase.objects.all()
     context = {
