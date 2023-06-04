@@ -188,7 +188,7 @@ def filter_by_date(request):
     return JsonResponse(data)
 
 
-@login_required(login_url='login')
+
 def get_Hosts(request):
     host = request.GET.get('host')
     get_host_id = Host.objects.filter(hostname=host).all()
@@ -201,7 +201,6 @@ def get_Hosts(request):
        
         return JsonResponse(data)
 
-@login_required(login_url='login')
 def getALl(all_dff,network):
 
     port_with_host = []
