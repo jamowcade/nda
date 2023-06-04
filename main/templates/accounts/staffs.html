@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +43,8 @@
                       <table class="table " id="tableExport" 
                       style="width:100%; 
                       color: aqua;
-                      font-weight: bold;
+                     
+                      font-size: medium;
                       font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                       text-transform: capitalize;">
                         <thead>
@@ -51,8 +53,8 @@
                             <th style="color: aquamarine;">Name</th>
                             <th style="color: aquamarine;">Username</th>
                             <th style="color: aquamarine;">Email</th>
-                            <th style="color: aquamarine;">Status</th>
-                            <th style="color: aquamarine;">Actions</th>
+                            <th style="color: aquamarine;">last Login</th>
+                            <th style="color: aquamarine;">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -60,27 +62,49 @@
                           <tr>
                             <td>{{forloop.counter}}</td>
                             <td>{{user.first_name}} {{user.last_name}}</td>
-                            <td>{{user.username}}</td>
+                            <td style="text-transform: none;">{{user.username}}</td>
                             <td>{{user.email}}</td>
-                           
-                            <td>
-                              <!-- <span class="badge badge-success">Active</span> -->
-                              <div class="pretty p-switch p-fill">
-                                <input type="checkbox" {% if user.is_active %} checked {% else %} {% endif %} />
-                                <div class="state p-success">
-                                  <label>Active</label>
-                                </div>
-                              </div>
-                            </td>
-               
-                            <td>
-                              <i data-feather="edit" class="btn btn-primary btn-sm">
-                                <button></button>
-                              </i>
-                                <i data-feather="settings" class="btn btn-info btn-sm">
-                                  <button></button>
-                                </i>
-                            </td>
+                            <td>{{user.last_login|timesince}} ago</td>
+                                {% with active=user.is_active %}
+                                {% if active%}
+                                <td >
+                                  <button class="btn btn-icon btn-danger disableAccount" data-id="{{user.id}}"> 
+                                    <!-- Disable -->
+                                    <i class="fas fa-times"></i>
+                                  </button>
+                                  <button class="btn btn-icon btn-info editAccount" 
+                                  data-id="{{user.id}}"
+                                  data-first_name="{{user.first_name}}"
+                                  data-last_name="{{user.last_name}}"
+                                  data-username="{{user.username}}"
+                                  data-email="{{user.email}}"
+                                  
+                                  >
+                                    <i class="fas fa-edit" >
+                                    </i>
+                                  </button>
+
+                                </td>
+                                  {% else %}
+                                  <td >
+                                    <button class="btn btn-icon btn-warning activeAccount" data-id="{{user.id}}">
+                                      <!-- Active -->
+                                      <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-info editAccount" 
+                                  data-id="{{user.id}}"
+                                  data-first_name="{{user.first_name}}"
+                                  data-last_name="{{user.last_name}}"
+                                  data-username="{{user.username}}"
+                                  data-email="{{user.email}}"
+                                  
+                                  >
+                                      <i class="fas fa-edit" >
+                                      </i>
+                                    </button>
+                                  </td>
+                                  {% endif %}
+                                  {% endwith %}
                             {% endfor %}
                           </tr>
                         </tbody>
@@ -94,11 +118,11 @@
         </section>
         <!-- Modal -->
         <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+              <div class="modal-content" style="background-color: #333;">
+                <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
                   <h5 class="modal-title" id="userRegister">Registeration User</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -109,8 +133,26 @@
                       
                     </div>
                     <div class="form-group">
+                      <label for="first_name">First Name</label>
+                      <input id="first_name" type="text" class="form-control" name="first_name" required>
+                      <div class="invalid-feedback">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="last_name">Last Name</label>
+                      <input id="last_name" type="text" class="form-control" name="last_name" required>
+                      <div class="invalid-feedback">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="username">User Name</label>
+                      <input id="username" type="text" class="form-control" name="username" required>
+                      <div class="invalid-feedback">
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <label for="email">Email</label>
-                      <input id="email" type="email" class="form-control" name="email">
+                      <input id="email" type="email" class="form-control" name="email" required>
                       <div class="invalid-feedback">
                       </div>
                     </div>
@@ -125,8 +167,8 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-lg btn-block">
-                        Register
+                      <button type="submit" class="btn btn-success">
+                        Save
                       </button>
                     </div>
                   </form>
@@ -135,6 +177,119 @@
             </div>
           </div>
         <!-- End Modal -->
+
+              <!-- Generate Password Modal -->
+              <div class="modal fade" id="generateModal" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document" >
+                  <div class="modal-content" style="background-color: #333;">
+                    <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;color: #fff;">
+                      <h5 class="modal-title" id="userRegister">Generate Password</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      
+                      {% csrf_token %}
+                      <form id="activeAccountForm" method="POST">
+                        <div class="form-group">
+                          <label>Password</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                              </div>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Generate New Password" name="password" id="password" required>
+                          </div>
+                          <input type="text" class="form-control" name="userid" id="userid" required hidden>
+                        </div>
+                        <button type="submit" class="btn btn-success m-t-15 waves-effect">Active</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- End Modal -->
+
+
+
+              <!-- Edit ModaleModal -->
+              <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+                <div class="modal-dialog" role="document" >
+                  <div class="modal-content" style="background-color: #333;">
+                    <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;color: #fff;">
+                      <h5 class="modal-title" id="userRegister">Update <span id="user-info"></span>'s Account </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      
+                      {% csrf_token %}
+                      <form id="updateForm" method="POST">
+                        <div class="form-group">
+                          <label>First Name</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="First Name" name="up_first_name" id="up_first_name" required>
+                          </div>
+                          <!-- <input type="text" class="form-control" name="userid" id="userid" required> -->
+                        </div>
+
+
+                        <div class="form-group">
+                          <label>Last Name</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="last Name" name="up_last_name" id="up_last_name" required>
+                          </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                          <label>Username</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Username" name="up_username" id="up_username" required>
+                          </div>
+                          
+                        </div>
+
+                        <div class="form-group">
+                          <label>Email</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                              </div>
+                            </div>
+                            <input type="emai" class="form-control" placeholder="e.g example@test.so" name="up_email" id="up_email" required>
+                          </div>
+                          
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success m-t-15 waves-effect">Update</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- End Modal -->
 
         <!-- Setting Bar Sections -->
         {% include "includes/settingbar.html" %}        
@@ -152,6 +307,11 @@
   <!-- Scripts Section -->
   {% include "includes/scripts.html" %}
   <!-- End Scripts Section -->
+  <script src="{% static 'assets/scripts/pages/staff.js' %}"></script>
+  <script>
+
+
+    </script>
 </body>
 <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 </html>

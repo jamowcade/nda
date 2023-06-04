@@ -23,9 +23,6 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
-             # log the user action
-            # userLoggers.objects.create(user=request.user, action='created item')
-            # logger.info('User %s login the system', request.user.username)
             return redirect('/')
         else:
             messages.info( request, 'User or Password are Incorrect.')
@@ -46,14 +43,24 @@ def register(request):
 def forgot(request):
     return render(request,'accounts/forget.html')
 
+@login_required(login_url='login')
 @permission_required('main.add_user', login_url='/login/', raise_exception=False)
 def users(request):
     if request.method == 'POST':
-        username = request.POST['email']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        username = request.POST['username']
         password = "123"
+        status = False
         role = request.POST['role']
         if role == "superuser":
-            User.objects.create_superuser(username=username, password=password, email=username)
+            User.objects.create_superuser(
+            first_name=first_name, last_name=last_name,
+            username=username, password=password,
+            email=email, is_active=status
+        )
+            # User.objects.create_superuser(username=username, password=password, email=username)
         else:
             group = Group.objects.get(name=role)
             user = User.objects.create_user(username=username, password=password, email=username)
@@ -98,6 +105,8 @@ def permissions(request):
         "content_types":content_types
     }
     return render (request, "pages/user_permissions.html", context)
+
+
 @login_required(login_url='login')
 @csrf_exempt
 def get_user_info(request):
@@ -112,6 +121,8 @@ def get_user_info(request):
         })
 
     return JsonResponse(user_list, safe=False)
+
+
 @login_required(login_url='login')
 def get_permissions_user(request):
     content_type_id = request.GET.get('content_type_id')
@@ -123,6 +134,8 @@ def get_permissions_user(request):
         "permissions":permissions
     }
     return render(request, 'pages/user_permissions_table.html', context)
+
+
 @login_required(login_url='login')
 # get user permissions according to selected user and content type.
 def get_user_permissions(request):
@@ -202,3 +215,104 @@ def changepassword(request):
     else:
 
         return redirect(myprofile)
+
+
+
+@login_required(login_url='user_login')
+def activeAccount(request):
+   
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        password = request.POST.get('password')
+        status = True
+
+        user = User.objects.get(id=id)
+        user.is_active = status
+        user.set_password(password)
+        user.save()
+        if user:
+            # print(first_name,last_name,email,user_name)
+            info = f'{user.first_name} {user.last_name} has been Successfuly Activated'
+            msg = f"User has been Successfuly Activated {user.first_name} {user.last_name} to the system"
+
+            UserLog.objects.create(
+            user=request.user,
+            message=msg,
+        )
+            # userLoggers(logger_name=request.user,device=userinfo,message=msg,level="INFO").save()
+
+            return JsonResponse({'success': True, 'message': info})
+        else:
+            msg = f"User has Not Successfuly Activated {user.first_name} {user.last_name} to the system"
+            # userLoggers(logger_name=request.user,device=userinfo,message=msg,level="INFO").save()
+            return JsonResponse({'success': False, 'message': 'Not Successfully Activted'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
+
+
+@login_required(login_url='user_login')
+def disableAccount(request):
+   
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        status = False
+
+        user = User.objects.get(id=id)
+        user.is_active = status
+        user.save()
+        if user:
+            # print(first_name,last_name,email,user_name)
+            info = f'{user.first_name} {user.last_name} has been Successfuly Disabled'
+            msg = f"User has been Successfuly Disabled {user.first_name} {user.last_name} to the system"
+            UserLog.objects.create(
+            user=request.user,
+            message=msg,
+        )
+            
+            return JsonResponse({'success': True, 'message': info})
+        else:
+            msg = f"User has Not Successfuly Disabled {user.first_name} {user.last_name} to the system"
+        
+            return JsonResponse({'success': False, 'message': 'Not Successfully Disabled'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@login_required(login_url='login')
+
+def updateAccount(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+
+        userUpdate = User.objects.get(id=id)
+
+        userUpdate.first_name = first_name
+        userUpdate.last_name = last_name
+        userUpdate.username = username
+        userUpdate.email = email
+
+        userUpdate.save()
+
+        success = True
+        if userUpdate:
+            # print(first_name,last_name,email,user_name)
+            info = f'{userUpdate.first_name} {userUpdate.last_name} has been Successfuly Activated'
+            msg = f"User has been Successfuly Activated {userUpdate.first_name} {userUpdate.last_name} to the system"
+            # userLoggers(logger_name=request.user,device=userinfo,message=msg,level="INFO").save()
+            UserLog.objects.create(
+            user=request.user,
+            message=msg,
+        )
+
+            return JsonResponse({'success': True, 'message': info})
+        else:
+            msg = f"User has Not Successfuly Activated {userUpdate.first_name} {userUpdate.last_name} to the system"
+            # userLoggers(logger_name=request.user,device=userinfo,message=msg,level="INFO").save()
+            return JsonResponse({'success': False, 'message':'Not Successfully Activted'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+        
