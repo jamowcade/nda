@@ -60,11 +60,17 @@ def users(request):
             username=username, password=password,
             email=email, is_active=status
         )
+            msg = f"User Has Been Successfully Created {first_name} {last_name}'s Account"
+            UserLog(user=request.user,message=msg).save()
             # User.objects.create_superuser(username=username, password=password, email=username)
         else:
             group = Group.objects.get(name=role)
-            user = User.objects.create_user(username=username, password=password, email=username)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name,
+            username=username, password=password,
+            email=email, is_active=status)
             user.groups.add(group)
+            msg = f"User Has Been Successfully Created {first_name} {last_name}'s Account"
+            UserLog(user=request.user,message=msg).save()
             return redirect('users')
     users = User.objects.all()
     roles = Group.objects.all()
