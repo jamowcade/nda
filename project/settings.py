@@ -88,10 +88,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        # Real user and Database Connection  
         # 'NAME': 'db_nda',
         # 'USER': 'nda_user',
         # 'PASSWORD': 'nda123',
-        
+
         # test database and users
         'NAME': 'nda_db', 
         'USER': 'osoc',   
