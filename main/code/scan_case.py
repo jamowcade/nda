@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 
 @login_required(login_url='login')
-@permission_required('main.view_scancase', raise_exception=True, login_url=None)
+@permission_required('main.view_scancase', raise_exception=False, login_url='login')
 def scan_case(request):
 
     if request.method == 'POST':

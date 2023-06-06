@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 
 list_ids = [0,0]
 @login_required(login_url='login')
-@permission_required('main.compare_scancase', raise_exception=True, login_url=None)
+@permission_required('main.compare_scancase', raise_exception=True,login_url='login')
 def compare(request):
     name = request.GET.get('name')
     network = Network.objects.filter(compony_info= name).values('network').all()
@@ -33,7 +33,7 @@ def get_campany_name(request):
     return JsonResponse(list(network), safe=False)
 
 @login_required(login_url='login')
-@permission_required('main.view_network', login_url='/login/', raise_exception=False)
+@permission_required('main.view_network',login_url='login', raise_exception=False)
 def compare_by_date(request):
     
     scan_case_id1 = request.GET.get('FILTERED_DATE1')

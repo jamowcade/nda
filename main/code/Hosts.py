@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 @login_required(login_url='login')
-@permission_required('main.view_host', raise_exception=True, login_url=None)
+@permission_required('main.view_host', raise_exception=True,login_url='login')
 def host(request,id):
     hosts = Host.objects.filter(network = id).all()
 
@@ -34,7 +34,7 @@ def search(request):
     
 @csrf_exempt
 @login_required(login_url='login')
-@permission_required('main.add_host', raise_exception=True, login_url=None)
+@permission_required('main.add_host', raise_exception=True,login_url='login')
 def addHosts(request):
     try:
         serviceList = []

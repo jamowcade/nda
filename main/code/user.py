@@ -44,7 +44,7 @@ def forgot(request):
     return render(request,'accounts/forget.html')
 
 @login_required(login_url='login')
-@permission_required('main.add_user', login_url='/login/', raise_exception=False)
+@permission_required('main.add_user',raise_exception=False,login_url='login')
 def users(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -75,7 +75,7 @@ def users(request):
     return render(request,'accounts/staffs.html', context)
 
 @login_required(login_url='login')
-@permission_required('main.add_user', login_url='/login/', raise_exception=False)
+@permission_required('main.add_user',raise_exception=False,login_url='login')
 def create_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -98,6 +98,7 @@ def create_user(request):
             return redirect('users')
         
 @login_required(login_url='login')
+@permission_required('auth.view_permission', raise_exception=False,login_url='login')
 def permissions(request):
 
     content_types = ContentType.objects.all()
@@ -109,6 +110,7 @@ def permissions(request):
 
 @login_required(login_url='login')
 @csrf_exempt
+@permission_required('auth.view_user', raise_exception=False, login_url='login')
 def get_user_info(request):
     search_value = request.POST.get('search_value')
     users = User.objects.filter(username__icontains=search_value)# Only retrieve the first matching user
@@ -124,6 +126,7 @@ def get_user_info(request):
 
 
 @login_required(login_url='login')
+@permission_required('auth.change_user', raise_exception=False, login_url='login')
 def get_permissions_user(request):
     content_type_id = request.GET.get('content_type_id')
     content_type = ContentType.objects.get(id=content_type_id)
@@ -137,6 +140,7 @@ def get_permissions_user(request):
 
 
 @login_required(login_url='login')
+@permission_required('auth.add_user', raise_exception=False,login_url='login')
 # get user permissions according to selected user and content type.
 def get_user_permissions(request):
     user_id = request.GET.get('user_id')
@@ -152,6 +156,7 @@ def get_user_permissions(request):
 @login_required(login_url='login')
 
 # assigns permission to user
+@permission_required('auth.add_user', raise_exception=False, login_url='login')
 def assign_permissions_to_user(request):
     if request.method == 'POST':
         permission_id = request.POST.get('permission_id')
@@ -177,6 +182,7 @@ def assign_permissions_to_user(request):
 
 
 @login_required(login_url='login')
+@permission_required('auth.view_user', raise_exception=False,login_url='login')
 def myprofile(request):
     
     return render (request, "accounts/myprofile.html")
@@ -185,6 +191,7 @@ def myprofile(request):
 
 
 @login_required(login_url='login')
+@permission_required('auth.change_user', raise_exception=False,login_url='login')
 def changepassword(request):
     
     if request.method == 'POST':
@@ -219,6 +226,7 @@ def changepassword(request):
 
 
 @login_required(login_url='user_login')
+@permission_required('auth.change_user', raise_exception=False,login_url='login')
 def activeAccount(request):
    
     if request.method == 'POST':
@@ -252,6 +260,7 @@ def activeAccount(request):
 
 
 @login_required(login_url='user_login')
+@permission_required('auth.change_user', raise_exception=False,login_url='login')
 def disableAccount(request):
    
     if request.method == 'POST':
@@ -279,7 +288,7 @@ def disableAccount(request):
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @login_required(login_url='login')
-
+@permission_required('auth.change_user', raise_exception=False,login_url='login')
 def updateAccount(request):
     if request.method == 'POST':
         id = request.POST.get('id')

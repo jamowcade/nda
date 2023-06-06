@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 @login_required(login_url='login')
 # Create your views here.
-@permission_required('main.view_network', raise_exception=True, login_url=None)
+@permission_required('main.view_network', raise_exception=False, login_url='login')
 def networkDetails(request,id):
     
     companyList = Campany.objects.all()
@@ -33,7 +33,7 @@ def networkDetails(request,id):
         )
     return render(request,'pages/networkDetails.html',context)
 @login_required(login_url='login')
-@permission_required('main.view_network', raise_exception=True, login_url=None)
+@permission_required('main.view_network', raise_exception=False, login_url='login')
 def all_networks(request):
     networks = Network.objects.all()
     companyList = Campany.objects.all()
@@ -48,7 +48,7 @@ def all_networks(request):
     #     )
     return render(request, 'pages/networks.html',context)
 @login_required(login_url='login')
-@permission_required('main.add_network', login_url='/login/', raise_exception=False)
+@permission_required('main.add_network', login_url='login', raise_exception=False)
 def addNetwork(request):
     if request.method == 'POST':
         company = request.POST.get('company')
@@ -67,22 +67,18 @@ def addNetwork(request):
         )
     return HttpResponse(success)
 @login_required(login_url='login')
-@permission_required('main.change_network', raise_exception=True, login_url=None)
+@permission_required('main.change_network', raise_exception=False, login_url='login')
 def updateNetwork(request):
     if request.method == 'POST':
         id = request.POST.get('id')
         network = request.POST.get('network')
         state = request.POST.get('state')
         description = request.POST.get('description')
-
         network_update = Network.objects.get(id=id)
-
         network_update.network = network
         network_update.state = state
         network_update.description = description
-
         network_update.save()
-
         success = True
         if success:
             messages = 'Successfully Update'
@@ -91,6 +87,5 @@ def updateNetwork(request):
             message=f"{request.user}  updated network ({network_update.network})",
         )
         else:
-            messages = "Error  ..........."
-        
+            messages = "Error  ..........."        
     return HttpResponse(messages)

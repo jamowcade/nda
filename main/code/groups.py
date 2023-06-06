@@ -15,7 +15,7 @@ from main.models import UserLog
 
 
 @login_required(login_url='login')
-
+@permission_required('auth.view_group', raise_exception=False, login_url='login')
 def groups(request):
     if request.method == 'POST':
         groupname = request.POST.get('gname')
@@ -31,6 +31,7 @@ def groups(request):
     return render(request,'pages/groups.html', context)
 
 @login_required(login_url='login')
+@permission_required('auth.view_group', raise_exception=False, login_url='login')
 def user_groups(request):
     users = User.objects.all()
     groups = Group.objects.all()  
@@ -42,6 +43,7 @@ def user_groups(request):
     return render (request, "pages/assign_user_to_groups.html", context)
 
 @login_required(login_url='login')
+@permission_required('auth.add_group', raise_exception=False, login_url='login')
 def assign_user_to_groups(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -66,7 +68,9 @@ def assign_user_to_groups(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error'})
+    
 @login_required(login_url='login')
+@permission_required('auth.view_permission', raise_exception=False, login_url='login')
 def get_user_groups(request):
     user_id = request.GET.get('user_id')
     
@@ -76,6 +80,8 @@ def get_user_groups(request):
     print(groups)
     return JsonResponse({'groups': groups})
 @login_required(login_url='login')
+
+@permission_required('auth.view_permission', raise_exception=False, login_url='login')
 def groupPermissions(request):
     groups = Group.objects.all()
     content_types = ContentType.objects.all()
@@ -86,6 +92,7 @@ def groupPermissions(request):
     return render (request, "accounts/assignPermissionsGroup.html", context)
 @login_required(login_url='login')
 # assign permissio to group
+@permission_required('auth.add_group', raise_exception=False, login_url='login')
 def assign_permissions_to_group(request):
     if request.method == 'POST':
         permission_id = request.POST.get('permission_id')
@@ -112,6 +119,7 @@ def assign_permissions_to_group(request):
 
 @login_required(login_url='login')
 #get permissions in each content type
+@permission_required('auth.view_permission', raise_exception=False, login_url='login')
 def get_permissions(request):
     content_type_id = request.GET.get('content_type_id')
     content_type = ContentType.objects.get(id=content_type_id)
@@ -126,6 +134,7 @@ def get_permissions(request):
 
 @login_required(login_url='login')
 # get permission of each group according to selected group and content type.
+@permission_required('auth.view_permission', raise_exception=False, login_url='login')
 def get_group_permissions(request):
     group_id = request.GET.get('group_id')
     print(group_id)
