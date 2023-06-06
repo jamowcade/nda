@@ -7,7 +7,15 @@
 <!-- Header Section -->
 {% include "includes/head.html" %}
 <!-- End Header Section -->
-
+<style>
+  input:invalid {
+  border: 5px solid red;
+  background-color: red;
+}
+.error {
+  color: red;
+}
+</style>
   <body class="dark dark-sidebar theme-black">
     <div class="loader dark"></div>
 
@@ -153,7 +161,8 @@
                       </select><br>
 
                       <label for="network" style="color: aquamarine;">Network</label>
-                      <input type="text" class="form-control" id="network" required><br>
+                      <input type="text" class="form-control" id="network" required>
+                      <div class="error" id="error-message"></div>
     
                       <label for="state" style="color: aquamarine;">State</label>
                       <select id="state" class="form-control" required>
