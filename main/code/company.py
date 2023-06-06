@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse
 from main.models import Campany,UserLog, ErrorLog
 from django.contrib.auth.decorators import login_required, permission_required
@@ -22,21 +23,30 @@ def createCompany(request):
             name = request.POST.get('name')
             case = request.POST.get('description')
             asn = request.POST.get('asn')
-
-            new_company = Campany(title=case, owner=name, asn=asn)
-            new_company.save()
-
-            success = 'data successfully saved'
-            UserLog.objects.create(
-            user=request.user,
-            message=f"{request.user}  created Company: {new_company.owner}",
-        )
-            return HttpResponse(success)
+            is_exist = Campany.objects.filter(asn = asn)
+            if is_exist:
+                message=f"ASN  ({asn})  Already Given to anotehr company!"
+                return JsonResponse({'success': False, 'error':message})
+            else:
+                new_company = Campany(title=case, owner=name, asn=asn)
+                new_company.save()
+                company = Campany.objects.filter(asn = asn)
+                if company: # check if company is created ans saved.
+                    success = True
+                if success: 
+                    UserLog.objects.create(
+                    user=request.user,
+                    message=f"{request.user}  created Company: {new_company.owner}",
+                    )
+                    msg = f"Company {new_company.owner} with Asn: {asn} is created succefully"
+                    return JsonResponse({'success': True, 'message':msg})
         except Exception as e:
             ErrorLog.objects.create(
                 user=request.user,
                 message=f"An error occurred: {str(e)}",
             )
+          
+            return JsonResponse({'success': False, 'error': f"{str(e)}"})
 
 @login_required(login_url='login')
 @permission_required('main.change_campany', raise_exception=True, login_url=None)
