@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse
 from main.models import Campany,UserLog, ErrorLog
 from django.contrib.auth.decorators import login_required, permission_required
@@ -22,6 +23,10 @@ def createCompany(request):
             name = request.POST.get('name')
             case = request.POST.get('description')
             asn = request.POST.get('asn')
+            is_exist = Campany.objects.get(asn = asn)
+            if is_exist:
+                message=f"This {asn}  Already Given to anotehr company!"
+                return JsonResponse({'success': False, 'error':message})
 
             new_company = Campany(title=case, owner=name, asn=asn)
             new_company.save()
@@ -31,7 +36,7 @@ def createCompany(request):
             user=request.user,
             message=f"{request.user}  created Company: {new_company.owner}",
         )
-            return HttpResponse(success)
+            return JsonResponse({'success': False, 'message':success})
         except Exception as e:
             ErrorLog.objects.create(
                 user=request.user,
