@@ -23,25 +23,30 @@ def createCompany(request):
             name = request.POST.get('name')
             case = request.POST.get('description')
             asn = request.POST.get('asn')
-            is_exist = Campany.objects.get(asn = asn)
+            is_exist = Campany.objects.filter(asn = asn)
             if is_exist:
-                message=f"This {asn}  Already Given to anotehr company!"
+                message=f"ASN  ({asn})  Already Given to anotehr company!"
                 return JsonResponse({'success': False, 'error':message})
-
-            new_company = Campany(title=case, owner=name, asn=asn)
-            new_company.save()
-
-            success = 'data successfully saved'
-            UserLog.objects.create(
-            user=request.user,
-            message=f"{request.user}  created Company: {new_company.owner}",
-        )
-            return JsonResponse({'success': False, 'message':success})
+            else:
+                new_company = Campany(title=case, owner=name, asn=asn)
+                new_company.save()
+                company = Campany.objects.filter(asn = asn)
+                if company: # check if company is created ans saved.
+                    success = True
+                if success: 
+                    UserLog.objects.create(
+                    user=request.user,
+                    message=f"{request.user}  created Company: {new_company.owner}",
+                    )
+                    message = f"Company {new_company.owner} with Asn: {asn} is created succefully"
+                    return JsonResponse({'success': True, 'message':message})
         except Exception as e:
             ErrorLog.objects.create(
                 user=request.user,
                 message=f"An error occurred: {str(e)}",
             )
+          
+            return JsonResponse({'success': False, 'error': f"{str(e)}"})
 
 @login_required(login_url='login')
 @permission_required('main.change_campany', raise_exception=True, login_url=None)

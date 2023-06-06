@@ -7,10 +7,7 @@ $(document).ready(function() {
 function createCompany(){
     $('#registerForm').submit(function (e){
         e.preventDefault();
-        
-        const formData = $(this).serialize();
-        console.log(formData)
-            // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+
             $.ajax({
                 url: '/newCompany/',
                 type: "POST",
@@ -23,7 +20,7 @@ function createCompany(){
               
                 success: function(data) {
                     if (data.success) {
-                        swal("Succcss", data.message, "success").then(function(){
+                        swal("success", data.message, "success").then(function(){
                           location.reload();
                         });
                     }else 
@@ -33,10 +30,10 @@ function createCompany(){
 
                 },
                 error:function(data){
-                    console.log(data)
+                   
                     swal({
                         title: "Error !",
-                        text: "There was an error: "+data,
+                        text: "There was an error: "+data.error,
                         icon: "error",
                         timer: 4000, // time in milliseconds
                         timerProgressBar: true,
