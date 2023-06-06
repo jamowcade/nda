@@ -38,8 +38,8 @@ def createCompany(request):
                     user=request.user,
                     message=f"{request.user}  created Company: {new_company.owner}",
                     )
-                    message = f"Company {new_company.owner} with Asn: {asn} is created succefully"
-                    return JsonResponse({'success': True, 'message':message})
+                    msg = f"Company {new_company.owner} with Asn: {asn} is created succefully"
+                    return JsonResponse({'success': True, 'message':msg})
         except Exception as e:
             ErrorLog.objects.create(
                 user=request.user,
