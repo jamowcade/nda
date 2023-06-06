@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 @login_required(login_url='login')
-@permission_required('main.view_port', login_url='/login/', raise_exception=False)
+@permission_required('main.view_port', login_url='login', raise_exception=False)
 def ports(request):
     host_id = request.GET.get('host_id')
     
