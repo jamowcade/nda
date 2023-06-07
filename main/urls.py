@@ -63,8 +63,8 @@ urlpatterns = [
     # path('compare2_by_date/', Compare.compare2_by_date, name='compare2_by_date'),
     path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
 
-    path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'),
-    path('scan_case_report/', Reports.scan_case_report, name='scan_case_report'),
+    path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'), # this is the one who rendereing the html file reports
+    path('scan_case_report/', Reports.scan_case_report, name='scan_case_report'), # this one it works for Filterign Date
     path('newCompany/', company.createCompany, name='add_company'),
     path('editCompany/', company.editCompany, name='edit_company'),
 
