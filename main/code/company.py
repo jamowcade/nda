@@ -18,28 +18,28 @@ def company(request):
 @login_required(login_url='login')
 @permission_required('main.add_campany', raise_exception=True, login_url=None)
 def createCompany(request):
-    if request.method == 'POST':
         try:
-            name = request.POST.get('name')
-            case = request.POST.get('description')
-            asn = request.POST.get('asn')
-            is_exist = Campany.objects.filter(asn = asn)
-            if is_exist:
-                message=f"ASN  ({asn})  Already Given to anotehr company!"
-                return JsonResponse({'success': False, 'error':message})
-            else:
-                new_company = Campany(title=case, owner=name, asn=asn)
-                new_company.save()
-                company = Campany.objects.filter(asn = asn)
-                if company: # check if company is created ans saved.
-                    success = True
-                if success: 
-                    UserLog.objects.create(
-                    user=request.user,
-                    message=f"{request.user}  created Company: {new_company.owner}",
-                    )
-                    msg = f"Company {new_company.owner} with Asn: {asn} is created succefully"
-                    return JsonResponse({'success': True, 'message':msg})
+            if request.method == 'POST':
+                name = request.POST.get('name')
+                case = request.POST.get('description')
+                asn = request.POST.get('asn')
+                is_exist = Campany.objects.filter(asn = asn)
+                if is_exist:
+                    message=f"ASN  ({asn})  Already Given to anotehr company!"
+                    return JsonResponse({'success': False, 'error':message})
+                else:
+                    new_company = Campany(title=case, owner=name, asn=asn)
+                    new_company.save()
+                    company = Campany.objects.filter(asn = asn)
+                    if company: # check if company is created ans saved.
+                        success = True
+                    if success: 
+                        UserLog.objects.create(
+                        user=request.user,
+                        message=f"{request.user}  created Company: {new_company.owner}",
+                        )
+                        msg = f"Company {new_company.owner} with Asn: {asn} is created succefully"
+                        return JsonResponse({'success': True, 'message':msg})
         except Exception as e:
             ErrorLog.objects.create(
                 user=request.user,
