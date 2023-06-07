@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 import datetime
 from django.utils import timezone
@@ -51,12 +52,9 @@ def view_scan_case(request,scan_id):
         search = request.GET.get('search', '')
         page_number = request.GET.get('page_number',10)
         scan_case = ScanCase.objects.get(id=scan_id)
-        print("search:", search)
-        print("page:", page)
-        print("number per page", page_number)
-        print("scan case id:",scan_id)
+       
         scan_case_hosts = ""
-        print("scan case:", scan_id)
+        
         if search is None or search == '':
             scan_case_hosts = scan_case.hosts.all()
             hosts = paginateHosts(scan_case_hosts, page,page_number)
@@ -66,11 +64,6 @@ def view_scan_case(request,scan_id):
             data = {'hosts': hosts,"scan_case": scan_case.id, 'scan_date':scan_case.scan_date, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
             html = render(request, 'pages/scan_case_detail.html',data)
             return html
-            # else:
-                # data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
-                # html = render(request, 'pages/report_hosts.html',data)
-                # print('No Data')
-                # return JsonResponse({"success":False, "message":f"No data found matching {scan_case.name}", "html":str(html.content, encoding='utf8')}, safe=False)
         else:
               
               if "ip" in search and ":" in search:
@@ -115,11 +108,7 @@ def view_scan_case(request,scan_id):
                             return JsonResponse({"success":True, "message":f"data found matching  {services[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
                         else:
                             return JsonResponse({"success":False, "message":f"No data found matching Services: {services[1]}!"}, safe=False)
-                        print(scan_case_hosts)
-                        # for host in scan_case.hosts.all():
-                        #       for port in host.ports.all():
-                        #             for service in port.services.filter(key=services[1]).all():
-                        #                   print(service.key,service.value,host.hostname,host.network.network,port.port)
+                      
               elif "port" in search.lower() and ":" in search:
                         port = search.split(":")
                         scan_case_hosts = scan_case.hosts.filter(ports__port  = port[1]).all().distinct()
@@ -136,25 +125,7 @@ def view_scan_case(request,scan_id):
               else:
                   return JsonResponse({"invalid":False, "message":f"Ivalid search query! please use keywords (ip, state, port and separate with colon) e.g: ip:67.33.8.9, port:90, state:open"}, safe=False)
 
-        paginator = Paginator(scan_case_hosts, 50)
-
-        pagePaginator= paginator.get_page(page)
-        total_hosts = len(scan_case_hosts)
-        data = {'hosts': pagePaginator,"scan_case": scan_case.id, "search":search, "total_hosts":total_hosts}
-            # print(data)
-        if len(scan_case_hosts) > 0:
-                return render(request, 'pages/report_hosts.html',data)
-        else:
-            return JsonResponse("NO Data found", safe=False)
-    # except Exception as e:
-    #                 ErrorLog.objects.create(
-    #                 user=request.user,
-    #                 message=f"An error occurred: {e}"
-    #                 )
-    #                 return JsonResponse({'success': False, 'error': f'and error occured'})
-
-
-
+      
 
 def paginateHosts(hosts, page, page_number):
         paginator = Paginator(hosts, page_number)

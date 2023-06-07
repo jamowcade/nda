@@ -98,7 +98,7 @@ def index(request):
                 'scan_date':date_scan,
                 'count':group['count']
             })
-    print(top5scanCases)
+  
         
     user_logs = UserLog.objects.all().order_by('-created_at')[:5][::1]
 
