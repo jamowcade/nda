@@ -38,6 +38,7 @@ def networkDetails(request,id):
 def all_networks(request):
     networks = Network.objects.all()
     companyList = Campany.objects.all()
+    
     context = {
         'networks': networks,
         'companyData': companyList,

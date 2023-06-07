@@ -46,7 +46,7 @@
                           <tr>
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">Network</th>
-                            <th style="color: aquamarine;">Description</th>
+                            <th style="color: aquamarine;">Total Hosts</th>
                             <th style="color: aquamarine;">State</th>
                             <th style="color: aquamarine;">Time</th>
                             <th style="color: aquamarine;">Action</th>
@@ -60,7 +60,7 @@
                                 <td>
                                   <a style="color: aqua;" href="{% url 'host' network.id %}" style="color: antiquewhite;">{{ network.network }}</a>
                                 </td>
-                                <td>{{ network.description}}</td>
+                                <td>{{ network.totalHosts}}</td>
                                
                                 {% if network.state == 'O' %}
                                     <td><span class="badge badge-success">Open</span></td>
