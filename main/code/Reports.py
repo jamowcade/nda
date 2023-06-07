@@ -188,7 +188,7 @@ def scan_case_report(request):
               
               if "ip" in search and ":" in search:
                         ip = search.split(":")
-                        scan_case_hosts = scan_case.hosts.filter(hostname = ip[1]).all()
+                        scan_case_hosts = scan_case.hosts.filter(hostname__icontains= ip[1]).all()
                         hosts = paginateHosts(scan_case_hosts, page, page_number)
                         total_hosts = len(scan_case_hosts)
                         returned_hosts = len(hosts)

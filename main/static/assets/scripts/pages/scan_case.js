@@ -1,6 +1,11 @@
 
 $(document).ready(function() {
 
+  $('#customFile').change(function() {
+    var filename = $(this).val().split('\\').pop();
+    $('#filenmaeDisplay').text(filename);
+});
+
   $('.progress').hide();
   addScanDate();
   

@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear,TruncDay
-from main.models import Campany,Network,Host,Port,ScanCase,UserLog
+from main.models import Campany,Network,Host,Port,ScanCase,UserLog,UserLoggers
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 from django.contrib.auth.models import Group
@@ -162,36 +162,6 @@ def index(request):
 
 
             })
-    portSerivce = Port.objects.all()[:5]
-    # for port in portSerivce:
-    #     s = port.service.replace("'",'"')
-    #     service = json.load(s)
-    #     print(type(service))
-        
-        # a = f'"{"("+port.service+")"}"'
-
-        # # b= json.loads(a)
-        # print (a)
-       
-        # # for key, value in b.iteritems():
-        # #   print(key, ':', value)
-        # print(service)
-    
-    # get_all_host = Host.objects.all().order_by('scan_case')
-
-    # scan_casel = defaultdict(list)
-
-    # for geting in get_all_host:
-    #     scan_casel[geting.scan_case].append(geting)
-    # get_diff = {}
-    # prev_diff={}
-    # for date,scan_list in scan_casel.items():
-    #     diff={}
-    #     for scan in scan_list:
-    #         prev_diff_status = prev_diff.get((scan.scan_case.id, date), False)
-            # print(prev_diff_status)
-            # if scan.scan_case != prev_diff_status:
-
     context = {
         'company':totalCompany,
         'network':totalNetwork,

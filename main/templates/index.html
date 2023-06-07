@@ -441,6 +441,7 @@
                         <tr>
                           <th style="color: aquamarine;">#</th>
                           <th style="color: aquamarine;">User</th>
+                          <th style="color: aquamarine;">Device</th>
                           <th style="color: aquamarine;">Message</th>
                           <th style="color: aquamarine;">Time</th>
                         </tr>
@@ -449,7 +450,8 @@
                         {% for data in user_logs %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
-                          <td>{{data.user.username}}</td>
+                          <td>{{data.user}}</td>
+                          <td>{{data.device}}</td>
                           <td>{{data.message}}</td>
                           <td>{{data.created_at|timesince}}ago</td>
                         </tr>

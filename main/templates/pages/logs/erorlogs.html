@@ -43,6 +43,7 @@
                             <tr>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">#</th>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">user</th>
+                              <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Device</th>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Message</th>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Date</th>
                             </tr>
@@ -51,7 +52,8 @@
                             {% for log in error_logs %}
                             <tr>
                               <td style="font-size: medium;">{{forloop.counter}}</td>
-                              <td style="font-size: medium;">{{log.user.username}}</td>
+                              <td style="font-size: medium;">{{log.user}}</td>
+                              <td style="font-size: medium;">{{log.device}}</td>
                               <td style="font-size: medium; text-transform: capitalize;">{{log.message}}</td>
                               <td style="font-size: medium;">{{log.created_at|timesince}}</td>
                               {% endfor %}
