@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+<!-- Header Section -->
+{% include "includes/head.html" %}
+
+
+<!-- End Header Section -->
+
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
+
+
+  
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+
+           <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+        
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}        
+        <!-- End Side Bar Section -->
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 style="color: aquamarine;" >Ports</h4>
+                  </div>
+                  <!-- Button trigger modal -->
+                   
+                  <div class="card-body">
+                    <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newEnviroment">
+                        <i data-feather="file-plus"></i>Upload File
+                    </button> -->
+
+                    <div class="table-responsive">
+                      <table class="table" style="width:100%; color: aqua;">
+                        <thead>
+                          
+                          <tr>
+                            <th style="color: aquamarine;">#</th>
+                            <th style="color: aquamarine;">Company</th>
+                            <th style="color: aquamarine;">Network</th>
+                            <th style="color: aquamarine;">Host</th>
+                            <th style="color: aquamarine;">Port Name</th>
+                            <th style="color: aquamarine;">State</th>
+                            <th style="color: aquamarine;">Protocol</th>
+                            <th style="color: aquamarine;">Reason</th>
+                            <th style="color: aquamarine;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody_data">
+
+                          {% for port in ports %}
+                          <tr>
+                            <td>{{ forloop.counter}}</td>
+                           
+                            <td>{{ port.host.network.compony_info.owner }}</td>
+                            <td>{{ port.host.network.network }}</td>
+                            <td>{{ port.host.hostname }}</td>
+                            <td> {{ port.port }}</td>
+                     
+                            <td>{{ port.state }}</td>
+                            <td>{{ port.protocol }}</td>
+                            <td>{{ port.reason }}</td>
+                            <td>
+                              <a style="color: aqua;" href="{{port.id}}" class="btn btn-primary btn-show">
+                                Show Service
+                              </a>
+                             
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="pagination" style="justify-content: center; justify-items: center;">
+  
+                        <nav aria-label="Page navigation example">
+                    
+                            <ul class="pagination">
+                                {% if ports.has_previous %}
+                              <li class="page-item"><a class="page-link" href="{% url 'Ports' 1 %}"> <b> &laquo; </b></a></li>
+                              <li class="page-item"><a class="page-link" href= "{% url 'Ports' ports.previous_page_number  %}"> <b> &lsaquo; </b></a></li><br>
+                              {% endif %}
+                     
+                            
+                              {% if ports.number == num %}
+                              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                              {% endif %}
+                          
+                              <li class="page-item"> <span class="badge"> Page {{ ports.number }} of {{ ports.paginator.num_pages }} </span></li>
+                              
+                              {% if ports.has_next %}
+                              <li class="page-item"><a id="next"  class="page-link" href="{% url 'Ports' ports.next_page_number  %}"> <b> &rsaquo; </b></a></li>
+                              <li class="page-item"><a class="page-link" href="{% url 'Ports' ports.paginator.num_pages  %}"> <b> &raquo; </b></a></li>
+                              {% endif %}
+                            </ul>
+                          </nav>
+                    </div>
+                    
+
+
+                    
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        <!-- End Modal -->
+
+
+         <!-- ports model -->
+         <div class="modal fade" id="displayPorts" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5); ">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content" style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="modal_title">Ports</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+                <table class="table" id="table-1" style="width:100%; color: antiquewhite;">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Key</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody_data">
+                  </tbody>
+                </table>
+          
+
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      <!-- End Modal -->
+
+        <!-- Setting Bar Sections -->
+        {% include "includes/settingbar.html" %}        
+        <!-- Ending Setting Bar Sections -->
+
+
+      </div>
+
+      <!-- Footbar Section -->
+      {% include "includes/footer.html" %}
+      <!-- EndFootbar Section -->
+
+    </div>
+  </div>
+
+
+
+
+  <!-- General JS Scripts -->
+
+  <!-- Scripts Section -->
+  {% include "includes/scripts.html" %}
+  
+  <script src="{% static 'assets/scripts/pages/port.js' %}"></script>
+  <!-- End Scripts Section -->
+</body>
+
+
+<!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

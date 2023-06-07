@@ -45,7 +45,7 @@
                     {%endif%}
                     <br><div></div><br>
                     <div class="table-responsive">
-                      <table class="table" id="tableExport" style="width:100%; color: aqua; text-transform: uppercase; font-size: medium; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: bold;">
+                      <table class="table" id="myTableExport" style="width:100%; color: aqua; text-transform: uppercase; font-size: medium; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: bold;">
                         <thead>
                           <tr>
                             
@@ -75,6 +75,15 @@
                                 Upload File
                               </a>
                               <a href="{% url 'delete_scan_case' scan.id %}" class="btn btn-danger">Delete</a>
+                              <!-- <a  style="color: #fff;"
+                             class="btn btn-warning btn-sm" 
+                              
+                              
+                              href="{% url 'view_scan_case' scan.id %}"
+                              >
+                                <i class="fas fa-eye"></i>
+                                View Scan
+                              </a> -->
                             </td>
                             {%else%}
                             <td>
@@ -205,36 +214,6 @@
 
   {% include "includes/scripts.html" %}
 
-  
-  <script>
-    $('#scancase-form').submit(function (e){
-        e.preventDefault();
-        date = $('#date').val()
-       $.ajax({
-        method: 'POST',
-        url: '/scan_case/',
-        data : {
-          'date':date,
-           csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-        },
-        success: function(data){
-          if (data.success) {
-            swal("Form submitted!", data.message, "success").then(function(){
-              location.reload();
-            });
-          } else {
-            swal("Form submission failed!", data.message, "error");
-          }
-        },
-        error: function(){
-          alert("error saving data")
-        }
-       })
-    })
-
-
- 
-  </script>
   <script src="{% static 'assets/scripts/pages/scan_case.js' %}"></script>
   <!-- End Scripts Section -->
 </body>

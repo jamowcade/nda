@@ -3,6 +3,7 @@ $(document).ready(function(){
     activeAccount()
     disableAccount()
     editAccount()
+    generateDataTable();
     
 })
 
@@ -213,4 +214,17 @@ function editAccount(){
     })
 
 
+}
+
+function generateDataTable(){
+    $('#myTableExport').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 
+            'csv', 
+            // 'excel', 
+            'pdf', 
+          'print'
+        ]
+      });
 }

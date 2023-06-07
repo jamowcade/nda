@@ -2,6 +2,7 @@ $(document).ready(function() {
     readNetwork();
     createNetwork();
     EditNetwork();
+    generateDataTable();
 })
 
 function createNetwork(){
@@ -36,6 +37,22 @@ function createNetwork(){
                 },
               
                 success: function(data) {
+                    // swal({
+                    //     title: "Success !",
+                    //     text: "You have successfully Created",
+                    //     icon: "success",
+                    //     timer: 1000, // time in milliseconds
+                    //     timerProgressBar: true,
+                    //     showConfirmButton: false
+                    // })
+                    // .then(function(){
+                        
+
+                    //     // $('#newNetwork').hide();
+                    //     // readNetwork()
+                    //     emptyFormData()
+                    //     location.reload();
+                    // })
                     if (data.success) {
                         swal("success", data.message, "success").then(function(){
                           location.reload();
@@ -167,4 +184,30 @@ function EditNetwork(){
         })
   
 
+}
+
+
+
+
+function generateDataTable(){
+    $('#myTableExport').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 
+            'csv', 
+            // 'excel', 
+            'pdf', 
+          'print'
+        ]
+      });
+}
+
+
+
+
+function emptyFormData() {
+    $('#company').val(''),
+    $('#network').val(''),
+    $('#state').val(''),
+    $('#description').val('')
 }

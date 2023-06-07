@@ -1,7 +1,7 @@
 $(document).ready(function() {
   
-  
   displayPorts()
+  generateDataTable();
   
    
    });
@@ -93,7 +93,7 @@ function displayPorts(){
           '<td>' + port.port + '</td>'+
           '<td>' + port.protocol + '</td>'+
           '<td>' + port.state + '</td>'+
-          '<td>'+ port.service + '</td>'+
+          '<td>'+ port.reason + '</td>'+
            '</tr>' 
            
            );
@@ -101,4 +101,28 @@ function displayPorts(){
       }
     });
   });
+}
+
+
+function generateDataTable(){
+  $('#myTableExport').dataTable({
+      dom: 'Bfrtip',
+      buttons: [
+          // 'copy', 
+          'csv', 
+          // 'excel', 
+          'pdf', 
+        'print'
+      ]
+    });
+}
+
+
+
+
+function emptyFormData() {
+  $('#company').val(''),
+  $('#network').val(''),
+  $('#state').val(''),
+  $('#description').val('')
 }

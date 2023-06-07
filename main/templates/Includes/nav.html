@@ -18,7 +18,7 @@
           class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img style="border-color: aqua; background-color: aqua;" alt="image" src="{% static 'assets/img/R.png' %}"
             class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
         <div class="dropdown-menu dropdown-menu-right pullDown">
-          <div style="color: aquamarine;" class="dropdown-title"> <span style="color: aquamarine;">{{request.user}}</span></div>
+          <div style="color: aquamarine;" class="dropdown-title"> <span style="color: aquamarine;">{{request.user.first_name}} {{request.user.last_name}}</span></div>
           <a href="{% url 'myprofile' %}" style="color: aquamarine;" class="dropdown-item has-icon"> <i class="far
             fa-user"></i> Profile
            </a>   
