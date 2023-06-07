@@ -45,13 +45,14 @@
                     <br><div></div><br>
 
                     <div class="table-responsive">
-                      <table class="table " id="tableExport" style="width:100%; color: aqua;">
+                      <table class="table " id="myTableExport" style="width:100%; color: aqua;">
                         <thead>
                           <tr>
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">ASN</th>
                             <th style="color: aquamarine;">Owner</th>
-                            <th style="color: aquamarine;">Case</th>
+                            <th style="color: aquamarine;">Description</th>
+                            <th style="color: aquamarine;">Total Networks</th>
                             <th style="color: aquamarine;">Time</th>
                             <th style="color: aquamarine;">Action</th>
                           </tr>
@@ -72,6 +73,7 @@
                             {%endif%}
                             <td>{{ company.owner }}</td>
                             <td>{{ company.title }}</td>
+                            <td>{{ company.totalNetworks }}</td>
                             <td>{{ company.timestamp }}</td>
                             {%if perms.main.change_campany%}
                             <td>

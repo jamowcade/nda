@@ -26,12 +26,15 @@ urlpatterns = [
     path('networks/', Network.networkDetails, name='networks'),
     path('all_networks/', Network.all_networks, name='all_networks'),
     path('network/<int:id>/', Network.networkDetails, name='network'),
+
     # path('host/', Hosts.host, name='host'),
     path('host/<int:id>/', Hosts.host, name='host'),
+    path('all_hosts/<int:page>/', Hosts.all_host, name='all_hosts'),
     path('getport_service/', Hosts.search, name='getport_service'),
     path('uploadhosts/', Hosts.addHosts, name='uploadhosts'),
     path('addnetwork/', Network.addNetwork, name='add_network'),
     path('updateNetwork/', Network.updateNetwork, name='update_network'),
+    path('delete_scan_case/<int:scan_case_id>/', scan_case.delete_scan_case, name='delete_scan_case'),
 
     #endregion
 
@@ -39,13 +42,16 @@ urlpatterns = [
 
 
 
+    path('get_services/', Ports.get_services, name='ports'),
     path('host_ports/', Ports.ports, name='ports'),
+    path('Ports/<int:page>/', Ports.all_ports, name='Ports'),
     # path('host_ports/<int:id>/', Ports.ports, name='ports'),
     
     path('scan_case/', scan_case.scan_case, name='scan_case'),
     #delete scanning case
     path('delete_scan_case/', scan_case.delete_scan_case, name='delete_scan_case'),
 
+    path('view_scan_case/<int:scan_id>/', scan_case.view_scan_case, name='view_scan_case'),
     path('compare/', Compare.compare, name='compare'),
 
     path('filter_data/', Reports.filter_data, name='filter_data'),
@@ -64,8 +70,8 @@ urlpatterns = [
     # path('compare2_by_date/', Compare.compare2_by_date, name='compare2_by_date'),
     path('get_campany_name/', Compare.get_campany_name, name='get_campany_name'),
 
-    path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'),
-    path('scan_case_report/', Reports.scan_case_report, name='scan_case_report'),
+    path('scan_cases_report/', Reports.scan_cases_report, name='scan_cases_report'), # this is the one who rendereing the html file reports
+    path('scan_case_report/', Reports.scan_case_report, name='scan_case_report'), # this one it works for Filterign Date
     path('newCompany/', company.createCompany, name='add_company'),
     path('editCompany/', company.editCompany, name='edit_company'),
 

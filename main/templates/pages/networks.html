@@ -54,13 +54,13 @@
                     <br><div></div><br>
                     <div class="table-responsive">
                
-                      <table class="table" id="tableExport" style="width:100%; color: aqua;">
+                      <table class="table" id="myTableExport" style="width:100%; color: aqua;">
                         <thead>
                           <tr>
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">Network</th>
                             <th style="color: aquamarine;">Owner</th>
-                            <th style="color: aquamarine;">Description</th>
+                            <th style="color: aquamarine;">Total Hosts</th>
                             <th style="color: aquamarine;">Time</th>
                             <th style="color: aquamarine;">State</th>
                             <th style="color: aquamarine;">Action</th>
@@ -81,7 +81,7 @@
                                 </td>
                                 {%endif%}
                                 <td>{{ network.compony_info}}</td>
-                                <td>{{ network.description}}</td>
+                                <td>{{ network.totalHosts}}</td>
                                 <td>{{ network.time}}</td>
                                 {% if network.state == 'O' %}
                                     <td><span class="badge badge-success">Open</span></td>

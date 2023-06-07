@@ -1,5 +1,5 @@
 
-
+{% if hosts %}
 <div class="row">
 
   <center>
@@ -40,7 +40,7 @@
 
          
         </select>
-</div>
+  </div>
   </div>
 
 
@@ -53,7 +53,8 @@
     </div>
     <br><br><hr>
     
-  </div>
+</div>
+
     <div class="table-responsive">
                         
 
@@ -180,6 +181,34 @@
       </nav>
 </div>
 
+
+
+
+{% else %}
+
+
+    <div class="card">
+      <div class="card-header">
+        <h4>Empty Data</h4>
+      </div>
+      <div class="card-body">
+        <div class="empty-state" data-height="400">
+          <div class="empty-state-icon">
+            <i class="far fa-grin-tongue" style="color: white;"></i>
+          </div>
+          <h2>Oops ! .......</h2>
+          <p class="lead">
+            Sorry we can't find any data, to get rid of this message, make at least 1 entry.
+          </p>
+          <!-- <a href="#" class="btn btn-primary mt-4">Create new One</a> -->
+          <!-- <a href="#" class="mt-4 bb">Need Help?</a> -->
+        </div>
+      </div>
+    </div>
+
+
+
+{% endif %}
 
 <script>
 

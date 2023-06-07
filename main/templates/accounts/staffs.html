@@ -40,7 +40,7 @@
                     </button>
                     <br><div></div><br>
                     <div class="table-responsive">
-                      <table class="table " id="tableExport" 
+                      <table class="table " id="myTableExport" 
                       style="width:100%; 
                       color: aqua;
                      
@@ -64,6 +64,7 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{user.first_name}} {{user.last_name}}</td>
                             <td style="text-transform: none;">{{user.username}}</td>
+                            <td style="text-transform: none;">{{user.email}}</td>
                             <td>{{user.email}}</td>
                            
                               {% with roles=user.is_superuser %}

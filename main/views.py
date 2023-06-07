@@ -93,10 +93,12 @@ def index(request):
         get_scan_date = ScanCase.objects.filter(scan_date=date_scan).all()
         for scan in get_scan_date:
             top5scanCases.append({
+                'id':scan.id,
                 'scan':scan.name,
                 'scan_date':date_scan,
                 'count':group['count']
             })
+    print(top5scanCases)
         
     user_logs = UserLog.objects.all().order_by('-created_at')[:5][::1]
 

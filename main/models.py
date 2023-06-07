@@ -26,7 +26,9 @@ class Campany(models.Model):
     def __str__(self):
         return self.owner
 
-
+    def totalNetworks(self):
+        total_networks = self.networks.all().count()
+        return total_networks
 
 class Network(models.Model):
     OPEN = 'O'
@@ -46,6 +48,10 @@ class Network(models.Model):
     
     def __str__(self):
         return self.network
+    
+    def totalHosts(self):
+        total_hosts = self.hosts.all().count()
+        return total_hosts
  
 
 

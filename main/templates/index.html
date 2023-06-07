@@ -31,40 +31,48 @@
             
             <div class="row">
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                  <div class="card-icon l-bg-purple">
-                    <i class="fas fa-briefcase"></i>
-                  </div>
-                  <div class="card-wrap">
-                    <div class="padding-20">
-                      <div class="text-right">
-                        <h3 class="font-light mb-0" style="color: aqua;">
-                          <i class="ti-arrow-up text-success"></i> {{ company }}
-                        </h3>
-                        <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Companies</span>
+                <a href="{% url 'company' %}">
+
+                  <div class="card card-statistic-1">
+                    <div class="card-icon l-bg-purple">
+                      <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="padding-20">
+                        <div class="text-right">
+                          <h3 class="font-light mb-0" style="color: aqua;">
+                            <i class="ti-arrow-up text-success"></i> {{ company }}
+                          </h3>
+                          <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Companies</span>
+                        </div>
                       </div>
                     </div>
                   </div>
+                </a>
                 </div>
-              </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                  <div class="card-icon l-bg-green">
-                    <i class="fas fa-network-wired"></i>
-                  </div>
-                  <div class="card-wrap">
-                    <div class="padding-20">
-                      <div class="text-right">
-                        <h3 class="font-light mb-0"style="color: aqua;">
-                          <i class="ti-arrow-up text-success"style="color: aqua;"></i> {{network}}
-                        </h3>
-                        <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Networks</span>
+                <a href="{% url 'all_networks' %}">
+
+                  <div class="card card-statistic-1">
+                    <div class="card-icon l-bg-green">
+                      <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="padding-20">
+                        <div class="text-right">
+                          <h3 class="font-light mb-0"style="color: aqua;">
+                            <i class="ti-arrow-up text-success"style="color: aqua;"></i> {{network}}
+                          </h3>
+                          <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Networks</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
+                  
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{% url 'all_hosts' 1 %}">
                 <div class="card card-statistic-1">
                   <div class="card-icon l-bg-cyan">
                     <i data-feather="cloud-lightning"></i>
@@ -80,8 +88,10 @@
                     </div>
                   </div>
                 </div>
+                </a>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{% url 'Ports' 1 %}">
                 <div class="card card-statistic-1">
                   <div class="card-icon l-bg-orange">
                     <i data-feather="hard-drive"></i>
@@ -97,6 +107,7 @@
                     </div>
                   </div>
                 </div>
+                </a>
               </div>
             </div>
 
@@ -387,6 +398,7 @@
                           <th style="color: aquamarine;">#</th>
                           <th style="color: aquamarine;">Description</th>
                           <th style="color: aquamarine;">Hosts</th>
+                          <th style="color: aquamarine;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -395,6 +407,17 @@
                           <td>{{forloop.counter}}</td>
                           <td>{{data.scan}}</td>
                           <td>{{data.count}} Hosts</td>
+                          <td>
+                            <a  style="color: #fff;"
+                             class="btn btn-success btn-sm" 
+                              
+                              
+                              href="{% url 'scan_cases_report'  %}"
+                              >
+                                <i class="fas fa-eye"></i>
+                                <!-- View Scan -->
+                              </a>
+                          </td>
                         </tr>
                         {% endfor %}
                       </tbody>

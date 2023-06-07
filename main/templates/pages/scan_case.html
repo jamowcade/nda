@@ -45,7 +45,7 @@
                     {%endif%}
                     <br><div></div><br>
                     <div class="table-responsive">
-                      <table class="table" id="tableExport" style="width:100%; color: aqua; text-transform: uppercase; font-size: medium; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: bold;">
+                      <table class="table" id="myTableExport" style="width:100%; color: aqua; text-transform: uppercase; font-size: medium; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: bold;">
                         <thead>
                           <tr>
                             
@@ -76,6 +76,16 @@
                                 <i data-feather="file-plus"></i>
                                 Upload File
                               </a>
+                              <a href="{% url 'delete_scan_case' scan.id %}" class="btn btn-danger">Cleen Data</a>
+                              <!-- <a  style="color: #fff;"
+                             class="btn btn-warning btn-sm" 
+                              
+                              
+                              href="{% url 'view_scan_case' scan.id %}"
+                              >
+                                <i class="fas fa-eye"></i>
+                                View Scan
+                              </a> -->
                             </td>
                             {%else%}
                             <td>
@@ -245,23 +255,7 @@
        })
     })
 
-    $(".delete_scan_case").click(function(){
-      var scan_case = $(this).data('scan_id');
-      // 
-      $.ajax({
-        url:'/delete_scan_case/',
-        type: 'POST',
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-        data:{
-          scan_case: scan_case
-        },
-        success: function(response){
-          location.reload();
-        }
 
-
-      })
-    });
  
   </script>
   <script src="{% static 'assets/scripts/pages/scan_case.js' %}"></script>
