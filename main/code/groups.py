@@ -15,7 +15,7 @@ from main.models import UserLog
 
 
 @login_required(login_url='login')
-@permission_required('auth.view_group', raise_exception=False, login_url='login')
+@permission_required('auth.add_group', raise_exception=False, login_url='login')
 def groups(request):
     if request.method == 'POST':
         groupname = request.POST.get('gname')
