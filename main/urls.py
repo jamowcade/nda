@@ -29,6 +29,7 @@ urlpatterns = [
     path('uploadhosts/', Hosts.addHosts, name='uploadhosts'),
     path('addnetwork/', Network.addNetwork, name='add_network'),
     path('updateNetwork/', Network.updateNetwork, name='update_network'),
+    path('scan_case/<int:scan_case_id>/', scan_case.delete_scan_case, name='delete_scan_case'),
 
     #endregion
 

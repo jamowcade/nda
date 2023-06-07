@@ -17,13 +17,11 @@ def scan_case(request):
         last_entry_date = ScanCase.objects.last().scan_date
         if date_is_less:
             return JsonResponse ({'success': False,"message":f"Scan case Date cannot be less than {last_entry_date} "})
-
         if is_exist:
             return JsonResponse ({'success': False,"message":"Scan case already Created"})
         scan_case = ScanCase(name=name, scan_date=date, description=name)
         scan_case.save()
         return JsonResponse ({'success': True,"message":"data saved"})
-
         print(name, date, description)
     else:
         scan_cases = ScanCase.objects.all()
@@ -42,3 +40,16 @@ def compare_date(date):
     last_entry_date = ScanCase.objects.last().scan_date
 
     return given_date < last_entry_date
+
+
+
+def delete_scan_case(request,scan_case_id):
+    # Retrieve the scan case instance
+   
+    scan_case = ScanCase.objects.get(id=scan_case_id)
+        # Delete all hosts related to the scan case and their related ports
+    for host in Host.objects.filter(scan_case=scan_case):
+        Port.objects.filter(host=host).delete()
+    Host.objects.filter(scan_case=scan_case).delete()
+    return JsonResponse({'message': 'Scan case and related hosts and ports have been deleted.'})
+    return render('pages/scan_case.html')
