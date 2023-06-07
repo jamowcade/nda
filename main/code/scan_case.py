@@ -1,5 +1,5 @@
 from main.models import Campany, Host, Network, Port, ScanCase
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, permission_required
@@ -166,14 +166,23 @@ def compare_date(date):
     return given_date < last_entry_date
 
 
-
 def delete_scan_case(request,scan_case_id):
-    # Retrieve the scan case instance
-   
+    if request.method == "POST":
+        scan_case = get_object_or_404(ScanCase, id=scan_case_id)
+        hosts = Host.objects.filter(scan_case=scan_case)
+        total_hosts = hosts.count()
+        if total_hosts > 0:
+            for host in hosts:
+                Port.objects.filter(host=host).delete()
+            hosts.delete()
+            return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
+        else:
+            return JsonResponse({'message': f'No Data for {scan_case.name}'})
+
     scan_case = ScanCase.objects.get(id=scan_case_id)
-        # Delete all hosts related to the scan case and their related ports
-    for host in Host.objects.filter(scan_case=scan_case):
-        Port.objects.filter(host=host).delete()
-    Host.objects.filter(scan_case=scan_case).delete()
-    return JsonResponse({'message': 'Scan case and related hosts and ports have been deleted.'})
-    return render('pages/scan_case.html')
+    context = {
+         "scan_case":scan_case
+    }
+    return render(request,'pages/delete_scan_case.html', context)
+
+
