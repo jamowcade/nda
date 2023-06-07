@@ -5,7 +5,6 @@ from main.models import Campany,Network,Host,Port,ScanCase,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 from collections import defaultdict
-
 # Create your views here.
 @login_required(login_url='login')
 def index(request):
