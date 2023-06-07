@@ -53,7 +53,6 @@
                             <th style="color: aquamarine;">Name</th>
                             <th style="color: aquamarine;">Username</th>
                             <th style="color: aquamarine;">Email</th>
-                            <th style="color: aquamarine;">Roles</th>
                             <th style="color: aquamarine;">last Login</th>
                             <th style="color: aquamarine;">Action</th>
                           </tr>
@@ -64,16 +63,13 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{user.first_name}} {{user.last_name}}</td>
                             <td style="text-transform: none;">{{user.username}}</td>
-                            <td style="text-transform: none;">{{user.email}}</td>
-                            <td>{{user.email}}</td>
-                           
-                              {% with roles=user.is_superuser %}
-                              {%if roles %}
-                              <td>Admin</td>
-                              {%else%}
-                              <td>Staff</td>
-                              {%endif%}
-                              {%endwith%}
+                            {% with roles=user.is_superuser %}
+                            {%if roles %}
+                            <td style="text-transform: none;">{{user.email}} (Admin)</td>
+                            {%else%}
+                            <td style="text-transform: none;">{{user.email}} (Staff)</td>
+                            {%endif%}
+                            {%endwith%}
                           
                             <td>{{user.last_login|timesince}} ago</td>
                                 {% with active=user.is_active %}
@@ -275,7 +271,7 @@
                                 <i class="fas fa-user"></i>
                               </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Username" name="up_username" id="up_username" required>
+                            <input disabled type="text" class="form-control" placeholder="Username" name="up_username" id="up_username" required>
                           </div>
                           
                         </div>

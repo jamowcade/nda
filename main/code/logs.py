@@ -1,4 +1,4 @@
-from main.models import UserLog, ErrorLog
+from main.models import UserLog, ErrorLog,UserLoggers
 from django.shortcuts import render,redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 
