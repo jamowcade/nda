@@ -1,8 +1,23 @@
 $(document).ready(function() {
-    // readNetwork();
     createCompany();
     EditCompany();
+    generateDataTable();
+ 
 })
+
+function generateDataTable(){
+    $('#myTableExport').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 
+            'csv', 
+            // 'excel', 
+            'pdf', 
+          'print'
+        ]
+      });
+}
+
 
 function createCompany(){
     $('#registerForm').submit(function (e){
@@ -32,10 +47,10 @@ function createCompany(){
                     })
                     .then(function(){
                         
-
-                        $('#newCompany').hide();
-                        // readNetwork()
-                        location.reload();
+                        $('#name').val(''),
+                        $('#description').val(''),
+                        $('#asn').val(''),
+                        window.location.reload();
                     })
 
                 },
@@ -55,9 +70,6 @@ function createCompany(){
 
     })
 }
-
-
-
 
 function EditCompany(){
     $('.companyEdit').click(function(){

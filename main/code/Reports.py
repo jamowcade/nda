@@ -175,13 +175,15 @@ def scan_case_report(request):
             hosts = paginateHosts(scan_case_hosts, page,page_number)
             total_hosts = len( scan_case_hosts)
             returned_hosts = len(hosts)
-            if total_hosts > 0:
-                    data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
-                    html = render(request, 'pages/report_hosts.html',data)
-                    return JsonResponse({"success":True, "message":f"data found matching {scan_case.name }", "html":str(html.content, encoding='utf8')}, safe=False)
-            else:
-                return JsonResponse({"success":False, "message":f"No data found matching {ip[1]}"}, safe=False)
-
+            # if total_hosts > 0:
+            data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
+            html = render(request, 'pages/report_hosts.html',data)
+            return JsonResponse({"success":True, "message":f"data found matching {scan_case.name }", "html":str(html.content, encoding='utf8')}, safe=False)
+            # else:
+                # data = {'hosts': hosts,"scan_case": scan_case.id, "search":search, "returned_hosts":returned_hosts, "current_page":page, "page_number":page_number, "total_hosts":total_hosts}
+                # html = render(request, 'pages/report_hosts.html',data)
+                # print('No Data')
+                # return JsonResponse({"success":False, "message":f"No data found matching {scan_case.name}", "html":str(html.content, encoding='utf8')}, safe=False)
         else:
               
               if "ip" in search and ":" in search:
@@ -211,7 +213,7 @@ def scan_case_report(request):
                             return JsonResponse({"success":False, "message":f"No data found matching state: {state[1]}! stats can be,(open, closed, filtered)"}, safe=False)
               elif "service" in search.lower() and ":" in search:
                         services = search.split(":")
-                        get_ser = Port.objects.filter(Q(services__key=services[1]) | Q(services__value=services[1]))
+                        get_ser = Port.objects.filter(Q(services__key__icontains=services[1]) | Q(services__value__icontains=services[1]))
                         scan_case_hosts = scan_case.hosts.filter(ports__in =get_ser).all().distinct()
                         hosts = paginateHosts(scan_case_hosts, page, page_number)
                         total_hosts = len(scan_case_hosts)

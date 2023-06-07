@@ -23,8 +23,10 @@ urlpatterns = [
     path('networks/', Network.networkDetails, name='networks'),
     path('all_networks/', Network.all_networks, name='all_networks'),
     path('network/<int:id>/', Network.networkDetails, name='network'),
+
     # path('host/', Hosts.host, name='host'),
     path('host/<int:id>/', Hosts.host, name='host'),
+    path('all_hosts/<int:page>/', Hosts.all_host, name='all_hosts'),
     path('getport_service/', Hosts.search, name='getport_service'),
     path('uploadhosts/', Hosts.addHosts, name='uploadhosts'),
     path('addnetwork/', Network.addNetwork, name='add_network'),
@@ -36,10 +38,13 @@ urlpatterns = [
 
 
 
+    path('get_services/', Ports.get_services, name='ports'),
     path('host_ports/', Ports.ports, name='ports'),
+    path('Ports/<int:page>/', Ports.all_ports, name='Ports'),
     # path('host_ports/<int:id>/', Ports.ports, name='ports'),
     
     path('scan_case/', scan_case.scan_case, name='scan_case'),
+    path('view_scan_case/<int:scan_id>/', scan_case.view_scan_case, name='view_scan_case'),
     path('compare/', Compare.compare, name='compare'),
 
     path('filter_data/', Reports.filter_data, name='filter_data'),

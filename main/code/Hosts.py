@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponse
 import json
 from datetime import datetime
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from main.models import Campany, ErrorLog, Host, Network, Port, UserLog, ScanCase,Service
 from django.contrib.auth.decorators import login_required, permission_required
@@ -20,6 +21,19 @@ def host(request,id):
     }
 
     return render(request,'pages/host.html', context)
+
+@login_required(login_url='login')
+@permission_required('main.view_host', raise_exception=True, login_url=None)
+def all_host(request,page):
+    hosts = Host.objects.all()
+    paginator = Paginator(hosts, 50)
+    pagePaginator= paginator.get_page(page)
+
+    context = {
+        "hosts": pagePaginator,
+    }
+
+    return render(request,'pages/all_host.html', context)
 
 @login_required(login_url='login')
 def search(request):

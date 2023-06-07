@@ -2,8 +2,10 @@
 $(document).ready(function() {
 
   $('.progress').hide();
+  addScanDate();
   
     scan_case_fileUpload();
+    generateDataTable();
    
 });
 
@@ -56,3 +58,47 @@ function scan_case_fileUpload(){
     });
   });
   }
+
+
+  function generateDataTable(){
+    $('#myTableExport').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 
+            'csv', 
+            // 'excel', 
+            'pdf', 
+          'print'
+        ]
+      });
+}
+
+
+function addScanDate(){
+  $('#scancase-form').submit(function (e){
+    e.preventDefault();
+    date = $('#date').val()
+   $.ajax({
+    method: 'POST',
+    url: '/scan_case/',
+    data : {
+      'date':date,
+       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+    },
+    success: function(data){
+      if (data.success) {
+        swal("Form submitted!", data.message, "success").then(function(){
+          location.reload();
+        });
+      } else {
+        swal("Form submission failed!", data.message, "error");
+      }
+    },
+    error: function(){
+      alert("error saving data")
+    }
+   })
+})
+
+
+}

@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+<!-- Header Section -->
+{% include "includes/head.html" %}
+<!-- End Header Section -->
+
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
+
+
+  
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+
+           <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+        
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}        
+        <!-- End Side Bar Section -->
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+          </div>
+
+          
+        </section>
+
+
+        <!-- New Scan case modal -->
+        <div class="modal fade" id="newScancase" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content"  style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="userRegister">Create Scan Date</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+
+                <form id="scancase-form">
+                  <div class="form-group">
+                    <label for="upload_date">Scan case date:</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                  </div>
+                  <button type="submit" class="btn btn-success">Save</button>
+                  
+
+                </form>
+
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="newfileUpload" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content"  style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="userRegister">Upload new Scan file</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+
+                <form id="fileUploadForm" method="POST">
+                  <div class="form-group">
+                    <label hidden for="upload_date">Scan Case Date</label>
+                    <input type="text" hidden  class="form-control" id="scan_case_id" name="scan_case" required>
+                  </div>
+                  <div class="custom-file mb-3">
+                    <input type="file"  id="customFile" accept=".json" name="file" required>
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                  </div>
+                  <button type="submit" class="btn btn-success">Upload file</button>
+                  
+
+                </form>
+                <br><div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <!-- End Modal -->
+       
+        <!-- Setting Bar Sections -->
+        {% include "includes/settingbar.html" %}        
+        <!-- Ending Setting Bar Sections -->
+
+
+      </div>
+
+      <!-- Footbar Section -->
+       
+  
+      {% include "includes/footer.html" %}
+      <!-- EndFootbar Section -->
+
+    </div>
+  </div>
+
+
+
+
+  <!-- General JS Scripts -->
+
+  <!-- Scripts Section -->
+
+  {% include "includes/scripts.html" %}
+
+  <script src="{% static 'assets/scripts/pages/scan_case.js' %}"></script>
+  <!-- End Scripts Section -->
+</body>
+
+
+<!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>

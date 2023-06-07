@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.2/datatables.min.css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.2/datatables.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script> -->
+    <!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+    <h1>test</h1>
+    <table id="example-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Doe</td>
+            <td>johndoe@example.com</td>
+            <td>555-555-5555</td>
+            <td><button type="button" data-toggle="modal" data-target="#example-modal">Open Modal</button></td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+      
+      <!-- HTML code for the modal -->
+      <div id="example-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 id="modal-title"></h2>
+          <p id="modal-body"></p>
+        </div>
+      </div>
+
+      <!-- <script src="exponential.js"></script> -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        alert('Welcome')
+      $('#example-table').DataTable();
+  
+      // Handle click events on the modal open buttons
+      $('button[data-toggle="modal"]').click(function() {
+        var row = $(this).closest('tr');
+        var name = row.find('td:eq(0)').text();
+        var email = row.find('td:eq(1)').text();
+        var phone = row.find('td:eq(2)').text();
+  
+        $('#modal-title').text(name);
+        $('#modal-body').html('<p>Email: ' + email + '</p><p>Phone: ' + phone + '</p>');
+        $('#example-modal').show();
+      });
+  
+      // Handle click events on the modal close button
+      $('.close').click(function() {
+        $('#example-modal').hide();
+      });
+    });
+  </script>
+      
+</body>
+</html>

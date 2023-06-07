@@ -1,0 +1,624 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- datatables.html  21 Nov 2019 03:55:21 GMT -->
+<!-- Header Section -->
+{% include "includes/head.html" %}
+<!-- End Header Section -->
+
+  <body class="dark dark-sidebar theme-black">
+    <div class="loader dark"></div>
+
+
+  
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+
+           <!-- Nav Bar Section  -->
+        {% include "includes/nav.html" %}
+        <!-- End Nav Bar Section -->
+        
+        <!-- Side Bar Section -->
+        {% include "includes/sidebar.html" %}        
+        <!-- End Side Bar Section -->
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+                
+              <div class="result">
+{% if hosts %}
+
+
+<div class="row">
+
+  <center>
+      
+    <span style="color: aqua;">Search By Port Numer , Host Ip and Port State</span>
+  </center>
+    <div class="form-group col-md-8 ">
+    
+    <!-- <form  class="form-inline"> -->
+      
+      
+      <input type="text" class="form-control" id="search-box" placeholder="Search...">
+      
+      <!-- </form> -->
+    </div>
+
+    <div class="col-md-2">
+
+      
+      <button type="button" class="btn btn-success" id="search-btn">Search</button>
+      
+    </div>
+    <div>
+      
+    </div>
+
+    <center>
+        {{scan_date}}
+    </center>
+
+    <div class="col col-2">
+  <div class="dropdown">
+ 
+      <select style="color: aqua; background-color: black; border-color: aquamarine;" class="form-select" id="page_numbers" name="page_number" aria-label="Select 2">
+         
+        
+          <option value="">Number per page</option>
+          <option value="10" {% if page_number == 10 %} selected {% endif %} >10</option>
+          <option value="25" {% if page_number == 25 %} selected {% endif %}>25</option>
+          <option value="50" {% if page_number == 50 %} selected {% endif %}>50</option>
+          <option value="100" {% if page_number == 100 %} selected {% endif %}>100</option>
+
+         
+        </select>
+  </div>
+  </div>
+
+
+    <div id="loading-spinner2" style="display:none">
+      <i class="fa fa-spinner fa-spin"></i> Loading...
+    </div>
+    <div id="result" style="color: wheat;">
+    {{total_hosts}} Results in
+      <span id="response-time"></span>
+    </div>
+    <br><br><hr>
+    
+</div>
+
+    <div class="table-responsive">
+                        
+
+    <table class="table table-bordered my-table"  id="table-1"  style="width:100%;color: aqua; text-transform: uppercase;">
+        <thead>
+          <tr>
+           
+            <th style="color: aquamarine;" scope="col">#</th>
+            <th style="color: aquamarine;" scope="col">Host</th>
+            <th style="color: aquamarine;" scope="col">status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody_data">
+            {% for host in hosts %}
+            {% with num=forloop.counter|add:'1' %}
+            
+          <tr style="cursor: pointer;" onclick="toggleRow('{{num}}');">
+              <th scope="row" >{{forloop.counter}}</th>
+              <th scope="row">
+                <span  style="font-size: medium;" > {{host.hostname}} - 
+                </span>
+                  <span style="font-size: medium; text-transform: uppercase;">
+
+                    Messages - 
+                    
+                   <span style="color: aquamarine;">Total Ports: <b>{{host.totalPorts}}</b> </span> -   
+                   <span style="color: green;">Open ports {{host.openPorts}}</b> </span> - 
+                   <span style="color: red;">close ports: {{host.closedPorts}}</b> </span> - 
+                   <span style="color: orange;">filtered ports: {{host.filteredPorts}}</b> </span>
+                  
+                </span>
+                </th>
+              <th scope="row">{{host.status}}</th>
+          </tr>
+          <tr id="{{num}}" style="display:none;">
+            <td></td>
+            <td>
+              <center>
+
+                <span style="font-size: medium;">
+                  <b> Company : {{host.network.compony_info}} network: {{host.network}} </b>
+                </span><br><br>
+              </center>
+
+
+                {% for port in host.ports.all %}
+                {% with num=forloop.counter|add:'1' %}
+                <div class="row">
+                <div class="col-12 col-md-6 col-lg-3" style="color: aquamarine;">
+                       
+                    <span style="cursor: pointer; text-align: center; color: aqua;" >
+                         <b> Port {{forloop.counter}} </b>
+                    </span><br>
+                    <span>Port      : {{port.port}}</span><br>
+                    {% if port.state == 'filtered' %}
+                    <span>State     : <span style="color: orange;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'open' %}
+                    <span>State     : <span style="color: green;"> <b>{{port.state}}</b> </span></span><br>
+                    {% elif port.state == 'closed' %}
+                    <span>State     : <span style="color: red;"> <b>{{port.state}}</b>  </span></span><br>
+                    {% endif %}
+                    <span>Protocol  : {{port.protocol}}</span><br>
+                    <span>Reason  : {{port.reason}}</span><br><br>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-9">
+
+                  {% for ppt in port.services.all %}
+                
+                <span style="cursor: pointer; text-align: center;">
+                  <span>{{ppt.key}}   :    </span>
+                  <span style="text-transform: none;">{{ppt.value}}</span><br>
+                  
+                </span>
+                {% endfor %}
+                <hr>
+                    
+                    
+            
+             
+                </div>
+
+
+
+                
+                </div>
+
+                    {% endwith %}
+                    {% endfor %}
+                    
+                </td>
+             
+            </tr>
+            {% endwith %}
+            {% endfor %}
+        </tbody>
+    
+      </table>
+
+  </div>
+  
+  <!-- <div class="pagination" style="justify-content: center; justify-items: center;">
+  
+    <nav aria-label="Page navigation example">
+
+        <ul class="pagination">
+            {% if hosts.has_previous %}
+          <li class="page-item"><a class="page-link" href=" {% url 'view_scan_case' 1 %}"> <b> &laquo; </b></a></li>
+          <li class="page-item"><a class="page-link" href=" {% url 'view_scan_case' hosts.previous_page_number %} "> <b> &lsaquo; </b></a></li><br>
+          {% endif %}
+ 
+        
+          {% if hosts.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% endif %}
+      
+          <li class="page-item"> <span class="badge"> Page {{ hosts.number }} of {{ hosts.paginator.num_pages }} </span></li>
+          
+          {% if hosts.has_next %}
+          <li class="page-item"><a id="next"  class="page-link" href=" {% url 'view_scan_case'  hosts.next_page_number  %}"> <b> &rsaquo; </b></a></li>
+          <li class="page-item"><a class="page-link" href="{% url 'view_scan_case' hosts.paginator.num_pages %}"> <b> &raquo; </b></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+</div> -->
+
+
+<div class="pagination" style="justify-content: center; justify-items: center;">
+  
+    <nav aria-label="Page navigation example">
+
+        <ul class="pagination">
+            {% if hosts.has_previous %}
+          <li class="page-item"><a class="page-link" href="1"> <b> &laquo; </b></a></li>
+          <li class="page-item"><a class="page-link" href="{{ hosts.previous_page_number }}"> <b> &lsaquo; </b></a></li><br>
+          {% endif %}
+ 
+        
+          {% if hosts.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% endif %}
+      
+          <li class="page-item"> <span class="badge"> Page {{ hosts.number }} of {{ hosts.paginator.num_pages }} </span></li>
+          
+          {% if hosts.has_next %}
+          <li class="page-item"><a id="next"  class="page-link" href="{{ hosts.next_page_number }}"> <b> &rsaquo; </b></a></li>
+          <li class="page-item"><a class="page-link" href="{{ hosts.paginator.num_pages }}"> <b> &raquo; </b></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+</div>
+
+
+
+{% else %}
+
+
+    <div class="card">
+      <div class="card-header">
+        <h4>Empty Data</h4>
+      </div>
+      <div class="card-body">
+        <div class="empty-state" data-height="400">
+          <div class="empty-state-icon">
+            <i class="far fa-grin-tongue" style="color: white;"></i>
+          </div>
+          <h2>Oops ! .......</h2>
+          <p class="lead">
+            Sorry we can't find any data, to get rid of this message, make at least 1 entry.
+          </p>
+          <!-- <a href="#" class="btn btn-primary mt-4">Create new One</a> -->
+          <!-- <a href="#" class="mt-4 bb">Need Help?</a> -->
+        </div>
+      </div>
+    </div>
+
+{% endif %}  
+</div>          
+          </div>
+        </section>
+
+
+        <!-- New Scan case modal -->
+        <div class="modal fade" id="newScancase" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content"  style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="userRegister">Create Scan Date</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+
+                <form id="scancase-form">
+                  <div class="form-group">
+                    <label for="upload_date">Scan case date:</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                  </div>
+                  <button type="submit" class="btn btn-success">Save</button>
+                  
+
+                </form>
+
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="newfileUpload" tabindex="-1" role="dialog" aria-labelledby="userRegister" aria-hidden="true">
+          <div class="modal-dialog" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content"  style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="userRegister">Upload new Scan file</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% csrf_token %}
+
+                <form id="fileUploadForm" method="POST">
+                  <div class="form-group">
+                    <label hidden for="upload_date">Scan Case Date</label>
+                    <input type="text" hidden  class="form-control" id="scan_case_id" name="scan_case" required>
+                  </div>
+                  <div class="custom-file mb-3">
+                    <input type="file"  id="customFile" accept=".json" name="file" required>
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                  </div>
+                  <button type="submit" class="btn btn-success">Upload file</button>
+                  
+
+                </form>
+                <br><div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <!-- End Modal -->
+       
+        <!-- Setting Bar Sections -->
+        {% include "includes/settingbar.html" %}        
+        <!-- Ending Setting Bar Sections -->
+
+
+      </div>
+
+      <!-- Footbar Section -->
+       
+  
+      {% include "includes/footer.html" %}
+      <!-- EndFootbar Section -->
+
+    </div>
+  </div>
+
+
+
+
+  <!-- General JS Scripts -->
+
+  <!-- Scripts Section -->
+
+  {% include "includes/scripts.html" %}
+  <script>
+
+
+    function paginate(){
+      $('.pagination li a').click(function(e){
+        e.preventDefault()
+        page = $(this).attr('href')
+        var page_number = "{{page_number}}"
+        var id = $('#filter-date').val();
+        var startTime = new Date().getTime();
+        $.ajax({
+                url: '/view_scan_case/'+'{{scan_case}}',
+                data: {
+                  "page":page,
+                  "scan_case":"{{scan_case}}",
+                  'search':"{{search}}",
+                  'page_number':page_number
+    
+                },
+                success: function(response) {
+                    console.log(response)
+                  var endTime = new Date().getTime();
+                  var responseTime = (endTime - startTime) / 1000;
+                    $('.result').empty()
+                    
+                    // var dar = $('.result').html(response.html)
+                    // console.log(dar)
+                    $('.result').append(response)
+                    $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+                }
+            });
+      })
+    }
+    
+    function number_per_page(){
+      $('#page_numbers').on('change',function(e){
+       e.preventDefault()
+        var page_number = $(this).val()
+        var current_page = "{{current_page}}"
+        var scan_case = "{{scan_case}}"
+        var search = "{{search}}"
+        console.log("number per page",page_number);
+        console.log("current_page", + current_page);
+        console.log("scan case id", scan_case);
+        console.log("search :",search);
+        $('#loading-spinner2').show()
+        var startTime = new Date().getTime();
+        $.ajax({
+                url: '/view_scan_case/'+'{{scan_case}}',
+                data: {
+                  "page":current_page,
+                  "scan_case":"{{scan_case}}",
+                  'search': search,
+                  'page_number':page_number
+    
+                },
+                success: function(response) {
+                    console.log(response)
+                  var endTime = new Date().getTime();
+                  var responseTime = (endTime - startTime) / 1000;
+                  $('#loading-spinner2').hide()
+                    $('.result').empty()
+                    $('.accordion').append(response.html)
+                    $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+                }
+            });
+      });
+    
+    
+    
+    }
+    
+     function searchTable($table, query) {
+      $table.find('tbody tr').each(function() {
+        var found = false;
+        $(this).find('tr').each(function() {
+          var text = $(this).text().toLowerCase();
+          if (text.indexOf(query) !== -1) {
+            found = true;
+            return false;
+          } else if ($(this).find('table').length > 0) {
+            if (searchTable($(this).find('table'), query)) {
+              found = true;
+              return false;
+            }
+          }
+        });
+        if (found) {
+            
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    }
+    
+    $('#search-input').on('keyup', function() {
+      var searchTerm = $(this).val().toLowerCase();
+      searchTable($('.my-table'), searchTerm);
+    });
+    
+    function toggleRow(row) {
+        var x = document.getElementById(row);
+        if (x.style.display === "none") {
+          x.style.display = "table-row";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    function servicetoggleRow(row) {
+        var x = document.getElementById(row);
+        if (x.style.display === "none") {
+          x.style.display = "table-row";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    
+    
+    
+    $('#search-btn').click(function () {
+      $search = $('#search-box').val();
+      
+      page = $(this).attr('href')
+      var id = $('#filter-date').val();
+      $('#search-btn').text('searching')
+      $('#loading-spinner2').show()
+      var startTime = new Date().getTime();
+        $.ajax({
+                url: '/view_scan_case/'+'{{scan_case}}',
+                data: {
+                  "page":page,
+                  "scan_case":id,
+                  'search':$search
+                },
+                success: function(response) {
+                  var endTime = new Date().getTime();
+                  var responseTime = (endTime - startTime) / 1000;
+                 
+                  
+                    $('#search-btn').text("search");
+                    $('#loading-spinner2').hide();
+                    if(response.success){
+                      $('#result').show();
+                      $('#result').text(response.message);
+                      $('#accordion').empty();
+                      $('#accordion').append(response.html);
+                      $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+                   
+                    }
+                    else {
+                      $('#result').show()
+                      $('#result').text(response.message);
+                      $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+                    }
+                  if(response.invalid){
+                    $('#result').show();
+                    $('#result').text(response.message);
+                    $('#response-time').text(` (${responseTime.toFixed(2)} seconds) `);
+                  }
+                }
+            });
+      
+    
+    })
+    
+    $(document).ready(function () {
+    CallModal()
+    paginate()
+    number_per_page();
+    
+    $('#search-box .accordion-header').keyup(function () {
+      const searchTerm = $(this).val().toLowerCase();
+      $('#my-data').filter(function () {
+        const text = $(this).text().toLowerCase();
+        const match = text.indexOf(searchTerm) > -1;
+        $(this).toggle(match);
+      });
+    });
+    function CallModal() {
+      $('#modalService').click(function (e) {
+        e.preventDefault()
+        $('#newCompany').modal('show')
+      })
+    }
+    
+    $("h4").click(function () {
+      $('#ser').mouseenter(function () {
+      $('#newCompany').modal('show')
+      var id = $(this).data('id')
+      console.log(id)
+      var service = $(this).data('service');
+      sr=service.split(",")
+      $("#uname").val(sr[0])
+      $("#method").val(sr[1])
+      $("#conf").val(sr[2])
+      // console.log(sr[0],sr[1],sr[2])
+      $.ajax({
+        url: '/getport_service/',
+        type: "GET",
+        data: {
+          id: id,
+         
+        },
+    
+        success: function (data) {
+    
+          console.log(data);
+    
+        },
+        error: function (data) {
+    
+         
+          console.log("error", data);
+          swal({
+              title: "Error !",
+              text: "There was an error: "+data,
+              icon: "error",
+              timer: 4000, // time in milliseconds
+              timerProgressBar: true,
+              showConfirmButton: false
+          })
+        }
+      })
+    
+    
+    
+    })
+      
+    })
+    
+    
+    });
+    
+    
+    function getTable(){
+    $('#save').DataTable();
+    }
+    
+    $("#tbshow").click(function (){
+    getTable();
+    
+    })
+    
+    </script>
+    
+  <!-- <script src="{% static 'assets/scripts/pages/scan_case.js' %}"></script> -->
+  <!-- End Scripts Section -->
+</body>
+
+
+<!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
+</html>
