@@ -7,7 +7,15 @@
 <!-- Header Section -->
 {% include "includes/head.html" %}
 <!-- End Header Section -->
-
+<style>
+  input:invalid {
+  border: 5px solid red;
+  background-color: red;
+}
+.error {
+  color: red;
+}
+</style>
   <body class="dark dark-sidebar theme-black">
     <div class="loader dark"></div>
 
@@ -52,7 +60,7 @@
                             <th style="color: aquamarine;">#</th>
                             <th style="color: aquamarine;">Network</th>
                             <th style="color: aquamarine;">Owner</th>
-                            <th style="color: aquamarine;">Description</th>
+                            <th style="color: aquamarine;">Total Hosts</th>
                             <th style="color: aquamarine;">Time</th>
                             <th style="color: aquamarine;">State</th>
                             <th style="color: aquamarine;">Action</th>
@@ -73,7 +81,7 @@
                                 </td>
                                 {%endif%}
                                 <td>{{ network.compony_info}}</td>
-                                <td>{{ network.description}}</td>
+                                <td>{{ network.totalHosts}}</td>
                                 <td>{{ network.time}}</td>
                                 {% if network.state == 'O' %}
                                     <td><span class="badge badge-success">Open</span></td>
@@ -153,7 +161,8 @@
                       </select><br>
 
                       <label for="network" style="color: aquamarine;">Network</label>
-                      <input type="text" class="form-control" id="network" required><br>
+                      <input type="text" class="form-control" id="network" required>
+                      <div class="error" id="error-message"></div>
     
                       <label for="state" style="color: aquamarine;">State</label>
                       <select id="state" class="form-control" required>

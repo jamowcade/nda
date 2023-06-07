@@ -53,6 +53,7 @@
                             <th style="color: aquamarine;">Name</th>
                             <th style="color: aquamarine;">Username</th>
                             <th style="color: aquamarine;">Email</th>
+                            <th style="color: aquamarine;">Roles</th>
                             <th style="color: aquamarine;">last Login</th>
                             <th style="color: aquamarine;">Action</th>
                           </tr>
@@ -64,6 +65,16 @@
                             <td>{{user.first_name}} {{user.last_name}}</td>
                             <td style="text-transform: none;">{{user.username}}</td>
                             <td style="text-transform: none;">{{user.email}}</td>
+                            <td>{{user.email}}</td>
+                           
+                              {% with roles=user.is_superuser %}
+                              {%if roles %}
+                              <td>Admin</td>
+                              {%else%}
+                              <td>Staff</td>
+                              {%endif%}
+                              {%endwith%}
+                          
                             <td>{{user.last_login|timesince}} ago</td>
                                 {% with active=user.is_active %}
                                 {% if active%}

@@ -25,7 +25,7 @@ def all_ports(request, page):
 
 
 @login_required(login_url='login')
-@permission_required('main.view_port', login_url='/login/', raise_exception=False)
+@permission_required('main.view_port', login_url='login', raise_exception=False)
 def ports(request):
     host_id = request.GET.get('host_id')
     

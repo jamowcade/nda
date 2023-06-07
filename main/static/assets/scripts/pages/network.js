@@ -8,13 +8,23 @@ $(document).ready(function() {
 function createNetwork(){
     $('#registerForm').submit(function (e){
         e.preventDefault();
-        
-        const formData = $(this).serialize();
-        console.log(formData)
+        network = $('#network').val()
+        const input_network = $('#network')
+        const error_input = $('#error-message')
+        console.log(isValidIpAddress(network))
+        errorMessage = isValidIpAddressWithSubnet(network)
+        if (errorMessage) {
+            input_network.addClass('invalid')
+            error_input.text(errorMessage);
 
-       
-            
-            // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+        }
+        else{
+            error_input.text('');
+            // alert("network is okd")
+            sendRequest();
+        }
+
+        function sendRequest(){
             $.ajax({
                 url: '/addnetwork/',
                 type: "POST",
@@ -27,40 +37,72 @@ function createNetwork(){
                 },
               
                 success: function(data) {
-                    swal({
-                        title: "Success !",
-                        text: "You have successfully Created",
-                        icon: "success",
-                        timer: 1000, // time in milliseconds
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    })
-                    .then(function(){
+                    // swal({
+                    //     title: "Success !",
+                    //     text: "You have successfully Created",
+                    //     icon: "success",
+                    //     timer: 1000, // time in milliseconds
+                    //     timerProgressBar: true,
+                    //     showConfirmButton: false
+                    // })
+                    // .then(function(){
                         
 
-                        // $('#newNetwork').hide();
-                        // readNetwork()
-                        emptyFormData()
-                        location.reload();
-                    })
+                    //     // $('#newNetwork').hide();
+                    //     // readNetwork()
+                    //     emptyFormData()
+                    //     location.reload();
+                    // })
+                    if (data.success) {
+                        swal("success", data.message, "success").then(function(){
+                          location.reload();
+                        });
+                    }else 
+                    {
+                        swal("ERROR", data.error, "error");
+                    }
 
                 },
                 error:function(data){
                     console.log(data)
                     swal({
                         title: "Error !",
-                        text: "There was an error: "+data,
+                        text: "There was an error: "+data.error,
                         icon: "error",
-                        timer: 4000, // time in milliseconds
                         timerProgressBar: true,
                         showConfirmButton: false
                     })
                 }
             })
+        }
+            // console.log($District + " " + $Type + " " + $NetworkNo+ " " + $status)
+    
 
 
     })
 }
+
+function isValidIpAddress(ipAddress) {
+    const ipAddressRegex = /^(\d{1,3}\.){3}\d{1,3}\/(0|[1-2][0-9]|3[0-2])$/;
+    return ipAddressRegex.test(ipAddress);
+  }
+
+function isValidIpAddressWithSubnet(ipAddress) {
+    const ipAddressRegex = /^(\d{1,3}\.){3}\d{1,3}\/(0|[1-2][0-9]|3[0-2])$/;
+    if (!ipAddressRegex.test(ipAddress)) {
+      return 'Invalid IP address or subnet mask';
+    }
+    const [address, subnet] = ipAddress.split('/');
+    const octets = address.split('.').map(octet => parseInt(octet));
+    if (octets.some(octet => octet > 255)) {
+      return 'Invalid IP address';
+    }
+    const prefixLength = parseInt(subnet);
+    if (prefixLength < 0 || prefixLength > 32) {
+      return 'Invalid subnet mask';
+    }
+    return '';
+  }
 
 function readNetwork(){
 

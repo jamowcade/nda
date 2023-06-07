@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 
 @login_required(login_url='login')
-@permission_required('main.view_errorlog', login_url='/login/', raise_exception=False)
+@permission_required('main.view_errorlog',login_url='login', raise_exception=False)
 def erorlogs(request):
     error_logs = ErrorLog.objects.all().order_by('-created_at')
     context = {
@@ -14,7 +14,7 @@ def erorlogs(request):
 
 
 @login_required(login_url='login')
-@permission_required('main.view_userlog', login_url='/login/', raise_exception=False)
+@permission_required('main.view_userlog',login_url='login', raise_exception=False)
 def userlogs(request):
     user_logs = UserLog.objects.all().order_by('-created_at')
     context = {

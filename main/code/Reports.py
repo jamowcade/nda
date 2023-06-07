@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 
 @login_required(login_url='login')
-@permission_required('main.view_network', login_url='/login/', raise_exception=False)
+@permission_required('main.view_network',raise_exception=False,login_url='login')
 def scan_cases_report(request):
     scan_cases = ScanCase.objects.all()
     context = {
@@ -224,11 +224,7 @@ def scan_case_report(request):
                             return JsonResponse({"success":True, "message":f"data found matching  {services[1] }", "html":str(html.content, encoding='utf8')}, safe=False)
                         else:
                             return JsonResponse({"success":False, "message":f"No data found matching Services: {services[1]}!"}, safe=False)
-                        print(scan_case_hosts)
-                        # for host in scan_case.hosts.all():
-                        #       for port in host.ports.all():
-                        #             for service in port.services.filter(key=services[1]).all():
-                        #                   print(service.key,service.value,host.hostname,host.network.network,port.port)
+                       
               elif "port" in search.lower() and ":" in search:
                         port = search.split(":")
                         scan_case_hosts = scan_case.hosts.filter(ports__port  = port[1]).all().distinct()
