@@ -80,6 +80,7 @@ def users(request):
     }
     return render(request,'accounts/staffs.html', context)
 
+
 @login_required(login_url='login')
 @permission_required('main.add_user',raise_exception=False,login_url='login')
 def create_user(request):
