@@ -1,4 +1,6 @@
-from main.models import Campany, Host, Network, Port, ScanCase
+import traceback
+from user_agents import parse
+from main.models import Campany, Host, Network, Port, ScanCase,UserLog,ErrorLog
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -9,32 +11,47 @@ from django.utils import timezone
 @login_required(login_url='login')
 @permission_required('main.view_scancase', raise_exception=False, login_url='login')
 def scan_case(request):
+    device_info=hanldeLog(request)
+    try:
 
-    if request.method == 'POST':
-        date = request.POST.get('date')
-        name = f"scan case- {date}"
-        is_exist = ScanCase.objects.filter(scan_date = date)
-        date_is_less = compare_date(date)
-        last_entry_date = ScanCase.objects.last().scan_date
-        if date_is_less:
-            return JsonResponse ({'success': False,"message":f"Scan case Date cannot be less than {last_entry_date} "})
-        if is_exist:
-            return JsonResponse ({'success': False,"message":"Scan case already Created"})
-        scan_case = ScanCase(name=name, scan_date=date, description=name)
-        scan_case.save()
-        return JsonResponse ({'success': True,"message":"data saved"})
-        print(name, date, description)
+        if request.method == 'POST':
+            date = request.POST.get('date')
+            name = f"scan case- {date}"
+            is_exist = ScanCase.objects.filter(scan_date = date)
+            date_is_less = compare_date(date)
+            last_entry_date = ScanCase.objects.last().scan_date
+            if date_is_less:
+                return JsonResponse ({'success': False,"message":f"Scan case Date cannot be less than {last_entry_date} "})
+            if is_exist:
+                return JsonResponse ({'success': False,"message":"Scan case already Created"})
+            scan_case = ScanCase(name=name, scan_date=date, description=name)
+            scan_case.save()
+            msg=f"You Successfuly Created New Scan Date ({date}) for ({name}))"
+            UserLog.objects.create(
+                        user=request.user,device=device_info,
+                        message=msg,
+                         )
+            return JsonResponse ({'success': True,"message":msg})
 
+            
+        else:
+            scan_cases = ScanCase.objects.all()
+    
+            context = {
+            "scan_cases":scan_cases,
+            
+            }
+            msg=f"You Successfuly Visited Scan Case Page"
+            UserLog.objects.create(
+                        user=request.user,device=device_info,
+                        message=msg,
+                         )
+    
+            return render(request, 'pages/scan_case.html', context)
+    except Exception as e:
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
         
-    else:
-        scan_cases = ScanCase.objects.all()
-   
-        context = {
-        "scan_cases":scan_cases,
-        
-        }
-  
-        return render(request, 'pages/scan_case.html', context)
     
 
 
@@ -165,24 +182,53 @@ def compare_date(date):
 
     return given_date < last_entry_date
 
-
+@login_required(login_url='login')
 def delete_scan_case(request,scan_case_id):
-    if request.method == "POST":
-        scan_case = get_object_or_404(ScanCase, id=scan_case_id)
-        hosts = Host.objects.filter(scan_case=scan_case)
-        total_hosts = hosts.count()
-        if total_hosts > 0:
-            for host in hosts:
-                Port.objects.filter(host=host).delete()
-            hosts.delete()
-            return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
-        else:
-            return JsonResponse({'message': f'No Data for {scan_case.name}'})
+    device_info = hanldeLog(request)
+    try:
+        if request.method == "POST":
+            scan_case = get_object_or_404(ScanCase, id=scan_case_id)
+            hosts = Host.objects.filter(scan_case=scan_case)
+            total_hosts = hosts.count()
+            if total_hosts > 0:
+                for host in hosts:
+                    Port.objects.filter(host=host).delete()
+                hosts.delete()
+                msg=f"You Successfully Deleted {scan_case.name}"
+                UserLog.objects.create(
+                        user=request.user,device=device_info,
+                        message=msg,
+                         )
 
-    scan_case = ScanCase.objects.get(id=scan_case_id)
-    context = {
-         "scan_case":scan_case
-    }
-    return render(request,'pages/delete_scan_case.html', context)
+                return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
+            else:
+                return JsonResponse({'message': f'No Data for {scan_case.name}'})
+
+        scan_case = ScanCase.objects.get(id=scan_case_id)
+        context = {
+            "scan_case":scan_case
+        }
+        msg=f"You Tried to delete {scan_case.name}"
+        UserLog.objects.create(
+                        user=request.user,device=device_info,
+                        message=msg,
+                         )
+        return render(request,'pages/delete_scan_case.html', context)
+    except Exception as e:
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 
+
+def hanldeLog(request):
+    user_agent_string = request.META.get('HTTP_USER_AGENT')
+    ip_address = request.META.get('REMOTE_ADDR')
+    user_agent = parse(user_agent_string)
+    try:
+        device_info = f"{ip_address} / {user_agent}"
+        return device_info
+    except Exception as e:
+        device_info = f"{ip_address} / {user_agent}"
+        info = traceback.format_exc()        
+        ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=str(e), info=info)
+ 

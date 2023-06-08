@@ -114,37 +114,27 @@
             <div class="row">
               <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
-                  <!-- <div class="card-header">
-                    <h4>Statistics</h4>
-                    <div class="card-header-action">
-                      <a href="#" class="btn active">Week</a>
-                      <a href="#" class="btn">Month</a>
-                      <a href="#" class="btn">Year</a>
-                    </div>
-                  </div> -->
-                  <!-- <div class="card-body">
-                    <canvas id="myChart4" height="100"></canvas>
-                    
-                  </div> -->
-                  <!-- <div class="card-body">
-                    <div class="summary">
-                      <div class="summary-chart active" data-tab-group="summary-tab" id="summary-chart">
-                        <div id="chart4" class="chartsh"></div>
-                      </div>
-                      <div data-tab-group="summary-tab" id="summary-text">
-                      </div>
-                    </div>
-                  </div> -->
-
 
                   <div class="row">
                     <div class="col-12 col-sm-12 col-lg-12">
                       <div class="card ">
                         <div class="card-header">
-                          <h4>Host and Ports Chart</h4>
+                          <h4>Hosts Chart of Year {{get_year}}</h4>
                           <div class="card-header-action">
                             <!-- <a href="#" class="btn btn-success btn active" sty>Week</a> -->
-                            <a href="#" id="monthbtn" class="btn btn-success btn">Month</a>
+                            <form method="GET">
+
+                              <select name="get_year" id="ChooseYear" class="" style="color: aqua; background-color:#333;" onchange="this.form.submit()">
+                                <option value="">{{get_year}}</option><hr>
+                                {% for year in chartDataByYear %}
+                                <!-- <option value="{{year.year}}" selected>{{year.year}} </option> -->
+                        
+                                <option value="{{year.year}}" >{{year.year}} </option>
+                               
+                                {% endfor %}
+                              </select>
+                            </form>
+                              <a href="#" id="monthbtn" class="btn btn-success btn">Month</a>
                             <a href="#" id="yearbtn" class="btn btn-success">Year</a>
                           </div>
                         </div>
@@ -498,9 +488,21 @@
 
       // $('#changeModal').modal('show')
       // Define a variable to store the inactivity timeout
+getMonth();
 
-
-
+    // $('#ChooseYear').change(function(){
+    //   var year = $(this).val();
+    //   $.ajax({
+    //     url: '',
+    //     type: 'GET',
+    //     data:{
+    //       'get_year': year,
+    //     },
+    //     success: function(data){
+    //       getMonth();
+    //     }
+    //   })
+    // })
 
 
 
@@ -522,8 +524,9 @@
 
 
 
-
-      var ctx = document.getElementById("ChartMonth").getContext('2d');
+function getMonth(){
+  
+  var ctx = document.getElementById("ChartMonth").getContext('2d');
 var myChart = new Chart(ctx, {
 	type: 'bar',
 	data: {
@@ -568,6 +571,7 @@ var myChart = new Chart(ctx, {
 });
 
 
+}
 
 // Chart Year
 

@@ -46,6 +46,7 @@
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Device</th>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Message</th>
                               <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Date</th>
+                              <!-- <th style="color: aquamarine; font-size: medium; font-weight: bold; text-transform: uppercase;">Detail</th> -->
                             </tr>
                           </thead>
                           <tbody>
@@ -54,10 +55,12 @@
                               <td style="font-size: medium;">{{forloop.counter}}</td>
                               <td style="font-size: medium;">{{log.user}}</td>
                               <td style="font-size: medium;">{{log.device}}</td>
-                              <td style="font-size: medium; text-transform: capitalize;">{{log.message}}</td>
+                              <td style="font-size: medium; text-transform: capitalize; cursor: pointer;" class="viewDetail"  data-detail="{{log.info}}">{{log.message}}</td>
                               <td style="font-size: medium;">{{log.created_at|timesince}}</td>
-                              {% endfor %}
+                        
+
                             </tr>
+                            {% endfor %}
                           </tbody>
                         </table>
                       </div>
@@ -69,6 +72,7 @@
             {%for logs in logs%}
             <h1>{{logs}}</h1>
             {%endfor%}
+            
           </section>
 
           <!-- Setting Bar Sections -->
@@ -81,6 +85,24 @@
         <!-- EndFootbar Section -->
       </div>
     </div>
+        <!-- Modal -->
+        <div class="modal fade" id="ErrorDetail" tabindex="-1" role="dialog" aria-labelledby="companyRegister" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document" style="background-color: #333; color: #fff;">
+            <div class="modal-content" style="background-color: #333;">
+              <div class="modal-header" style="border-bottom: 1px solid #444; background-color: #333;">
+                <h5 class="modal-title" id="companyRegister" style="color: aquamarine;">Error Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff;">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <span id="detailError" style="color: aqua; font-size: medium;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- End Modal -->
 
     <!-- General JS Scripts -->
 
@@ -88,6 +110,17 @@
     {% include "includes/scripts.html" %}
     <!-- End Scripts Section -->
   </body>
+
+  <script>
+   
+    $(document).ready(function(){
+      $('.viewDetail').click(function(){
+        var detail = $(this).data('detail');
+        $('#ErrorDetail').modal('show');
+        $('#detailError').text(detail)
+      })
+    });
+  </script>
   
   <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
 </html>

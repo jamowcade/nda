@@ -1,3 +1,4 @@
+import traceback
 from user_agents import parse
 from django.shortcuts import render, redirect
 from main.models import Campany, UserLog,ErrorLog
@@ -40,7 +41,8 @@ def login_user(request):
     
     except Exception as e:
         device_info = hanldeLog(request)
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 @login_required(login_url='login')
 def logout_user(request):
@@ -54,7 +56,8 @@ def logout_user(request):
     
     except Exception as e:
         device_info = hanldeLog(request)
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
     
 
 
@@ -81,7 +84,8 @@ def users(request):
                     msg = f"You Has Been Successfully Created {first_name} {last_name}'s Account as {role}"
                     UserLog(user=request.user,device=device_info,message=msg).save()
                 except Exception as e:
-                    ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+                    info = traceback.format_exc()   
+                    ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
                 # User.objects.create_superuser(username=username, password=password, email=username)
             else:
@@ -95,7 +99,8 @@ def users(request):
                     UserLog(user=request.user,device=device_info,message=msg).save()
                     return redirect('users')
                 except Exception as e:
-                    ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+                    info = traceback.format_exc()   
+                    ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
         users = User.objects.all()
         roles = Group.objects.all()
         context = {
@@ -108,7 +113,8 @@ def users(request):
         return render(request,'accounts/staffs.html', context)
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 @login_required(login_url='login')
 @permission_required('auth.view_permission', raise_exception=False,login_url='login')
@@ -126,7 +132,8 @@ def permissions(request):
         return render (request, "pages/user_permissions.html", context)
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 
 @login_required(login_url='login')
@@ -148,7 +155,8 @@ def get_user_info(request):
         return JsonResponse(user_list, safe=False)
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 
 @login_required(login_url='login')
@@ -169,7 +177,8 @@ def get_permissions_user(request):
         return render(request, 'pages/user_permissions_table.html', context)
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")    
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)    
 
 
 @login_required(login_url='login')
@@ -189,7 +198,8 @@ def get_user_permissions(request):
         return JsonResponse({'permissions': permissions_list})
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 
 # assigns permission to user
@@ -220,7 +230,8 @@ def assign_permissions_to_user(request):
             return JsonResponse({'status': 'error'})
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
     
 
 
@@ -238,7 +249,8 @@ def myprofile(request):
         return render (request, "accounts/myprofile.html")
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 
 
@@ -274,7 +286,8 @@ def changepassword(request):
             return redirect(myprofile)
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
         
 
 
@@ -313,7 +326,8 @@ def activeAccount(request):
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
         
 
 
@@ -344,13 +358,15 @@ def disableAccount(request):
                 return JsonResponse({'success': True, 'message': info})
             else:
                 msg = f"You has Not Successfuly Disabled {user.first_name} {user.last_name} to the system"
-                ErrorLog.objects.create(user=request.user,device=device_info, message=msg)
+                info = traceback.format_exc()   
+                ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
                 return JsonResponse({'success': False, 'message': 'Not Successfully Disabled'})
         else:
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 @login_required(login_url='login')
 @permission_required('auth.change_user', raise_exception=False,login_url='login')
@@ -390,7 +406,8 @@ def updateAccount(request):
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
     
     except Exception as e:
-        ErrorLog.objects.create(user=request.user,device=device_info, message=f"An error occurred: {e}")
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 def hanldeLog(request):
     user_agent_string = request.META.get('HTTP_USER_AGENT')
@@ -401,6 +418,6 @@ def hanldeLog(request):
         return device_info
     except Exception as e:
         device_info = f"{ip_address} / {user_agent}"
-        ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=f"An error occurred: {e}")
-        print(device_info)
-        print(e)
+        info = traceback.format_exc()        
+        ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=str(e), info=info)
+ 

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cadaed227cbabdf368836f7d64497887ff45509a90b7bc4d5612ab97b162c481"
+            "sha256": "84b105d7d4727e5724a100c5012629bc2566b1541f87d5f22ca793e8d6579c48"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -254,6 +254,14 @@
             "index": "pypi",
             "version": "==4.1.0"
         },
+        "django-defender": {
+            "hashes": [
+                "sha256:479b4fd7e36798f7f09bf5dbb23ccb51362b4536a92a95641e84ea1db9346ec6",
+                "sha256:74431abaf0bac5a5619d9333d64725fc0ca57ccb2266e28a4f21ba08d4777df5"
+            ],
+            "index": "pypi",
+            "version": "==0.9.7"
+        },
         "frozenlist": {
             "hashes": [
                 "sha256:008a054b75d77c995ea26629ab3a0c0d7281341f2fa7e1e85fa6153ae29ae99c",
@@ -477,6 +485,14 @@
             "index": "pypi",
             "version": "==2023.3"
         },
+        "redis": {
+            "hashes": [
+                "sha256:77929bc7f5dab9adf3acba2d3bb7d7658f1e0c2f1cafe7eb36434e751c471119",
+                "sha256:dc87a0bdef6c8bfe1ef1e1c40be7034390c2ae02d92dcd0c7ca1729443899880"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==4.5.5"
+        },
         "requests": {
             "hashes": [
                 "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f",
@@ -510,11 +526,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:61717a1095d7e155cdb737ac7bb2f4324a858a1e2e6466f6d03ff630ca68d3cc",
-                "sha256:d055c2f9d38dc53c808f6fdc8eab7360b6fdbbde02340ed25cfbcd817c62469e"
+                "sha256:48e7fafa40319d358848e1bc6809b208340fafe2096f1725d05d67443d0483d1",
+                "sha256:bee28b5e56addb8226c96f7f13ac28cb4c301dd5ea8a6ca179c0b9835e032825"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2.0.2"
+            "version": "==2.0.3"
         },
         "user-agents": {
             "hashes": [

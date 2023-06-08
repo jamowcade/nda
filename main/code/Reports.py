@@ -1,6 +1,8 @@
+import traceback
+from user_agents import parse
 from django.db.models import Q
 from django.shortcuts import render
-from main.models import Campany, ErrorLog, Host, Network, Port, ScanCase,Service
+from main.models import Campany, ErrorLog, Host, Network, Port, ScanCase,Service,UserLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -10,11 +12,19 @@ from django.http import JsonResponse
 @login_required(login_url='login')
 @permission_required('main.view_network',raise_exception=False,login_url='login')
 def scan_cases_report(request):
-    scan_cases = ScanCase.objects.all()
-    context = {
-        "scan_cases":scan_cases
-    }
-    return render(request,'pages/scan_case_report.html', context)
+    device_info = hanldeLog(request)
+    try:
+        scan_cases = ScanCase.objects.all()
+        context = {
+            "scan_cases":scan_cases
+        }
+        msg=f"You Visited Report Page"
+        UserLog.objects.create(user=request.user,device=device_info,message=msg,)
+        return render(request,'pages/scan_case_report.html', context)
+    except Exception as e:
+        info = traceback.format_exc()   
+        ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
+ 
 
 
 @login_required(login_url='login')
@@ -263,3 +273,16 @@ def paginateHosts(hosts, page, page_number):
         pagePaginator= paginator.get_page(page)
         return pagePaginator
         
+
+def hanldeLog(request):
+    user_agent_string = request.META.get('HTTP_USER_AGENT')
+    ip_address = request.META.get('REMOTE_ADDR')
+    user_agent = parse(user_agent_string)
+    try:
+        device_info = f"{ip_address} / {user_agent}"
+        return device_info
+    except Exception as e:
+        device_info = f"{ip_address} / {user_agent}"
+        info = traceback.format_exc()        
+        ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=str(e), info=info)
+ 
