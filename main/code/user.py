@@ -116,6 +116,7 @@ def users(request):
         info = traceback.format_exc()   
         ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
+
 @login_required(login_url='login')
 @permission_required('auth.view_permission', raise_exception=False,login_url='login')
 def permissions(request):

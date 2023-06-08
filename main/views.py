@@ -16,12 +16,10 @@ def index(request):
     try:
         current_year = datetime.datetime.now().year
         get_year = request.GET.get('get_year', current_year)
-
         monthList = []
         countListMonth = []
         countByYearName = []
         countByYearCount = []
-
         # Count Each Table Of Database
         totalCompany = Campany.objects.count()
         totalNetwork = Network.objects.count()

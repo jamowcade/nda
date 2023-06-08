@@ -161,20 +161,35 @@ def delete_scan_case(request,scan_case_id):
     try:
         if request.method == "POST":
             scan_case = get_object_or_404(ScanCase, id=scan_case_id)
+            ischecked = request.POST.get('isChecked')
+            # print('delte scan case:', ischecked)
             hosts = Host.objects.filter(scan_case=scan_case)
             total_hosts = hosts.count()
             if total_hosts > 0:
                 for host in hosts:
                     Port.objects.filter(host=host).delete()
                 hosts.delete()
-                msg=f"You Successfully Deleted {scan_case.name}"
-                UserLog.objects.create(
-                        user=request.user,device=device_info,
-                        message=msg,
-                         )
+                if ischecked:
+                     scan_case.delete()
 
-                return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
+                     msg=f"You Successfully Deleted {scan_case.name}'s With it's Date {scan_case.scan_date}"
+                     UserLog.objects.create(
+                            user=request.user,device=device_info,
+                            message=msg,
+                            )
+
+                     return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
+                else:
+                    msg=f"You Successfully Deleted {scan_case.name}'s Data"
+                    UserLog.objects.create(
+                            user=request.user,device=device_info,
+                            message=msg,
+                            )
+
+                    return JsonResponse({'message': f'{total_hosts} hosts and their ports related to {scan_case.name}  have been deleted.'})
             else:
+                if ischecked:
+                    scan_case.delete()
                 return JsonResponse({'message': f'No Data for {scan_case.name}'})
 
         scan_case = ScanCase.objects.get(id=scan_case_id)
@@ -191,19 +206,6 @@ def delete_scan_case(request,scan_case_id):
         info = traceback.format_exc()   
         ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
-# @csrf_exempt
-# def delete_scan_case(request):
-#     scan_id = request.POST.get('scan_case')
-
-#     scan_case = ScanCase.objects.get(id=scan_id)
-#     scan_case.delete()
-#     scan = ScanCase.objects.all()
-#     context = {
-#         "scan_cases":scan,
-#         "message":"Delete scan case Successfully"
-#     }
-
-#     return render(request,'pages/groups.html', context)
 
 def hanldeLog(request):
     user_agent_string = request.META.get('HTTP_USER_AGENT')
