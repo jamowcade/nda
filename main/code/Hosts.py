@@ -120,7 +120,7 @@ def addHosts(request):
                              service = Service(key=new_key, value=new_value, port=new_port)
                              service.save()
             UserLog.objects.create(
-                    user=request.user, deivce=device_info,
+                    user=request.user,device=device_info,
                     message = f'You Successfuly  uploaded ({file_network}) file for scan case ({scan_case.scan_date})'
                     )
             return JsonResponse({'success': True, "message": f"All hosts Uploaded to network {network.compony_info.owner} - {file_network}", })

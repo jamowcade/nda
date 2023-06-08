@@ -191,19 +191,19 @@ def delete_scan_case(request,scan_case_id):
         info = traceback.format_exc()   
         ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
-@csrf_exempt
-def delete_scan_case(request):
-    scan_id = request.POST.get('scan_case')
+# @csrf_exempt
+# def delete_scan_case(request):
+#     scan_id = request.POST.get('scan_case')
 
-    scan_case = ScanCase.objects.get(id=scan_id)
-    scan_case.delete()
-    scan = ScanCase.objects.all()
-    context = {
-        "scan_cases":scan,
-        "message":"Delete scan case Successfully"
-    }
+#     scan_case = ScanCase.objects.get(id=scan_id)
+#     scan_case.delete()
+#     scan = ScanCase.objects.all()
+#     context = {
+#         "scan_cases":scan,
+#         "message":"Delete scan case Successfully"
+#     }
 
-    return render(request,'pages/groups.html', context)
+#     return render(request,'pages/groups.html', context)
 
 def hanldeLog(request):
     user_agent_string = request.META.get('HTTP_USER_AGENT')
