@@ -53,7 +53,7 @@
                             <th style="color: aquamarine;">Name</th>
                             <th style="color: aquamarine;">Date</th>
                             <th style="color: aquamarine;">Action</th>
-                            <th style="color: aquamarine;">delete</th>
+                          
                             
                           </tr>
                         </thead>
@@ -100,20 +100,7 @@
                               </a>
                             </td>
                             {%endif%}
-                            {% if perms.main.change_scancase%}
-                            <td>
-                              <a style="color: #fff;" class="btn btn-danger btn-sm delete_scan_case " data-scan_id="{{scan.id}}" >
-                                Delete
-                              </a>
-                            </td>
-                            {%else%}
-                            <td>
-                              <a class="btn btn-danger btn-sm delete-group disabled" >
-                               
-                                Delete
-                              </a>
-                            </td>
-                            {%endif%}
+                        
                            
                          
                           </tr>

@@ -6,7 +6,24 @@
 <!-- Header Section -->
 {% include "includes/head.html" %}
 <!-- End Header Section -->
+<style>
+  /* Hide the default checkbox */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
+/* Add custom styles to the checkbox */
+input[type="checkbox"]:checked {
+  background-color: #2196F3;
+  border-color: #2196F3;
+}
+</style>
   <body class="dark dark-sidebar theme-black">
     <div class="loader dark"></div>
 
@@ -45,7 +62,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="myCheckbox">
                       <label class="form-check-label" for="myCheckbox">
-                        Also Delete Scan Case?
+                        Also Delete Scan Case? <small>(Check this if you want to delete scan case).</small>
                       </label>
                     </div>
                     <button id="delete-btn" class="btn btn-danger">Confirm</button>
