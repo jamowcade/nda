@@ -42,6 +42,12 @@
                       <div id="progress-bar"></div>
                       <div id="progress-text"></div>
                     </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="myCheckbox">
+                      <label class="form-check-label" for="myCheckbox">
+                        Also Delete Scan Case?
+                      </label>
+                    </div>
                     <button id="delete-btn" class="btn btn-danger">Confirm</button>
                     <button id="cancel-btn" class="btn btn-info">Cancel</button>
                     <div id="loading-spinner" style="display: none;">
@@ -98,12 +104,15 @@
     })
     function delete_scan_case(){
         $('#delete-btn').click(function() {
+          var isChecked = $('#myCheckbox').is(':checked')
+          console.log(isChecked);
           $('#loading-spinner').show()
           $(this).hide()
           $('#cancel-btn').hide()
             $.ajax({
               url: '{% url "delete_scan_case" scan_case.id %}',
               data: {
+                'isChecked':isChecked,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
               },
               method: 'POST',

@@ -48,7 +48,7 @@ urlpatterns = [
     
     path('scan_case/', scan_case.scan_case, name='scan_case'),
     #delete scanning case
-    path('delete_scan_case/', scan_case.delete_scan_case, name='delete_scan_case'),
+    # path('delete_scan_case/<int:id>', scan_case.delete_scan_case, name='delete_scan_case'),
 
     path('view_scan_case/<int:scan_id>/', scan_case.view_scan_case, name='view_scan_case'),
     path('compare/', Compare.compare, name='compare'),
