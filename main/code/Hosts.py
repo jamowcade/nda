@@ -1,6 +1,6 @@
-import traceback
+import traceback,json
 from django.shortcuts import render, HttpResponse
-import json
+from user_agents import parse
 from datetime import datetime
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -13,27 +13,44 @@ from django.contrib.auth.decorators import login_required, permission_required
 @login_required(login_url='login')
 @permission_required('main.view_host', raise_exception=True,login_url='login')
 def host(request,id):
-    hosts = Host.objects.filter(network = id).all()
+    device_info = hanldeLog(request)
+    try:
+        network = Network.objects.get(id=id)
+        hosts = Host.objects.filter(network = id).all()
+        context = {
+            "hosts": hosts,
+            "network_id":id
+        }
+        msg=f"You Visited Host Detail of Network {network}"
+        UserLog.objects.create(
+                        user=request.user,device=device_info,
+                        message=msg,
+                         )
 
-    context = {
-        "hosts": hosts,
-        "network_id":id
-    }
-
-    return render(request,'pages/host.html', context)
+        return render(request,'pages/host.html', context)
+    except Exception as e:
+                info = traceback.format_exc()   
+                ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
+                # return info
 
 @login_required(login_url='login')
 @permission_required('main.view_host', raise_exception=True, login_url=None)
 def all_host(request,page):
-    hosts = Host.objects.all()
-    paginator = Paginator(hosts, 50)
-    pagePaginator= paginator.get_page(page)
+    device_info = hanldeLog(request)
+    try:
+        hosts = Host.objects.all()
+        paginator = Paginator(hosts, 50)
+        pagePaginator= paginator.get_page(page)
 
-    context = {
-        "hosts": pagePaginator,
-    }
-
-    return render(request,'pages/all_host.html', context)
+        context = {
+            "hosts": pagePaginator,
+        }
+        msg=f"You Visited All Hosts Page"
+        UserLog.objects.create(user=request.user,device=device_info,message=msg)
+        return render(request,'pages/all_host.html', context)
+    except Exception as e:
+                info = traceback.format_exc()   
+                ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
 
 @login_required(login_url='login')
 def search(request):
@@ -50,6 +67,7 @@ def search(request):
 @login_required(login_url='login')
 @permission_required('main.add_host', raise_exception=True,login_url='login')
 def addHosts(request):
+    device_info = hanldeLog(request)
     try:
         serviceList = []
         if request.method == 'POST':
@@ -68,11 +86,9 @@ def addHosts(request):
             try:
                 host_network = Network.objects.get(network=file_network) 
             except Exception as e:
-                    ErrorLog.objects.create(
-                    user=request.user,
-                    message=f"An error occurred: f'network {file_network} is not registered now!'"
-                    )
-                    return JsonResponse({'success': False, 'error': f'network {file_network} is not registered now!'})
+                info = traceback.format_exc()   
+                ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
+                return JsonResponse({'success': False, 'error': f'network {file_network} is not registered now!'})
             # retrieve data from json file and save to model
             for host in range(len(data)-1):
                 hostname = data[host]['ip']
@@ -81,12 +97,10 @@ def addHosts(request):
                 is_host = Host.objects.filter(hostname=hostname, scan_case_id=scan_case_id, network=network).all() # check if host exists with the given hostname and scan date.
                 # check if host already registered in the current scan case
                 if is_host:
-                    ErrorLog.objects.create(
-                    user=request.user,
-                    message=f'This file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file'
-                    )
-                    return JsonResponse({'success': False, 'error': 
-                    f'sorry! this file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file or change'})
+                    info = f'sorry! this file already uploaded for network - ({file_network}) at {scan_case.name}. Please upload another file or change'
+                    msg = 'Duplicate File Not Allowed! Please upload New File'
+                    ErrorLog.objects.create(user=request.user,device=device_info, message=msg,info=info)
+                    return JsonResponse({'success': False, 'error':info})
                     continue
                 else:
                     new_host = Host(hostname=hostname, status = status, network=network, host_date=scan_case.scan_date, scan_case=scan_case)
@@ -106,17 +120,27 @@ def addHosts(request):
                              service = Service(key=new_key, value=new_value, port=new_port)
                              service.save()
             UserLog.objects.create(
-                    user=request.user,
-                    message = f'{request.user} uploaded ({file_network}) file for scan case ({scan_case.scan_date})'
+                    user=request.user, deivce=device_info,
+                    message = f'You Successfuly  uploaded ({file_network}) file for scan case ({scan_case.scan_date})'
                     )
             return JsonResponse({'success': True, "message": f"All hosts Uploaded to network {network.compony_info.owner} - {file_network}", })
         else:
             return JsonResponse({'success': False, 'error': 'Invalid request method'})
     except Exception as e:
-                    tb = traceback.format_exc()
-                    message = f"An error occurred: while uploading file {e}"
-                    ErrorLog.objects.create(
-                    user=request.user,
-                    message= message
-                    )
-                    return JsonResponse({'success': False, 'error': f'Erro Uploading the file {e}'})
+                   info = traceback.format_exc()   
+                   ErrorLog.objects.create(user=request.user,device=device_info, message=str(e),info=info)
+                   return JsonResponse({'success': False, 'error': f'Erro Uploading the file {e}'})
+    
+
+def hanldeLog(request):
+    user_agent_string = request.META.get('HTTP_USER_AGENT')
+    ip_address = request.META.get('REMOTE_ADDR')
+    user_agent = parse(user_agent_string)
+    try:
+        device_info = f"{ip_address} / {user_agent}"
+        return device_info
+    except Exception as e:
+        device_info = f"{ip_address} / {user_agent}"
+        info = traceback.format_exc()        
+        ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=str(e), info=info)
+ 

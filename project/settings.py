@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tx$s6fhzih7l#k$^2oh*3sxfujky48aj07p7hsk1nz+n(y-ti-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.35.1.3']
 
 
 # Application definition
@@ -88,12 +88,18 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nda_db', 
-        'USER': 'osoc',   
-        'PASSWORD': 'osoc1osoc2',
-        'HOST': '10.35.1.11',
-        'PORT': '3306',
-    
+        # Real user and Database Connection  
+        "NAME":"nda_db",
+        "USER":"osoc",
+        "PASSWORD":"osoc1osoc2",
+        "HOST":"10.35.1.11"
+
+        # test database and users
+        # 'NAME': 'mydb', 
+        # 'USER': 'postgres',   
+        # 'PASSWORD': '12345',
+        # 'HOST': 'localhost',
+       
     }
 }
 

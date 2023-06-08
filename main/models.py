@@ -109,6 +109,7 @@ class ErrorLog(models.Model):
     user = models.CharField(max_length=30)
     device = models.TextField(null=True)
     message = models.CharField(max_length=255)
+    info = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
