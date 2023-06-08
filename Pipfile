@@ -10,6 +10,9 @@ psycopg2 = "*"
 django-auto-logout = "*"
 pytz = "*"
 django-debug-toolbar = "*"
+user-agents = "*"
+geoip2 = "*"
+django-defender = "*"
 
 [dev-packages]
 

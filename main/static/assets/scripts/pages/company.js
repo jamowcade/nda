@@ -106,13 +106,29 @@ function EditCompany(){
                     },
                   
                     success: function(data) {
-                      
-                        swal("Success", data, "success")
-                        .then(function(){
-                            $('#updateCompany').hide();
-                            // readNetwork()
-                            location.reload();
-                        });
+                        // swal({
+                        //     title: "Success !",
+                        //     text: "You have successfully Created",
+                        //     icon: "success",
+                        //     timer: 1000, // time in milliseconds
+                        //     timerProgressBar: true,
+                        //     showConfirmButton: false
+                        // })
+                        // .then(function(){
+                            
+                        //     $('#name').val(''),
+                        //     $('#description').val(''),
+                        //     $('#asn').val(''),
+                        //     window.location.reload();
+                        // })
+                        if (data.success) {
+                            swal("success", data.message, "success").then(function(){
+                              location.reload();
+                            });
+                        }else 
+                        {
+                            swal("ERROR", data.error, "error");
+                        }
     
                     },
                     error: function(data){

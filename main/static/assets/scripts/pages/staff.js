@@ -169,7 +169,6 @@ function editAccount(){
                         id: id,
                         first_name: $('#up_first_name').val(),
                         last_name: $('#up_last_name').val(),
-                        username: $('#up_username').val(),
                         email: $('#up_email').val(),
                         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
                     },

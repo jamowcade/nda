@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
   <!-- index.html  21 Nov 2019 03:44:50 GMT -->
 
   <!-- Head Section -->
@@ -24,35 +23,46 @@
         <!-- End Side Bar Section -->
 
         <!-- Main Content -->
-        {% if user.is_superuser %}
         <div class="main-content">
           <section class="section">
-
-            
             <div class="row">
+          
+              {%if perms.main.view_campany%}
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <a href="{% url 'company' %}">
-
                   <div class="card card-statistic-1">
                     <div class="card-icon l-bg-purple">
                       <i class="fas fa-briefcase"></i>
                     </div>
+                    <!-- <--company--> 
                     <div class="card-wrap">
                       <div class="padding-20">
                         <div class="text-right">
-                          <h3 class="font-light mb-0" style="color: aqua;">
-                            <i class="ti-arrow-up text-success"></i> {{ company }}
+                          <h3 class="font-light mb-0" style="color: aqua">
+                            <i class="ti-arrow-up text-success"></i> {{company}}
                           </h3>
-                          <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Companies</span>
+                          <span
+                            class="text-big"
+                            style="
+                              color: aquamarine;
+                              font-weight: bold;
+                              text-transform: uppercase;
+                            "
+                            >Companies</span
+                          >
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </a>
-                </div>
+              </div>
+              {%endif%}
+
+           
+              {%if perms.main.view_networ%}
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <a href="{% url 'all_networks' %}">
-
                   <div class="card card-statistic-1">
                     <div class="card-icon l-bg-green">
                       <i class="fas fa-network-wired"></i>
@@ -60,56 +70,99 @@
                     <div class="card-wrap">
                       <div class="padding-20">
                         <div class="text-right">
-                          <h3 class="font-light mb-0"style="color: aqua;">
-                            <i class="ti-arrow-up text-success"style="color: aqua;"></i> {{network}}
+                          <h3 class="font-light mb-0" style="color: aqua">
+                            <i
+                              class="ti-arrow-up text-success"
+                              style="color: aqua"></i>
+                            {{network}}
                           </h3>
-                          <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Networks</span>
+                          <span
+                            class="text-big"
+                            style="
+                              color: aquamarine;
+                              font-weight: bold;
+                              text-transform: uppercase;
+                            "
+                            >Networks</span
+                          >
                         </div>
                       </div>
                     </div>
                   </div>
                 </a>
-                  
               </div>
+              {%endif%}
+
+              
+              {%if perms.main.view_host%}
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <a href="{% url 'all_hosts' 1 %}">
-                <div class="card card-statistic-1">
-                  <div class="card-icon l-bg-cyan">
-                    <i data-feather="cloud-lightning"></i>
-                  </div>
-                  <div class="card-wrap">
-                    <div class="padding-20">
-                      <div class="text-right">
-                        <h3 class="font-light mb-0"style="color: aqua;">
-                          <i class="ti-arrow-up text-success"style="color: aqua;"></i> {{host}}
-                        </h3>
-                        <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Host</span>
+                  <div class="card card-statistic-1">
+                    <div class="card-icon l-bg-cyan">
+                      <i data-feather="cloud-lightning"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="padding-20">
+                        <div class="text-right">
+                          <h3 class="font-light mb-0" style="color: aqua">
+                            <i
+                              class="ti-arrow-up text-success"
+                              style="color: aqua"></i>
+                            {{host}}
+                          </h3>
+                          <span
+                            class="text-big"
+                            style="
+                              color: aquamarine;
+                              font-weight: bold;
+                              text-transform: uppercase;
+                            "
+                            >Host</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </a>
               </div>
+              {%endif%}
+
+             
+              {%if perms.main.view_port%}
               <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <a href="{% url 'Ports' 1 %}">
-                <div class="card card-statistic-1">
-                  <div class="card-icon l-bg-orange">
-                    <i data-feather="hard-drive"></i>
-                  </div>
-                  <div class="card-wrap">
-                    <div class="padding-20">
-                      <div class="text-right">
-                        <h3 class="font-light mb-0"style="color: aqua;">
-                          <i class="ti-arrow-up text-success"style="color: aqua;"></i> {{ports}}
-                        </h3>
-                        <span class="text-big" style="color: aquamarine; font-weight: bold; text-transform: uppercase;">Ports</span>
+                  <div class="card card-statistic-1">
+                    <div class="card-icon l-bg-orange">
+                      <i data-feather="hard-drive"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="padding-20">
+                        <div class="text-right">
+                          <h3 class="font-light mb-0" style="color: aqua">
+                            <i
+                              class="ti-arrow-up text-success"
+                              style="color: aqua"></i>
+                            {{ports}}
+                          </h3>
+                          <span
+                            class="text-big"
+                            style="
+                              color: aquamarine;
+                              font-weight: bold;
+                              text-transform: uppercase;
+                            "
+                            >Ports</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </a>
               </div>
+              {%endif%}
             </div>
+
+            {%if perms.main.view_network%}
 
             <div class="row">
               <div class="col-12 col-sm-12 col-lg-12">
@@ -139,12 +192,24 @@
 
                   <div class="row">
                     <div class="col-12 col-sm-12 col-lg-12">
-                      <div class="card ">
+                      <div class="card">
                         <div class="card-header">
-                          <h4>Host and Ports Chart</h4>
+                          <h4>Hosts Chart of Year {{get_year}}</h4>
                           <div class="card-header-action">
                             <!-- <a href="#" class="btn btn-success btn active" sty>Week</a> -->
-                            <a href="#" id="monthbtn" class="btn btn-success btn">Month</a>
+                            <form method="GET">
+
+                              <select name="get_year" id="ChooseYear" class="" style="color: aqua; background-color:#333;" onchange="this.form.submit()">
+                                <option value="">{{get_year}}</option><hr>
+                                {% for year in chartDataByYear %}
+                                <!-- <option value="{{year.year}}" selected>{{year.year}} </option> -->
+                        
+                                <option value="{{year.year}}" >{{year.year}} </option>
+                               
+                                {% endfor %}
+                              </select>
+                            </form>
+                              <a href="#" id="monthbtn" class="btn btn-success btn">Month</a>
                             <a href="#" id="yearbtn" class="btn btn-success">Year</a>
                           </div>
                         </div>
@@ -155,37 +220,70 @@
                               <canvas id="ChartYear" height="100"></canvas>
                               <canvas id="ChartMonth" height="100"></canvas>
                               <div class="row mb-0">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div
+                                  class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="text-big col-orange">+{{openstate}}%</span>
+                                      <span class="text-big col-orange"
+                                        >+{{openstate}}%</span
+                                      >
                                       <h5 class="m-b-0">
-                                        <span class="text-big" style="color: aqua;">{{openport}}</span>
+                                        <span
+                                          class="text-big"
+                                          style="color: aqua"
+                                          >{{openport}}</span
+                                        >
                                       </h5>
-                                      <p class="font-14 m-b-0" style="color: aquamarine;">Open Ports</p>
+                                      <p
+                                        class="font-14 m-b-0"
+                                        style="color: aquamarine">
+                                        Open Ports
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div
+                                  class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="text-big col-orange">+{{closestate}}%</span>
-                                      
+                                      <span class="text-big col-orange"
+                                        >+{{closestate}}%</span
+                                      >
+
                                       <h5 class="m-b-0">
-                                        <span class="text-big" style="color: aqua;">{{closeport}}</span>
+                                        <span
+                                          class="text-big"
+                                          style="color: aqua"
+                                          >{{closeport}}</span
+                                        >
                                       </h5>
-                                      <p class="font-14 m-b-0" style="color: aquamarine;">Close Ports</p>
+                                      <p
+                                        class="font-14 m-b-0"
+                                        style="color: aquamarine">
+                                        Close Ports
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div
+                                  class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   <div class="list-inline text-center">
                                     <div class="list-inline-item p-r-30">
-                                      <span class="text-big col-orange">+{{filterstate}}%</span>
+                                      <span class="text-big col-orange"
+                                        >+{{filterstate}}%</span
+                                      >
                                       <h5 class="mb-0 m-b-0">
-                                        <span class="text-big" style="color: aqua;">{{filterport}}</span>
+                                        <span
+                                          class="text-big"
+                                          style="color: aqua"
+                                          >{{filterport}}</span
+                                        >
                                       </h5>
-                                      <p class="font-14 m-b-0" style="color: aquamarine;">Filter Ports</p>
+                                      <p
+                                        class="font-14 m-b-0"
+                                        style="color: aquamarine">
+                                        Filter Ports
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
@@ -193,20 +291,31 @@
                             </div>
                             <div class="col-lg-3">
                               <center>
-                                <div class="col-7 col-xl-7 mb-3" 
-                                style="color: aquamarine; 
-                                text-transform: uppercase; 
-                                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-                                font-weight: bold;">
-                                Top Maximum Ports
-                              </div>
+                                <div
+                                  class="col-7 col-xl-7 mb-3"
+                                  style="
+                                    color: aquamarine;
+                                    text-transform: uppercase;
+                                    font-family: 'Trebuchet MS',
+                                      'Lucida Sans Unicode', 'Lucida Grande',
+                                      'Lucida Sans', Arial, sans-serif;
+                                    font-weight: bold;
+                                  ">
+                                  Top Maximum Ports
+                                </div>
                               </center>
-                              <div class="row mt-5" style="color: aqua;font-size: large;">
+                              <div
+                                class="row mt-5"
+                                style="color: aqua; font-size: large">
                                 {% for value in each_port_value %}
-                                <div class="col-7 col-xl-7 mb-3"> {{forloop.counter}}- Port : {{value.ports}}</div>
+                                <div class="col-7 col-xl-7 mb-3">
+                                  {{forloop.counter}}- Port : {{value.ports}}
+                                </div>
                                 <div class="col-5 col-xl-5 mb-3">
                                   <span class="text-big">{{value.count}}</span>
-                                  <sup class="col-green">+{{value.percentage}}%</sup>
+                                  <sup class="col-green"
+                                    >+{{value.percentage}}%</sup
+                                  >
                                 </div>
                                 {% endfor %}
                               </div>
@@ -219,301 +328,318 @@
                 </div>
               </div>
             </div>
-            
-
-    
-
+            {%endif%}
 
             <div class="row">
+              {%if perms.main.view_campont%}
               <div class="col-12 col-sm-12 col-lg-6">
                 <!-- Top Ports -->
-                
+
                 <div class="card">
                   <div class="card-header">
-                    <h4 style="color: aquamarine;">Top 5 Company Networks</h4>
+                    <h4 style="color: aquamarine">Top 5 Company Networks</h4>
                   </div>
                   <div class="card-body">
-
                     {% for value in topCompany %}
                     <div class="mb-4">
-                      <div class="text-small float-right font-weight-bold text-muted" >
-                        <span style="color: aqua; font-size: medium;">
+                      <div
+                        class="text-small float-right font-weight-bold text-muted">
+                        <span style="color: aqua; font-size: medium">
                           {{value.count}} Networks
                         </span>
                       </div>
                       <div class="font-weight-bold">
-                        <span style="color: aquamarine; font-size: medium;">
+                        <span style="color: aquamarine; font-size: medium">
                           {{value.company}}
-                         
                         </span>
                       </div>
-                      <div class="progress" data-height="5" data-toggle="tooltip" title="{{value.percentage}}%">
-                        
+                      <div
+                        class="progress"
+                        data-height="5"
+                        data-toggle="tooltip"
+                        title="{{value.percentage}}%">
                         {% if value.percentage == 100 %}
-                        <div class="progress-bar bg-success" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 50 and value.percentage >= 30 %}
-                          <div class="progress-bar bg-warning" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 30 and value.percentage >= 20 %}
-                          <div class="progress-bar bg-purple" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 20 and value.percentage >= 15 %}
-                          <div class="progress-bar bg-info" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% else %}
-                          <div class="progress-bar bg-danger" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
+                        <div
+                          class="progress-bar bg-success"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 50 and value.percentage >=
+                        30 %}
+                        <div
+                          class="progress-bar bg-warning"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 30 and value.percentage >=
+                        20 %}
+                        <div
+                          class="progress-bar bg-purple"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 20 and value.percentage >=
+                        15 %}
+                        <div
+                          class="progress-bar bg-info"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% else %}
+                        <div
+                          class="progress-bar bg-danger"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
                         {% endif %}
-
-
                       </div>
                     </div>
                     {% endfor %}
-
-
-       
+                    {%endif%}
                   </div>
                 </div>
 
-             
 
-
-               
-
-              
                 <!-- Top Ports -->
               </div>
-              
-              <div class="col-12 col-sm-12 col-lg-6">
-  
-                <!-- Top Companies -->
 
+              {%if perms.main.view_network%}
+              <div class="col-12 col-sm-12 col-lg-6">
+                <!-- Top Companies -->
 
                 <div class="card">
                   <div class="card-header">
-                    <h4 style="color: aquamarine;">Top 5 Network Ports</h4>
+                    <h4 style="color: aquamarine">Top 5 Network Ports</h4>
                   </div>
                   <div class="card-body">
-
                     {% for value in topHost %}
                     <div class="mb-4">
-                      <div class="text-small float-right font-weight-bold text-muted" >
-                        <span style="color: aqua; font-size: medium;">
+                      <div
+                        class="text-small float-right font-weight-bold text-muted">
+                        <span style="color: aqua; font-size: medium">
                           {{value.count}} Ports
                         </span>
                       </div>
                       <div class="font-weight-bold">
-                        <span style="color: aquamarine; font-size: medium;">
-                          {{value.company}} -
-                          {{value.network}}
+                        <span style="color: aquamarine; font-size: medium">
+                          {{value.company}} - {{value.network}}
                         </span>
                       </div>
-                      <div class="progress" data-height="5" data-toggle="tooltip" title="{{value.percentage}}%">
-                        
+                      <div
+                        class="progress"
+                        data-height="5"
+                        data-toggle="tooltip"
+                        title="{{value.percentage}}%">
                         {% if value.percentage == 100 %}
-                        <div class="progress-bar bg-blue" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 50 and value.percentage >= 30 %}
-                          <div class="progress-bar bg-warning" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 30 and value.percentage >= 20 %}
-                          <div class="progress-bar bg-purple" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% elif value.percentage <= 20 and value.percentage >= 15 %}
-                          <div class="progress-bar bg-info" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                          {% else %}
-                          <div class="progress-bar bg-danger" role="progressbar" data-width="{{value.percentage}}%" aria-valuenow="{{value.percentage}}"
-                          aria-valuemin="0" aria-valuemax="100"></div>
+                        <div
+                          class="progress-bar bg-blue"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 50 and value.percentage >=
+                        30 %}
+                        <div
+                          class="progress-bar bg-warning"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 30 and value.percentage >=
+                        20 %}
+                        <div
+                          class="progress-bar bg-purple"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% elif value.percentage <= 20 and value.percentage >=
+                        15 %}
+                        <div
+                          class="progress-bar bg-info"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                        {% else %}
+                        <div
+                          class="progress-bar bg-danger"
+                          role="progressbar"
+                          data-width="{{value.percentage}}%"
+                          aria-valuenow="{{value.percentage}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
                         {% endif %}
-
-
                       </div>
                     </div>
                     {% endfor %}
-
-
-       
+                    {%endif%}
                   </div>
                 </div>
 
+                <!-- Top Companies -->
+              </div>
+            </div>
 
-<!--                 
+            <div class="row">
+              {%if perms.main.view_scancase%}
+              <div class="col-md-6 col-lg-12 col-xl-6">
+                <!-- Lateast Activitys -->
+
                 <div class="card">
                   <div class="card-header">
-                    <h4>Top Ports</h4>
+                    <h4 style="color: aquamarine">Top Last Scan</h4>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table " id="save-stage" style="width:100%; color: aqua; font-size: medium;">
-                        <thead>
+                      <table
+                        class="table table-bordered mb-0"
+                        style="
+                          color: aqua;
+                          text-transform: uppercase;
+                          font-size: large;
+                        ">
+                        <thead style="color: aqua">
                           <tr>
-                            <th style="color: aquamarine;">#</th>
-                            <th style="color: aquamarine;">Ports</th>
-                            <th style="color: aquamarine;">Total</th>
-                            <th style="color: aquamarine;">Percentage</th>
+                            <th style="color: aquamarine">#</th>
+                            <th style="color: aquamarine">Description</th>
+                            <th style="color: aquamarine">Hosts</th>
+                            <th style="color: aquamarine">Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for data in each_port_value %}
+                          {% for data in top_scan %}
                           <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>Port {{data.ports}}</td>
-                            <td>{{data.count}}</td>
-                            <td>{{data.percentage}}%</td>
+                            <td>{{data.scan}}</td>
+                            <td>{{data.count}} Hosts</td>
+                            <td>
+                              <a
+                                style="color: #fff"
+                                class="btn btn-success btn-sm"
+                                href="{% url 'scan_cases_report'  %}">
+                                <i class="fas fa-eye"></i>
+                                <!-- View Scan -->
+                              </a>
+                            </td>
                           </tr>
                           {% endfor %}
                         </tbody>
                       </table>
                     </div>
-                    
-                  </div>
-                </div> -->
-
-
-
-
-
-                <!-- Top Companies -->
-  
-              </div>
-
-            </div>
-    
-            
-          <div class="row">
-            <div class="col-md-6 col-lg-12 col-xl-6">
-              <!-- Lateast Activitys -->
-              
-              <div class="card">
-                <div class="card-header">
-                  <h4 style="color: aquamarine;">Top Last Scan</h4>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive" >
-                    <table class="table table-bordered mb-0" style="color: aqua;text-transform: uppercase; font-size: large;">
-                      <thead style="color: aqua;">
-                        <tr>
-                          <th style="color: aquamarine;">#</th>
-                          <th style="color: aquamarine;">Description</th>
-                          <th style="color: aquamarine;">Hosts</th>
-                          <th style="color: aquamarine;">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for data in top_scan %}
-                        <tr>
-                          <td>{{forloop.counter}}</td>
-                          <td>{{data.scan}}</td>
-                          <td>{{data.count}} Hosts</td>
-                          <td>
-                            <a  style="color: #fff;"
-                             class="btn btn-success btn-sm" 
-                              
-                              
-                              href="{% url 'scan_cases_report'  %}"
-                              >
-                                <i class="fas fa-eye"></i>
-                                <!-- View Scan -->
-                              </a>
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
                   </div>
                 </div>
+                <!-- Lateast Activitys -->
               </div>
-              <!-- Lateast Activitys -->
-            </div>
-            <div class="col-md-6 col-lg-12 col-xl-6">
-              <!-- Lateast Activitys -->
-              
-              <div class="card">
-                <div class="card-header">
-                  <h4 style="color: aquamarine;">latest User Activity</h4>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered mb-0" style="color: aqua;">
-                      <thead style="color: aqua;">
-                        <tr>
-                          <th style="color: aquamarine;">#</th>
-                          <th style="color: aquamarine;">User</th>
-                          <th style="color: aquamarine;">Message</th>
-                          <th style="color: aquamarine;">Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for data in user_logs %}
-                        <tr>
-                          <td>{{ forloop.counter }}</td>
-                          <td>{{data.user.username}}</td>
-                          <td>{{data.message}}</td>
-                          <td>{{data.created_at|timesince}}ago</td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
+              {%endif%}
+
+              {%if perms.auth.view_user%}
+              <div class="col-md-6 col-lg-12 col-xl-6">
+                <!-- Lateast Activitys -->
+
+                <div class="card">
+                  <div class="card-header">
+                    <h4 style="color: aquamarine">latest User Activity</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        class="table table-bordered mb-0"
+                        style="color: aqua">
+                        <thead style="color: aqua">
+                          <tr>
+                            <th style="color: aquamarine">#</th>
+                            <th style="color: aquamarine">User</th>
+                            <th style="color: aquamarine">Device</th>
+                            <th style="color: aquamarine">Message</th>
+                            <th style="color: aquamarine">Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in user_logs %}
+                          <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{data.user}}</td>
+                            <td>{{data.device}}</td>
+                            <td>{{data.message}}</td>
+                            <td>{{data.created_at|timesince}}ago</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
+                <!-- Lateast Activitys -->
               </div>
-              <!-- Lateast Activitys -->
-
+              {%endif%}
             </div>
-          </div>
-
-
-
-            
           </section>
 
           <!-- Setting Bar Sections -->
           {% include "includes/settingbar.html" %}
           <!-- Ending Setting Bar Sections -->
-
-       
         </div>
-        {%endif%}
+        
         <!-- <h3>Welcome</h3> -->
-
-       
       </div>
     </div>
 
+    <!-- Update Modal -->
 
-      <!-- Update Modal -->
- 
-      <!-- End Modal -->
+    <!-- End Modal -->
 
     <!-- General JS Scripts -->
     {% include "includes/scripts.html" %}
     <!-- Scripts -->
-
 
     <script>
 
       // $('#changeModal').modal('show')
       // Define a variable to store the inactivity timeout
 
+    // $('#ChooseYear').change(function(){
+    //   var year = $(this).val();
+    //   $.ajax({
+    //     url: '',
+    //     type: 'GET',
+    //     data:{
+    //       'get_year': year,
+    //     },
+    //     success: function(data){
+    //       getMonth();
+    //     }
+    //   })
+    // })
 
 
 
 
+            $('#ChartYear').hide();
 
+            $('#monthbtn').click(function(){
+              $('#ChartYear').hide();
+              $('#ChartMonth').show();
+            })
 
-      $('#ChartYear').hide();
-
-      $('#monthbtn').click(function(){
-        $('#ChartYear').hide();
-        $('#ChartMonth').show();
-      })
-      
-      $('#yearbtn').click(function(){
-        $('#ChartMonth').hide();
-        $('#ChartYear').show();
-      })
+            $('#yearbtn').click(function(){
+              $('#ChartMonth').hide();
+              $('#ChartYear').show();
+            })
 
 
 
@@ -566,60 +692,58 @@ var myChart = new Chart(ctx, {
 });
 
 
+}
 
-// Chart Year
+      // Chart Year
 
-var ctx = document.getElementById("ChartYear").getContext('2d');
-var myChart = new Chart(ctx, {
-	type: 'bar',
-	data: {
-		labels: [{% for data in chartDataByYear %} '{{data.year}}',{% endfor %}],
-		datasets: [{
-			label: 'Host',
-			data: [{% for count in chartCountByYear %} {{count.count}},{% endfor %} ],
-			borderWidth: 2,
-			backgroundColor: '#00ffff',
-			borderColor: '#00ffff',
-			borderWidth: 2.5,
-			pointBackgroundColor: '#ffffff',
-			pointRadius: 4
-		}],
-	},
-	options: {
-		legend: {
-			display: false
-		},
-		scales: {
-			yAxes: [{
-				gridLines: {
-					drawBorder: false,
-					color: '#7fffd4',
-				},
-				ticks: {
-					beginAtZero: true,
-					stepSize: 1000,
-					fontColor: "#00ffff", // Font Color
-				}
-			}],
-			xAxes: [{
-				ticks: {
-					display: false
-				},
-				gridLines: {
-					display: false
-				}
-			}]
-		},
-	}
-});
+      var ctx = document.getElementById("ChartYear").getContext('2d');
+      var myChart = new Chart(ctx, {
+      	type: 'bar',
+      	data: {
+      		labels: [{% for data in chartDataByYear %} '{{data.year}}',{% endfor %}],
+      		datasets: [{
+      			label: 'Host',
+      			data: [{% for count in chartCountByYear %} {{count.count}},{% endfor %} ],
+      			borderWidth: 2,
+      			backgroundColor: '#00ffff',
+      			borderColor: '#00ffff',
+      			borderWidth: 2.5,
+      			pointBackgroundColor: '#ffffff',
+      			pointRadius: 4
+      		}],
+      	},
+      	options: {
+      		legend: {
+      			display: false
+      		},
+      		scales: {
+      			yAxes: [{
+      				gridLines: {
+      					drawBorder: false,
+      					color: '#7fffd4',
+      				},
+      				ticks: {
+      					beginAtZero: true,
+      					stepSize: 1000,
+      					fontColor: "#00ffff", // Font Color
+      				}
+      			}],
+      			xAxes: [{
+      				ticks: {
+      					display: false
+      				},
+      				gridLines: {
+      					display: false
+      				}
+      			}]
+      		},
+      	}
+      });
     </script>
- 
   </body>
 
-
- <!-- Footbar Section -->
- {% include "includes/footer.html" %}
- <!-- EndFootbar Section -->
+  <!-- Footbar Section -->
+  {% include "includes/footer.html" %}
+  <!-- EndFootbar Section -->
   <!-- index.html  21 Nov 2019 03:47:04 GMT -->
-  
-  </html>
+</html>

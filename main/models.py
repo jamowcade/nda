@@ -106,17 +106,30 @@ class Service(models.Model):
 
 
 class ErrorLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=30)
+    device = models.TextField(null=True)
     message = models.CharField(max_length=255)
+    info = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.message
 
 class UserLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    message = models.CharField(max_length=255)
+    user = models.TextField()
+    device = models.TextField(null=True)
+    message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.message
+    
+
+class UserLoggers(models.Model):
+    pass
+    # message = models.TextField()
+    # device = models.TextField(null=True)
+    # logger_name = models.CharField(max_length=30)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # def __str__(self):
+    #     return f'{self.logger_name}: {self.message}'
