@@ -53,6 +53,7 @@
                             <th style="color: aquamarine;">Name</th>
                             <th style="color: aquamarine;">Date</th>
                             <th style="color: aquamarine;">Action</th>
+                            <th style="color: aquamarine;">delete</th>
                             
                           </tr>
                         </thead>
@@ -63,9 +64,10 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{scan.name}}</td>
                             <td>{{scan.scan_date}}</td>
+                            
                             {% if perms.main.add_scancase%}
                             <td>
-                              <a  style="color: #fff;"
+                              <a style="color: #fff;"
                               type="button" class="btn btn-success btn-sm file-upload" 
                               data-toggle="modal" 
                               
@@ -98,14 +100,26 @@
                               </a>
                             </td>
                             {%endif%}
+                            {% if perms.main.change_scancase%}
+                            <td>
+                              <a style="color: #fff;" class="btn btn-danger btn-sm delete_scan_case " data-scan_id="{{scan.id}}" >
+                                Delete
+                              </a>
+                            </td>
+                            {%else%}
+                            <td>
+                              <a class="btn btn-danger btn-sm delete-group disabled" >
+                               
+                                Delete
+                              </a>
+                            </td>
+                            {%endif%}
+                           
                          
                           </tr>
                           {% endfor %}
-                          
-                       
                         <tbody>
-                        
-                     
+                      
                       </table>
                     </div>
 
@@ -215,6 +229,36 @@
 
   {% include "includes/scripts.html" %}
 
+  
+  <script>
+    $('#scancase-form').submit(function (e){
+        e.preventDefault();
+        date = $('#date').val()
+       $.ajax({
+        method: 'POST',
+        url: '/scan_case/',
+        data : {
+          'date':date,
+           csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function(data){
+          if (data.success) {
+            swal("Form submitted!", data.message, "success").then(function(){
+              location.reload();
+            });
+          } else {
+            swal("Form submission failed!", data.message, "error");
+          }
+        },
+        error: function(){
+          alert("error saving data")
+        }
+       })
+    })
+
+
+ 
+  </script>
   <script src="{% static 'assets/scripts/pages/scan_case.js' %}"></script>
   <!-- End Scripts Section -->
 </body>

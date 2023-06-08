@@ -15,6 +15,9 @@ urlpatterns = [
     path('activeAccount/', user.activeAccount, name='activeAccount'),
     path('disableAccount/', user.disableAccount, name='disableAccount'),
     path('editAccount/', user.updateAccount, name='editAccount'),
+    #delete group
+    path('delete_group/', views.delete_group, name='delete_group'),
+
 
     #region Environment
 
@@ -44,6 +47,9 @@ urlpatterns = [
     # path('host_ports/<int:id>/', Ports.ports, name='ports'),
     
     path('scan_case/', scan_case.scan_case, name='scan_case'),
+    #delete scanning case
+    path('delete_scan_case/', scan_case.delete_scan_case, name='delete_scan_case'),
+
     path('view_scan_case/<int:scan_id>/', scan_case.view_scan_case, name='view_scan_case'),
     path('compare/', Compare.compare, name='compare'),
 

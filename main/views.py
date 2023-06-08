@@ -5,6 +5,9 @@ from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear,TruncDa
 from main.models import Campany,Network,Host,Port,ScanCase,UserLog,UserLoggers,ErrorLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
+from django.contrib.auth.models import Group
+from django.shortcuts import render,redirect
+from django.views.decorators.csrf import csrf_exempt
 from collections import defaultdict
 # Create your views here.
 @login_required(login_url='login')
@@ -66,6 +69,7 @@ def index(request):
         openPorts = Port.objects.filter(state="open").count()
         closePorts = Port.objects.filter(state="closed").count()
         filterPorts = Port.objects.filter(state="filtered").count()
+  
         
         openstate = getOpenPorts(totalPorts,openPorts)
         closestate = getClosedPort(totalPorts,closePorts)
@@ -264,3 +268,24 @@ def hanldeLog(request):
         info = traceback.format_exc()        
         ErrorLog.objects.create(user="AnonymousUser",device=device_info, message=str(e), info=info)
  
+
+#delete_group
+@csrf_exempt
+def delete_group(request):
+    
+    group_id = request.POST.get('group_id')
+
+    group = Group(id=group_id)
+    print(group.id)
+    group.delete()
+    
+    groups = Group.objects.all()
+    context = {
+        "groups":groups,
+        "message":"Delete group Successfully"
+    }
+
+    return render(request,'pages/groups.html', context)
+
+
+

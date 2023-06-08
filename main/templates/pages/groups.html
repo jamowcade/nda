@@ -134,8 +134,37 @@
 
     <!-- Scripts Section -->
     {% include "includes/scripts.html" %}
-    <script src="{% static 'js/groups.js' %}"></script>
+    <!-- <script src="{% static 'js/groups.js' %}"></script> -->
     <!-- End Scripts Section -->
+
+    <script>
+  
+    $(".delete-group").click(function(){
+      var group_id = $(this).data('group_id');
+      // alert(group_id);
+      $.ajax({
+      url:'/delete_group/',
+      type: "POST",
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      data:{
+        group_id:group_id
+      },
+      
+      success: function(respose){
+        
+        location.reload();
+
+      }
+    })
+   
+  })
+
+     
+
+
+
+
+    </script>
   </body>
   
   <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
