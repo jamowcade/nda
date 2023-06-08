@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser, User
 
 
 class ScanCase(models.Model):
-    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False)
+    scan_date = models.DateField(auto_now=False, auto_now_add=False, default=False,unique=True)
     name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
 
@@ -21,7 +21,7 @@ class Campany(models.Model):
     title = models.CharField(max_length=100)
     owner = models.CharField(max_length=100)
     timestamp = models.DateField(auto_now_add=True)
-    asn = models.CharField(max_length=100)
+    asn = models.CharField(max_length=100,unique=True)
 
     def __str__(self):
         return self.owner
@@ -39,7 +39,7 @@ class Network(models.Model):
     ]
 
     state = models.CharField(max_length=50,choices=PAYMENT_STATUS_CHOICES, default=OPEN)
-    network = models.CharField(max_length=50)
+    network = models.CharField(max_length=50,unique=True)
     time = models.DateField(auto_now_add=True)
     compony_info = models.ForeignKey(Campany, on_delete=models.CASCADE,related_name='networks')
     description = models.CharField(max_length=500)

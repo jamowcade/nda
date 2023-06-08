@@ -7,7 +7,7 @@ $(document).ready(function() {
 });
 
   $('.progress').hide();
-  addScanDate();
+  // addScanDate();
   
     scan_case_fileUpload();
     generateDataTable();
@@ -100,7 +100,7 @@ function addScanDate(){
       }
     },
     error: function(){
-      alert("error saving data")
+      swal("Form submission failed!", data.message, "error");
     }
    })
 })

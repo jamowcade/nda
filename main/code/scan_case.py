@@ -21,20 +21,21 @@ def scan_case(request):
             date = request.POST.get('date')
             name = f"scan case- {date}"
             is_exist = ScanCase.objects.filter(scan_date = date)
-            date_is_less = compare_date(date)
-            last_entry_date = ScanCase.objects.last().scan_date
-            if date_is_less:
-                return JsonResponse ({'success': False,"message":f"Scan case Date cannot be less than {last_entry_date} "})
+            # date_is_less = compare_date(date)
+            # last_entry_date = ScanCase.objects.last().scan_date
+            # if date_is_less:
+            #     return JsonResponse ({'success': False,"message":f"Scan case Date cannot be less than {last_entry_date} "})
             if is_exist:
                 return JsonResponse ({'success': False,"message":"Scan case already Created"})
-            scan_case = ScanCase(name=name, scan_date=date, description=name)
-            scan_case.save()
-            msg=f"You Successfuly Created New Scan Date ({date}) for ({name}))"
-            UserLog.objects.create(
-                        user=request.user,device=device_info,
-                        message=msg,
-                         )
-            return JsonResponse ({'success': True,"message":msg})
+            else:
+                scan_case = ScanCase(name=name, scan_date=date, description=name)
+                scan_case.save()
+                msg=f"You Successfuly Created New Scan Date ({date}) for ({name}))"
+                UserLog.objects.create(
+                            user=request.user,device=device_info,
+                            message=msg,
+                            )
+                return JsonResponse ({'success': True,"message":msg})
 
             
         else:
@@ -152,8 +153,10 @@ def paginateHosts(hosts, page, page_number):
 def compare_date(date):
     given_date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
     last_entry_date = ScanCase.objects.last().scan_date
-
-    return given_date < last_entry_date
+    if last_entry_date is None:
+        return given_date
+    else:
+        return given_date < last_entry_date
 
 @login_required(login_url='login')
 def delete_scan_case(request,scan_case_id):
