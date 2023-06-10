@@ -28,38 +28,39 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h4>Groups</h4>
+                      <h4 style="color: aquamarine;font-size: medium;">Groups Of Permission</h4>
                     </div>
                     <div class="card-body">
                         <form method="post" class="form-inline">
                             {% csrf_token %}
                             <div class="form-group mx-sm-3 mb-2 mr-5">
-                            <label for="group">Group:</label>
-                            <select class="form-control" name="group" id="select-group">
+                            <label for="group" style="color: aquamarine; font-size: medium;">Group:&nbsp &nbsp</label>
+                            <select class="form-control" name="group" id="select-group" style="color: aqua; background-color: #333;font-size: medium;">
                               {% for group in groups %}
                               <option value="{{ group.id }}">{{ group.name }}</option>
                               {% endfor %}
                                 </select>
                              </div>
-                            
-                            <label>Content type:</label>
-                            <select name="content_type" class="form-control" id="content_type">
+                             <div class="form-group mx-sm-3 mb-2 mr-5">
+                            <label style="color: aquamarine; font-size: medium;">Content type:&nbsp &nbsp</label>
+                            <select name="content_type" class="form-control" id="content_type" style="color: aqua; background-color: #333;font-size: medium;">
                               <option value="">Select a content type</option>
                               {% for content_type in content_types %}
                               <option value="{{ content_type.id }}">{{ content_type.name }}</option>
                               {% endfor %}
                             </select>
+                          </div>
                             <br>
                             <br>
                             <br>
                             <hr>
                          
                             <div class="table-responsive" style="display: none;" id="permissionDiv">
-                                <table id="permissions_table" class="table table-striped table-hover">
+                                <table id="permissions_table" class="table" style="color:aqua; font-size: medium;">
                                     <thead>
                                       <tr>
-                                        <th>Permission</th>
-                                        <th>assign</th>
+                                        <th style="color: aquamarine;">Permission</th>
+                                        <th style="color: aquamarine;">assign</th>
                                         
                                       </tr>
                                     </thead>

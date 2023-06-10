@@ -28,21 +28,21 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h4>Assign user to permissions</h4>
+                      <h4 style="color: aquamarine;">Assign user to permissions</h4>
                     </div>
                     <div class="card-body">
 
                         <form method="post" class="form-inline">
                             {% csrf_token %}
                             <div class="form-group mx-sm-3 mb-2 mr-5">
-                              <label class="form-label"  for="search-input">User name:</label>
-                              <input class="form-control" type="text" id="search-input">
+                              <label class="form-label"  for="search-input" style="color: aquamarine;">User name:</label>
+                              <input class="form-control" type="text" id="search-input" style="background-color: #333; color: aqua;">
                         
                              </div>
                           
                             <div id="content_typeDiv" style="display: none;" class="form-group">
-                            <label>Content type:</label>
-                            <select name="content_type" class="form-control" id="content_type">
+                            <label style="color: aquamarine;">Content type:</label>
+                            <select name="content_type" class="form-control" id="content_type" style="background-color: #333; color: aqua;">
                               <option value="">Select a content type</option>
                               {% for content_type in content_types %}
                               <option value="{{ content_type.id }}">{{ content_type.name }}</option>
@@ -56,11 +56,11 @@
                             <hr>
                          
                             <div class="table-responsive" style="display: none;" id="permissionDiv">
-                                <table id="permissions_table" class="table" style="color:antiquewhite;">
-                                    <thead>
+                                <table id="permissions_table" class="table" style="color:aqua; font-size: medium;">
+                                    <thead >
                                       <tr>
-                                        <th>Permission</th>
-                                        <th>assign</th>
+                                        <th style="color: aquamarine;">Permission</th>
+                                        <th style="color: aquamarine;">assign</th>
                                         
                                       </tr>
                                     </thead>
