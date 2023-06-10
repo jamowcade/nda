@@ -28,7 +28,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h4>Error Logs</h4>
+                      <h4 style="color: aquamarine;text-transform: uppercase;font-size: medium;">Error Logs</h4>
                     </div>
                     <!-- Button trigger modal -->
 
@@ -36,7 +36,7 @@
                       <div class="table-responsive">
                         <table
                           class="table"
-                          id="tableExport"
+                          id="myTableExport"
                           style="width: 100%; color: aqua;"
                         >
                           <thead>
@@ -57,8 +57,6 @@
                               <td style="font-size: medium;">{{log.device}}</td>
                               <td style="font-size: medium; text-transform: capitalize; cursor: pointer;" class="viewDetail"  data-detail="{{log.info}}">{{log.message}}</td>
                               <td style="font-size: medium;">{{log.created_at|timesince}}</td>
-                        
-
                             </tr>
                             {% endfor %}
                           </tbody>
@@ -112,14 +110,31 @@
   </body>
 
   <script>
-   
+
     $(document).ready(function(){
+      
       $('.viewDetail').click(function(){
         var detail = $(this).data('detail');
         $('#ErrorDetail').modal('show');
         $('#detailError').text(detail)
+        console.log('Detail');
       })
+      generateTable();
     });
+
+    function generateTable(){
+    $('#myTableExport').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 
+            'csv', 
+            // 'excel', 
+            'pdf', 
+          'print'
+        ]
+      });
+    }
+   
   </script>
   
   <!-- datatables.html  21 Nov 2019 03:55:25 GMT -->
