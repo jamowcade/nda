@@ -125,11 +125,3 @@ class UserLog(models.Model):
         return self.message
     
 
-class UserLoggers(models.Model):
-    pass
-    # message = models.TextField()
-    # device = models.TextField(null=True)
-    # logger_name = models.CharField(max_length=30)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # def __str__(self):
-    #     return f'{self.logger_name}: {self.message}'

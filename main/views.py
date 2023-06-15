@@ -2,7 +2,7 @@ import traceback,datetime
 from user_agents import parse
 from django.shortcuts import render
 from django.db.models.functions import ExtractMonth,TruncMonth,TruncYear,TruncDay
-from main.models import Campany,Network,Host,Port,ScanCase,UserLog,UserLoggers,ErrorLog
+from main.models import Campany,Network,Host,Port,ScanCase,UserLog,ErrorLog
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 from django.contrib.auth.models import Group
